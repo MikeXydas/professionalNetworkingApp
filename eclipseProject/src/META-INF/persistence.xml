@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="linkedInProject" transaction-type="RESOURCE_LOCAL">
+		<class>model.Advertisment</class>
+		<class>model.AdvertismentPK</class>
+		<class>model.Advertisment_has_Skill</class>
+		<class>model.Advertisment_has_SkillPK</class>
+		<class>model.Application</class>
+		<class>model.ApplicationPK</class>
+		<class>model.Article</class>
+		<class>model.ArticlePK</class>
+		<class>model.Comment</class>
+		<class>model.CommentPK</class>
+		<class>model.Connection</class>
+		<class>model.ConnectionPK</class>
+		<class>model.ConnectionRequest</class>
+		<class>model.ConnectionRequestPK</class>
+		<class>model.Conversation</class>
+		<class>model.Interest</class>
+		<class>model.InterestPK</class>
+		<class>model.Message</class>
+		<class>model.MessagePK</class>
+		<class>model.Skill</class>
+		<class>model.User</class>
+		<class>model.User_has_Skill</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/linkedIn_db"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="1234"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+		</properties>
+	</persistence-unit>
+</persistence>

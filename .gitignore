@@ -1,0 +1,5 @@
+/build/
+/CFX_Runtime/
+externalJars
+mysql*
+/tom*

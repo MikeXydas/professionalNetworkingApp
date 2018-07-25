@@ -1,0 +1,1 @@
+LOAD DATA INFILE '/var/lib/mysql-files/userData.csv' INTO TABLE User
