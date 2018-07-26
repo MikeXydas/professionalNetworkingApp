@@ -6,7 +6,7 @@ import model.User;
 
 public interface UserDAO 
 {
-	public User find(long id);
+	public User find(int id);
 
     public List<User> list();
 

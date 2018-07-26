@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,23 +30,38 @@ public class UserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserDAO dao = new UserDAOImpl();
 		String strId = request.getParameter("id");
-		if ( strId != null)
+		if ( (strId != null) && !(Objects.equals(strId, "NULL") ) && !(Objects.equals(strId, "Create")))
 		{
 			if (NumberUtils.isNumber(strId)) {
 				int id = Integer.parseInt(strId);
-				User user = dao.find(new Long(id));
-				response.getWriter().println(user);
+				User user = dao.find(id);
+				response.getWriter().println(user.getIdUser());
 			}
 			else response.getWriter().println("Not a number in id");
 		}
+		else if(Objects.equals(strId, "Create"))
+		{
+			User user = new User();
+			user.setEmail("testEmail");
+			user.setPassword("1234");
+			user.setPhoneNumber("124");
+			user.setPhotoUrl("adasdadas");
+			user.setFirstName("first");
+			user.setLastName("last");
+			user.setIsModerator(0);
+			
+			dao.create(user);
+		}
 		else
 		{
+			response.getWriter().println("Printing list:");
 			List<User> ulist = dao.list();
 			if (ulist != null) {
 				for (User user: ulist)
 					response.getWriter().println(user);
 			}
 		}
+		
 	}
 
 	/**

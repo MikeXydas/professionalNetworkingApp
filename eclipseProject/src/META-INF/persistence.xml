@@ -24,11 +24,10 @@
 		<class>model.User</class>
 		<class>model.User_has_Skill</class>
 		<properties>
-			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/linkedIn_db"/>
-			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="1234"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/linkedIn"/>
+			<property name="javax.persistence.jdbc.user" value="ld"/>
+			<property name="javax.persistence.jdbc.password" value="password"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
 		</properties>
 	</persistence-unit>
 </persistence>

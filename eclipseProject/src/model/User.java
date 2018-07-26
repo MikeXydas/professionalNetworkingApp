@@ -10,41 +10,9 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+@NamedQuery(name="User.findAll", query="SELECT u.firstName FROM User u")
 public class User implements Serializable {
-	@Override
-	public String toString() {
-		return "User [idUser=" + idUser + ", educationText=" + educationText + ", email=" + email + ", firstName="
-				+ firstName + ", isModerator=" + isModerator + ", jobExperienceText=" + jobExperienceText
-				+ ", lastName=" + lastName + ", password=" + password + ", phoneNumber=" + phoneNumber + ", photoUrl="
-				+ photoUrl + ", advertisments=" + advertisments + ", articles=" + articles + ", connections="
-				+ connections + ", connectionRequests=" + connectionRequests + ", conversations=" + conversations
-				+ ", userHasSkill=" + userHasSkill + "]";
-	}
-
 	private static final long serialVersionUID = 1L;
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + idUser;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (idUser != other.idUser)
-			return false;
-		return true;
-	}
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
