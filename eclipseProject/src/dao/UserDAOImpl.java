@@ -35,5 +35,18 @@ public class UserDAOImpl implements UserDAO
 		em.persist(user);
 	}
 	
-
+	@Override
+	public int userExists(String email) {
+		EntityManager em = EntityManagerHelper.getEntityManager();
+		Query query = em.createQuery("SELECT u FROM User u WHERE u.email LIKE :inputEmail");
+		query.setParameter("inputEMail", email);
+		@SuppressWarnings("unchecked")
+		List <User> emails = query.getResultList();
+		
+		if(emails == null)
+			return 1;
+		return 0;
+	}
+	
+	
 }

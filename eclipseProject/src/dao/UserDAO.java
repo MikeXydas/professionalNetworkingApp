@@ -12,4 +12,6 @@ public interface UserDAO
 
     public void create(User user);
 
+	public int userExists(String email);
+
 }

@@ -35,7 +35,7 @@ public class UserServlet extends HttpServlet {
 			if (NumberUtils.isNumber(strId)) {
 				int id = Integer.parseInt(strId);
 				User user = dao.find(id);
-				response.getWriter().println(user.getIdUser());
+				response.getWriter().println(user.getFirstName());
 			}
 			else response.getWriter().println("Not a number in id");
 		}
