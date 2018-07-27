@@ -9,29 +9,9 @@
 	http://cxf.apache.org/schemas/jaxrs.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<bean id="User" class="service.UserEndpoint" />
-	<bean id="Advertisment" class="service.AdvertismentEndpoint" />
-	<bean id="Application" class="service.ApplicationEndpoint" />
-	<bean id="Article" class="service.ArticleEndpoint" />
-	<bean id="Comment" class="service.CommentEndpoint" />
-	<bean id="Connection" class="service.ConnectionEndpoint" />
-	<bean id="ConnectionRequest" class="service.ConnectionRequest" />
-	<bean id="Conversation" class="service.ConversationEndpoint" />
-	<bean id="Skill" class="service.SkillEndpoint" />
-	<bean id="Interest" class="service.InterestEndpoint" />
-	<bean id="Message" class="service.MessageEndpoint" />
 	<jaxrs:server id="base" address="/">	
 		<jaxrs:serviceBeans>
 			<ref bean="User"/>
-			<ref bean="Advertisment"/>
-			<ref bean="Application"/>
-			<ref bean="Article"/>
-			<ref bean="Comment"/>
-			<ref bean="Connection"/>
-			<ref bean="ConnectionRequest"/>
-			<ref bean="Conversation"/>
-			<ref bean="Skill"/>
-			<ref bean="Users"/>
-			<ref bean="Message"/>
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<!-- bean class="utilities.CustomJSONProvider"/-->
