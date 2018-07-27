@@ -28,6 +28,9 @@ public class UserBean {
 	private List<Conversation> conversations;
 	private User_has_Skill userHasSkill;
 	
+	public UserBean() {	
+	}
+	
 	public int getIdUser() {
 		return idUser;
 	}
@@ -124,6 +127,5 @@ public class UserBean {
 	public void setUserHasSkill(User_has_Skill userHasSkill) {
 		this.userHasSkill = userHasSkill;
 	}
-
 	
 }
