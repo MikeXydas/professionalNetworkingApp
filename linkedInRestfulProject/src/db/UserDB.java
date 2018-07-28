@@ -56,6 +56,7 @@ public class UserDB {
     
     public int insertUser(User user)
     {
+    	//TODO: Check if email exists and return suitable message
         int id = -1;
         EntityManager em = JPAResource.factory.createEntityManager();
         EntityTransaction tx = em.getTransaction();

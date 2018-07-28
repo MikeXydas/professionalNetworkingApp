@@ -16,14 +16,17 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Context;
-
+import javax.ws.rs.FormParam;
 
 import annotations.Secured;
 
 import javax.ws.rs.core.UriBuilder;
 
 import db.UserDB;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
+import model.LogInfoBean;
 
 @Path("/User")
 public class UserEndpoint {
@@ -36,4 +39,77 @@ public class UserEndpoint {
 		entities.User userd = userDao.getById(id);
 		return Response.status(200).entity("First name is: " + userd.getFirstName()).build();
 	}
+	
+	@Secured
+	@POST
+	@Path("/add")
+	@Consumes({ "application/json" })
+	public Response addUser(final UserBean user) {
+		
+		entities.User userd = new entities.User();
+		userd.setEmail(user.getEmail());
+		userd.setPassword(user.getPassword());
+		userd.setIsModerator(0);
+		userd.setFirstName(user.getFirstName());
+		userd.setLastName(user.getLastName());
+		userd.setPhoneNumber(user.getPhoneNumber());
+		userd.setPhotoUrl(user.getPhotoUrl());
+		
+		UserDB userDao = new UserDB();
+		int id = userDao.insertUser(userd);
+		return Response.created(
+				UriBuilder.fromResource(UserEndpoint.class)
+				.path(String.valueOf(id)).build()).build();
+	}
+	
+	
+	@POST
+	@Path("/login")
+	@Consumes({"application/json"})
+	@Produces({"text/plain"})
+	public Response login(final LogInfoBean loginInfo) {
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.find(loginInfo.getEmai(), loginInfo.getPassword());
+		if (userd != null) {
+			String token = issueToken(loginInfo.getEmai());
+			return Response.ok(token, "text/plain").build();
+		}
+		else {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		}
+	}
+	
+	
+	//Testing login
+	/*@POST
+	@Path("/login")
+	public Response login(
+			@FormParam("email") String email,
+			@FormParam("password") String password) {
+		
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.find(email, password);
+		
+		if(userd == null)
+			return Response.status(200).entity("User does not exist").build();
+		else
+			return Response.status(200).entity("Welcome back " + userd.getFirstName() + " " + userd.getLastName()).build();
+		
+	}*/
+	
+	private String issueToken(String username) {
+		Key key = utilities.KeyHolder.key;
+		long nowMillis = System.currentTimeMillis();
+		Date now = new Date(nowMillis);
+		long expMillis = nowMillis + 300000L;
+        Date exp = new Date(expMillis);
+		String jws = Jwts.builder()
+				  .setSubject(username)
+				  .setIssuedAt(now)
+				  .signWith(SignatureAlgorithm.HS512, key)
+				  .setExpiration(exp)
+				  .compact();
+		return jws;
+    }
+	
 }
