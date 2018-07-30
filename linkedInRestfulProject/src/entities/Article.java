@@ -19,9 +19,6 @@ public class Article implements Serializable {
 	@EmbeddedId
 	private ArticlePK id;
 
-	@Lob
-	private String contentText;
-
 	private String photoUrl;
 
 	private String soundUrl;
@@ -55,14 +52,6 @@ public class Article implements Serializable {
 
 	public void setId(ArticlePK id) {
 		this.id = id;
-	}
-
-	public String getContentText() {
-		return this.contentText;
-	}
-
-	public void setContentText(String contentText) {
-		this.contentText = contentText;
 	}
 
 	public String getPhotoUrl() {

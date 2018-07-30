@@ -65,7 +65,7 @@ public class UserEndpoint {
 	}
 	
 	
-	@POST
+	/*@POST
 	@Path("/login")
 	@Consumes({"application/json"})
 	@Produces({"text/plain"})
@@ -79,11 +79,11 @@ public class UserEndpoint {
 		else {
 			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
-	}
+	}*/
 	
 	
 	//Testing login
-	/*@POST
+	@POST
 	@Path("/login")
 	public Response login(
 			@FormParam("email") String email,
@@ -97,7 +97,7 @@ public class UserEndpoint {
 		else
 			return Response.status(200).entity("Welcome back " + userd.getFirstName() + " " + userd.getLastName()).build();
 		
-	}*/
+	}
 	
 	private String issueToken(String username) {
 		Key key = utilities.KeyHolder.key;
@@ -133,7 +133,6 @@ public class UserEndpoint {
 			user.setPhotoUrl(userd.getPhotoUrl());
 			user.setEducationText(userd.getEducationText());
 			user.setJobExperienceText(userd.getJobExperienceText());
-			user.setUserHasSkill(userd.getUserHasSkill());
 			user.setConnectionRequests(userd.getConnectionRequests());
 			user.setConnections(userd.getConnections());
 			user.setAdvertisments(userd.getAdvertisments());
@@ -145,7 +144,7 @@ public class UserEndpoint {
 		return Response.ok(user).build();
 	}
 	
-	@PUT
+	/*@POST
 	@Path("/update")
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
@@ -168,10 +167,10 @@ public class UserEndpoint {
 		
 		return Response.ok().build();
 		
-	}
+	}*/
 	
 	//Testing update
-	/*@POST
+	@POST
 	@Path("/update")
 	public Response login(
 			@FormParam("id") int id,
@@ -201,6 +200,6 @@ public class UserEndpoint {
 		
 		return Response.status(200).entity("Succesfully updated user: " + id).build();
 
-	}*/
+	}
 	
 }

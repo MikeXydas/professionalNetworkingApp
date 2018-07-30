@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="`User`")
-@NamedQuery(name="User.findAll", query="SELECT u.firstName FROM User u")
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -68,9 +68,18 @@ public class User implements Serializable {
 		)
 	private List<Conversation> conversations;
 
-	//bi-directional one-to-one association to User_has_Skill
-	@OneToOne(mappedBy="user")
-	private User_has_Skill userHasSkill;
+	//bi-directional many-to-many association to Skill
+	@ManyToMany
+	@JoinTable(
+		name="User_has_Skill"
+		, joinColumns={
+			@JoinColumn(name="User_idUser")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="Skill_idSkill")
+			}
+		)
+	private List<Skill> skills;
 
 	public User() {
 	}
@@ -251,12 +260,12 @@ public class User implements Serializable {
 		this.conversations = conversations;
 	}
 
-	public User_has_Skill getUserHasSkill() {
-		return this.userHasSkill;
+	public List<Skill> getSkills() {
+		return this.skills;
 	}
 
-	public void setUserHasSkill(User_has_Skill userHasSkill) {
-		this.userHasSkill = userHasSkill;
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
 	}
 
 }

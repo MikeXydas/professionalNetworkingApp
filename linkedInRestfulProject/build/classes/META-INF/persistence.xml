@@ -3,8 +3,6 @@
 	<persistence-unit name="linkedInRestfulProject" transaction-type="RESOURCE_LOCAL">
 		<class>entities.Advertisment</class>
 		<class>entities.AdvertismentPK</class>
-		<class>entities.Advertisment_has_Skill</class>
-		<class>entities.Advertisment_has_SkillPK</class>
 		<class>entities.Application</class>
 		<class>entities.ApplicationPK</class>
 		<class>entities.Article</class>
@@ -22,7 +20,6 @@
 		<class>entities.MessagePK</class>
 		<class>entities.Skill</class>
 		<class>entities.User</class>
-		<class>entities.User_has_Skill</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/linkedIn"/>
 			<property name="javax.persistence.jdbc.user" value="ld"/>

@@ -24,8 +24,7 @@ public class Interest implements Serializable {
 	//bi-directional many-to-one association to Article
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="Article_idArticle", referencedColumnName="idArticle"),
-		@JoinColumn(name="Article_User_idUser", referencedColumnName="User_idUser")
+		@JoinColumn(name="Article_idArticle", referencedColumnName="idArticle")
 		})
 	private Article article;
 

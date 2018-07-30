@@ -22,8 +22,7 @@ public class Application implements Serializable {
 	//bi-directional many-to-one association to Advertisment
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="Advertisment_idAdvertisment", referencedColumnName="idAdvertisment"),
-		@JoinColumn(name="Advertisment_User_idUser", referencedColumnName="User_idUser")
+		@JoinColumn(name="Advertisment_idAdvertisment", referencedColumnName="idAdvertisment")
 		})
 	private Advertisment advertisment;
 

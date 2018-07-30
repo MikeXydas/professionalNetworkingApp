@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import entities.AdvertismentPK;
-import entities.Advertisment_has_Skill;
 import entities.Application;
 import entities.User;
 
@@ -15,7 +14,6 @@ public class AdvertismentBean {
 	private String title;
 	private Date uploadTime;
 	private User user;
-	private Advertisment_has_Skill advertismentHasSkill;
 	private List<Application> applications;
 	
 	public AdvertismentBean() {
@@ -50,12 +48,6 @@ public class AdvertismentBean {
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-	public Advertisment_has_Skill getAdvertismentHasSkill() {
-		return advertismentHasSkill;
-	}
-	public void setAdvertismentHasSkill(Advertisment_has_Skill advertismentHasSkill) {
-		this.advertismentHasSkill = advertismentHasSkill;
 	}
 	public List<Application> getApplications() {
 		return applications;

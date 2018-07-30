@@ -7,7 +7,6 @@ import entities.Article;
 import entities.Connection;
 import entities.ConnectionRequest;
 import entities.Conversation;
-import entities.User_has_Skill;
 
 public class UserBean {
 	
@@ -26,7 +25,6 @@ public class UserBean {
 	private List<Connection> connections;
 	private List<ConnectionRequest> connectionRequests;
 	private List<Conversation> conversations;
-	private User_has_Skill userHasSkill;
 	
 	public UserBean() {	
 	}
@@ -121,11 +119,4 @@ public class UserBean {
 	public void setConversations(List<Conversation> conversations) {
 		this.conversations = conversations;
 	}
-	public User_has_Skill getUserHasSkill() {
-		return userHasSkill;
-	}
-	public void setUserHasSkill(User_has_Skill userHasSkill) {
-		this.userHasSkill = userHasSkill;
-	}
-	
 }
