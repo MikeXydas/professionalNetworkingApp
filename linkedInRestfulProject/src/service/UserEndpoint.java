@@ -47,8 +47,15 @@ public class UserEndpoint {
 	@Path("/add")
 	@Consumes({ "application/json" })
 	public Response addUser(final UserBean user) {
+		UserDB userDao = new UserDB();
+
+		entities.User userd;
+		//Checking if user already exists
+		userd = userDao.find(user.getEmail(), user.getPassword());
+		if(userd != null)
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		
-		entities.User userd = new entities.User();
+		userd = new entities.User();
 		userd.setEmail(user.getEmail());
 		userd.setPassword(user.getPassword());
 		userd.setIsModerator(0);
@@ -56,8 +63,6 @@ public class UserEndpoint {
 		userd.setLastName(user.getLastName());
 		userd.setPhoneNumber(user.getPhoneNumber());
 		userd.setPhotoUrl(user.getPhotoUrl());
-		
-		UserDB userDao = new UserDB();
 		int id = userDao.insertUser(userd);
 		return Response.created(
 				UriBuilder.fromResource(UserEndpoint.class)
@@ -65,7 +70,7 @@ public class UserEndpoint {
 	}
 	
 	
-	/*@POST
+	@POST
 	@Path("/login")
 	@Consumes({"application/json"})
 	@Produces({"text/plain"})
@@ -79,11 +84,11 @@ public class UserEndpoint {
 		else {
 			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
-	}*/
+	}
 	
 	
 	//Testing login
-	@POST
+	/*@POST
 	@Path("/login")
 	public Response login(
 			@FormParam("email") String email,
@@ -97,7 +102,7 @@ public class UserEndpoint {
 		else
 			return Response.status(200).entity("Welcome back " + userd.getFirstName() + " " + userd.getLastName()).build();
 		
-	}
+	}*/
 	
 	private String issueToken(String username) {
 		Key key = utilities.KeyHolder.key;
@@ -144,7 +149,7 @@ public class UserEndpoint {
 		return Response.ok(user).build();
 	}
 	
-	/*@POST
+	@POST
 	@Path("/update")
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
@@ -167,12 +172,24 @@ public class UserEndpoint {
 		
 		return Response.ok().build();
 		
-	}*/
+	}
+	
+	@GET
+	@Path("/skill")
+	public Response getUserSkills(
+			@QueryParam("id") int id) {
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.getById(id);
+		
+		int sz = userd.getSkills().size();
+		return Response.status(200).entity("User: " + userd.getFirstName() + " has " + sz + " skills").build();
+
+	}
 	
 	//Testing update
-	@POST
+	/*@POST
 	@Path("/update")
-	public Response login(
+	public Response updateUser(
 			@FormParam("id") int id,
 			@FormParam("email") String email,
 			@FormParam("password") String password,
@@ -200,6 +217,6 @@ public class UserEndpoint {
 		
 		return Response.status(200).entity("Succesfully updated user: " + id).build();
 
-	}
+	}*/
 	
 }

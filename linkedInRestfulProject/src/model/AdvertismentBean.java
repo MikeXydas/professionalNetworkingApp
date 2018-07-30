@@ -5,6 +5,7 @@ import java.util.List;
 
 import entities.AdvertismentPK;
 import entities.Application;
+import entities.Skill;
 import entities.User;
 
 public class AdvertismentBean {
@@ -15,9 +16,7 @@ public class AdvertismentBean {
 	private Date uploadTime;
 	private User user;
 	private List<Application> applications;
-	
-	public AdvertismentBean() {
-	}
+	private List<Skill> skills;
 	
 	public AdvertismentPK getId() {
 		return id;
@@ -55,5 +54,13 @@ public class AdvertismentBean {
 	public void setApplications(List<Application> applications) {
 		this.applications = applications;
 	}
+	public List<Skill> getSkills() {
+		return skills;
+	}
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
+	}
+
+
 
 }
