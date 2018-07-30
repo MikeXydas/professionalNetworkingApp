@@ -95,6 +95,49 @@ public class UserDB {
         
         
         return user;
+    }
+    
+    public void updateUser(User user)
+    {
+    	int id = -1;
+    	EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        id = user.getIdUser();
+        String email = user.getEmail();
+        String password = user.getPassword();
+        String firstName = user.getFirstName();
+        String lastName = user.getLastName();
+        String photoUrl = user.getPhotoUrl();
+        String phoneNumber = user.getPhoneNumber();
+        String educationText = user.getEducationText();
+        String jobExperienceText = user.getJobExperienceText();
+        
+        //I do not want to update null strings
+        if(photoUrl == null)
+        	photoUrl = "EMPTY";
+        if(educationText == null)
+        	educationText = "EMPTY";
+        if(jobExperienceText == null)
+        	jobExperienceText = "EMPTY";
+        
+        Query updUser = em.createQuery("UPDATE User user SET user.email = :email, user.password = :password, user.firstName = :firstName, user.lastName = :lastName, user.photoUrl = :photoUrl, user.phoneNumber = :phoneNumber, user.educationText = :educationText, user.jobExperienceText = :jobExperienceText WHERE user.idUser = :id");
+        updUser.setParameter("firstName", firstName);
+        updUser.setParameter("lastName", lastName);
+        updUser.setParameter("email", email);
+        updUser.setParameter("password", password);
+        updUser.setParameter("photoUrl", photoUrl);
+        updUser.setParameter("phoneNumber", phoneNumber);
+        updUser.setParameter("educationText", educationText);
+        updUser.setParameter("jobExperienceText", jobExperienceText);
+        updUser.setParameter("id", id);
+        
+        updUser.executeUpdate();
+        
+        tx.commit();
+        em.close();
+        
         
     }
     

@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.QueryParam;
 
 import annotations.Secured;
 
@@ -111,5 +113,94 @@ public class UserEndpoint {
 				  .compact();
 		return jws;
     }
+	
+	@GET
+	@Path("/{id:[0-9][0-9]*}")
+	@Produces({"application/json"})
+	public Response findById(@PathParam("id") final Integer id) {
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.getById(id);
+		UserBean user = null;
+		if (userd != null) {
+			user = new UserBean();
+			user.setIdUser(userd.getIdUser());
+			user.setLastName(userd.getLastName());
+			user.setFirstName(userd.getFirstName());
+			user.setPassword(userd.getPassword());
+			user.setEmail(userd.getEmail());
+			user.setIsModerator(userd.getIsModerator());
+			user.setPhoneNumber(userd.getPhoneNumber());
+			user.setPhotoUrl(userd.getPhotoUrl());
+			user.setEducationText(userd.getEducationText());
+			user.setJobExperienceText(userd.getJobExperienceText());
+			user.setUserHasSkill(userd.getUserHasSkill());
+			user.setConnectionRequests(userd.getConnectionRequests());
+			user.setConnections(userd.getConnections());
+			user.setAdvertisments(userd.getAdvertisments());
+			user.setConversations(userd.getConversations());
+		}
+		if (user == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return Response.ok(user).build();
+	}
+	
+	@PUT
+	@Path("/update")
+	@Consumes({"application/json"})
+	@Produces({"application/json"})
+	public Response updateUser(UserBean user) {
+		
+		entities.User userd = new entities.User();
+		
+		userd.setIdUser(user.getIdUser());
+		userd.setLastName(user.getLastName());
+		userd.setFirstName(user.getFirstName());
+		userd.setPassword(user.getPassword());
+		userd.setEmail(user.getEmail());
+		userd.setPhoneNumber(user.getPhoneNumber());
+		userd.setPhotoUrl(user.getPhotoUrl());
+		userd.setEducationText(user.getEducationText());
+		userd.setJobExperienceText(user.getJobExperienceText());
+		
+		UserDB userDao = new UserDB();
+		userDao.updateUser(userd);
+		
+		return Response.ok().build();
+		
+	}
+	
+	//Testing update
+	/*@POST
+	@Path("/update")
+	public Response login(
+			@FormParam("id") int id,
+			@FormParam("email") String email,
+			@FormParam("password") String password,
+			@FormParam("firstName") String firstName,
+			@FormParam("lastName") String lastName,
+			@FormParam("phoneNumber") String phoneNumber,
+			@FormParam("educationText") String educationText,
+			@FormParam("jobExperienceText") String jobExperienceText,
+			@FormParam("photoUrl") String photoUrl) {
+		
+		entities.User userd = new entities.User();
+		
+		userd.setIdUser(id);
+		userd.setLastName(lastName);
+		userd.setFirstName(firstName);
+		userd.setPassword(password);
+		userd.setEmail(email);
+		userd.setPhoneNumber(phoneNumber);
+		userd.setPhotoUrl(photoUrl);
+		userd.setEducationText(educationText);
+		userd.setJobExperienceText(jobExperienceText);
+		
+		UserDB userDao = new UserDB();
+		userDao.updateUser(userd);
+		
+		return Response.status(200).entity("Succesfully updated user: " + id).build();
+
+	}*/
 	
 }
