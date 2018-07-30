@@ -9,7 +9,6 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="`Application`")
 @NamedQuery(name="Application.findAll", query="SELECT a FROM Application a")
 public class Application implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +21,8 @@ public class Application implements Serializable {
 	//bi-directional many-to-one association to Advertisment
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="Advertisment_idAdvertisment", referencedColumnName="idAdvertisment")
+		@JoinColumn(name="Advertisment_idAdvertisment", referencedColumnName="idAdvertisment"),
+		@JoinColumn(name="Advertisment_User_idUser", referencedColumnName="User_idUser")
 		})
 	private Advertisment advertisment;
 

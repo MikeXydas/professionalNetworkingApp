@@ -17,6 +17,9 @@ public class ApplicationPK implements Serializable {
 	@Column(name="Advertisment_idAdvertisment", insertable=false, updatable=false)
 	private int advertisment_idAdvertisment;
 
+	@Column(name="Advertisment_User_idUser", insertable=false, updatable=false)
+	private int advertisment_User_idUser;
+
 	public ApplicationPK() {
 	}
 	public int getIdApplication() {
@@ -31,6 +34,12 @@ public class ApplicationPK implements Serializable {
 	public void setAdvertisment_idAdvertisment(int advertisment_idAdvertisment) {
 		this.advertisment_idAdvertisment = advertisment_idAdvertisment;
 	}
+	public int getAdvertisment_User_idUser() {
+		return this.advertisment_User_idUser;
+	}
+	public void setAdvertisment_User_idUser(int advertisment_User_idUser) {
+		this.advertisment_User_idUser = advertisment_User_idUser;
+	}
 
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -42,7 +51,8 @@ public class ApplicationPK implements Serializable {
 		ApplicationPK castOther = (ApplicationPK)other;
 		return 
 			(this.idApplication == castOther.idApplication)
-			&& (this.advertisment_idAdvertisment == castOther.advertisment_idAdvertisment);
+			&& (this.advertisment_idAdvertisment == castOther.advertisment_idAdvertisment)
+			&& (this.advertisment_User_idUser == castOther.advertisment_User_idUser);
 	}
 
 	public int hashCode() {
@@ -50,6 +60,7 @@ public class ApplicationPK implements Serializable {
 		int hash = 17;
 		hash = hash * prime + this.idApplication;
 		hash = hash * prime + this.advertisment_idAdvertisment;
+		hash = hash * prime + this.advertisment_User_idUser;
 		
 		return hash;
 	}

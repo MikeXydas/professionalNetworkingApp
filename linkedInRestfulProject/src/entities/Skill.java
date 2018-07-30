@@ -10,19 +10,28 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="`Skill`")
 @NamedQuery(name="Skill.findAll", query="SELECT s FROM Skill s")
 public class Skill implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idSkill;
 
 	private String skillName;
 
 	//bi-directional many-to-many association to Advertisment
-	@ManyToMany(mappedBy="skills")
+	@ManyToMany
+	@JoinTable(
+		name="Advertisment_has_Skill"
+		, joinColumns={
+			@JoinColumn(name="Skill_idSkill")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="Advertisment_idAdvertisment", referencedColumnName="idAdvertisment"),
+			@JoinColumn(name="Advertisment_User_idUser", referencedColumnName="User_idUser")
+			}
+		)
 	private List<Advertisment> advertisments;
 
 	//bi-directional many-to-many association to User

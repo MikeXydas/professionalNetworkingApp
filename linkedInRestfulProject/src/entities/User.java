@@ -10,13 +10,12 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="`User`")
 @NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idUser;
 
 	@Lob
@@ -58,7 +57,7 @@ public class User implements Serializable {
 	//bi-directional many-to-many association to Conversation
 	@ManyToMany
 	@JoinTable(
-		name="ParticipantsOfConversation"
+		name="User_has_Conversation"
 		, joinColumns={
 			@JoinColumn(name="User_idUser")
 			}

@@ -10,7 +10,6 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="`Comment`")
 @NamedQuery(name="Comment.findAll", query="SELECT c FROM Comment c")
 public class Comment implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -27,7 +26,8 @@ public class Comment implements Serializable {
 	//bi-directional many-to-one association to Article
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="Article_idArticle", referencedColumnName="idArticle")
+		@JoinColumn(name="Article_idArticle", referencedColumnName="idArticle"),
+		@JoinColumn(name="Article_User_idUser", referencedColumnName="User_idUser")
 		})
 	private Article article;
 

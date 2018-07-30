@@ -10,13 +10,12 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="`Conversation`")
 @NamedQuery(name="Conversation.findAll", query="SELECT c FROM Conversation c")
 public class Conversation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idConversation;
 
 	//bi-directional many-to-one association to Message

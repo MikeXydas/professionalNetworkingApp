@@ -17,6 +17,9 @@ public class CommentPK implements Serializable {
 	@Column(name="Article_idArticle", insertable=false, updatable=false)
 	private int article_idArticle;
 
+	@Column(name="Article_User_idUser", insertable=false, updatable=false)
+	private int article_User_idUser;
+
 	public CommentPK() {
 	}
 	public int getIdComment() {
@@ -31,6 +34,12 @@ public class CommentPK implements Serializable {
 	public void setArticle_idArticle(int article_idArticle) {
 		this.article_idArticle = article_idArticle;
 	}
+	public int getArticle_User_idUser() {
+		return this.article_User_idUser;
+	}
+	public void setArticle_User_idUser(int article_User_idUser) {
+		this.article_User_idUser = article_User_idUser;
+	}
 
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -42,14 +51,17 @@ public class CommentPK implements Serializable {
 		CommentPK castOther = (CommentPK)other;
 		return 
 			(this.idComment == castOther.idComment)
-			&& (this.article_idArticle == castOther.article_idArticle);
+			&& (this.article_idArticle == castOther.article_idArticle)
+			&& (this.article_User_idUser == castOther.article_User_idUser);
 	}
 
 	public int hashCode() {
 		final int prime = 31;
 		int hash = 17;
 		hash = hash * prime + this.idComment;
-		hash = hash * prime + this.article_idArticle;		
+		hash = hash * prime + this.article_idArticle;
+		hash = hash * prime + this.article_User_idUser;
+		
 		return hash;
 	}
 }

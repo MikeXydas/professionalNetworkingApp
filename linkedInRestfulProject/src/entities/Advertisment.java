@@ -11,7 +11,6 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="`Advertisment`")
 @NamedQuery(name="Advertisment.findAll", query="SELECT a FROM Advertisment a")
 public class Advertisment implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,28 +18,22 @@ public class Advertisment implements Serializable {
 	@EmbeddedId
 	private AdvertismentPK id;
 
+	@Lob
+	private String descriptionText;
+
 	private String title;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date uploadTime;
 
-	//bi-directional many-to-many association to Skill
-	@ManyToMany
-	@JoinTable(
-		name="Advertisment_has_Skill"
-		, joinColumns={
-			@JoinColumn(name="Advertisment_idAdvertisment", referencedColumnName="descriptionText")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="Advertisment_idAdvertisment")
-			}
-		)
-	private List<Skill> skills;
-
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="User_idUser")
 	private User user;
+
+	//bi-directional many-to-many association to Skill
+	@ManyToMany(mappedBy="advertisments")
+	private List<Skill> skills;
 
 	//bi-directional many-to-one association to Application
 	@OneToMany(mappedBy="advertisment")
@@ -55,6 +48,14 @@ public class Advertisment implements Serializable {
 
 	public void setId(AdvertismentPK id) {
 		this.id = id;
+	}
+
+	public String getDescriptionText() {
+		return this.descriptionText;
+	}
+
+	public void setDescriptionText(String descriptionText) {
+		this.descriptionText = descriptionText;
 	}
 
 	public String getTitle() {
@@ -73,20 +74,20 @@ public class Advertisment implements Serializable {
 		this.uploadTime = uploadTime;
 	}
 
-	public List<Skill> getSkills() {
-		return this.skills;
-	}
-
-	public void setSkills(List<Skill> skills) {
-		this.skills = skills;
-	}
-
 	public User getUser() {
 		return this.user;
 	}
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Skill> getSkills() {
+		return this.skills;
+	}
+
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
 	}
 
 	public List<Application> getApplications() {

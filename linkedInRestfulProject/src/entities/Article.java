@@ -11,13 +11,15 @@ import java.util.List;
  * 
  */
 @Entity
-@Table(name="`Article`")
 @NamedQuery(name="Article.findAll", query="SELECT a FROM Article a")
 public class Article implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
 	private ArticlePK id;
+
+	@Lob
+	private String contentText;
 
 	private String photoUrl;
 
@@ -52,6 +54,14 @@ public class Article implements Serializable {
 
 	public void setId(ArticlePK id) {
 		this.id = id;
+	}
+
+	public String getContentText() {
+		return this.contentText;
+	}
+
+	public void setContentText(String contentText) {
+		this.contentText = contentText;
 	}
 
 	public String getPhotoUrl() {

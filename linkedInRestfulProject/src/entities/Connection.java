@@ -9,7 +9,6 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@Table(name="`Connection`")
 @NamedQuery(name="Connection.findAll", query="SELECT c FROM Connection c")
 public class Connection implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -17,7 +16,7 @@ public class Connection implements Serializable {
 	@EmbeddedId
 	private ConnectionPK id;
 
-	private int conncetedUserId;
+	private int connectedUserId;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
@@ -35,12 +34,12 @@ public class Connection implements Serializable {
 		this.id = id;
 	}
 
-	public int getConncetedUserId() {
-		return this.conncetedUserId;
+	public int getConnectedUserId() {
+		return this.connectedUserId;
 	}
 
-	public void setConncetedUserId(int conncetedUserId) {
-		this.conncetedUserId = conncetedUserId;
+	public void setConnectedUserId(int connectedUserId) {
+		this.connectedUserId = connectedUserId;
 	}
 
 	public User getUser() {

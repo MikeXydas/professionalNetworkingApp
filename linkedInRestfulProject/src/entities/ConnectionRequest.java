@@ -10,7 +10,6 @@ import java.util.Date;
  * 
  */
 @Entity
-@Table(name="`ConnectionRequest`")
 @NamedQuery(name="ConnectionRequest.findAll", query="SELECT c FROM ConnectionRequest c")
 public class ConnectionRequest implements Serializable {
 	private static final long serialVersionUID = 1L;
