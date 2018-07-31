@@ -63,7 +63,34 @@ public class UserDB {
         tx.begin();
         try 
         {
-            em.persist(user);
+        	em.merge(user);
+            //em.persist(user);
+            em.flush();
+            id = user.getIdUser();
+            tx.commit();
+            return id;
+        }
+        catch (PersistenceException e)
+        {
+            if (tx.isActive()) tx.rollback();
+            return id;
+        }
+        finally 
+        {
+            em.close();
+        }
+    }
+    
+    public int mergeUser(User user)
+    {
+    	int id = -1;
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try 
+        {
+        	em.merge(user);
+            //em.persist(user);
             em.flush();
             id = user.getIdUser();
             tx.commit();
@@ -138,8 +165,6 @@ public class UserDB {
         tx.commit();
         em.close();
         
-        
-    }
-    
+    } 
     
 }
