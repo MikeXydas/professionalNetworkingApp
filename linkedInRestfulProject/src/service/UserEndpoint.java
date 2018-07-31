@@ -2,8 +2,10 @@ package service;
 
 import java.security.Key;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Iterator;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,10 +27,13 @@ import annotations.Secured;
 import javax.ws.rs.core.UriBuilder;
 
 import db.UserDB;
+import db.SkillDB;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
 import model.LogInfoBean;
+import model.SkillListBean;
 
 @Path("/User")
 public class UserEndpoint {
@@ -219,4 +224,53 @@ public class UserEndpoint {
 
 	}*/
 	
+	//Testing insertion of one skill
+	@POST
+	@Path("/insertSkill")
+	public Response insertSkill(
+			@FormParam("userId") int userId,
+			@FormParam("skillName") String skillName) {
+		UserDB userDao = new UserDB();
+		SkillDB skillDao = new SkillDB();
+		entities.User userd = userDao.getById(userId);
+
+		entities.Skill skilld = skillDao.find(skillName);
+
+		if(skilld == null) {
+			skilld = new entities.Skill();
+			skilld.setSkillName(skillName);
+			int skillId = skillDao.insertSkill(skilld);
+		}
+		
+
+		userd.setSkills(Arrays.asList(skilld));
+		userDao.mergeUser(userd);
+		
+		return Response.status(200).entity("Succesfully inserted skill: " + skillName + "on user: " + userd.getIdUser()).build();
+		
+	}
+	
+	//Will consume a SkillListBean
+	@POST
+	@Path("/insertSkillUser")
+	@Consumes({"application/json"})
+	public Response insertSkillUser(final SkillListBean skillListBean) {
+		UserDB userDao = new UserDB();
+		SkillDB skillDao = new SkillDB();
+		entities.User userd = userDao.getById(skillListBean.getUserId());
+		
+		List<String> skillList = skillListBean.getSkills();
+		for (int i = 0; i < skillList.size(); i++) {
+			entities.Skill skilld = skillDao.find(skillList.get(i));
+			if(skilld == null) {
+				skilld = new entities.Skill();
+				skilld.setSkillName(skillList.get(i));
+				int skillId = skillDao.insertSkill(skilld);
+			}
+			userd.setSkills(Arrays.asList(skilld));
+			userDao.mergeUser(userd);
+		}
+		
+		return Response.status(200).build();
+	}
 }

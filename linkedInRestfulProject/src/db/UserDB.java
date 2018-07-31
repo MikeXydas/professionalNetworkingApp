@@ -80,6 +80,31 @@ public class UserDB {
         }
     }
     
+    public int mergeUser(User user)
+    {
+    	int id = -1;
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try 
+        {
+        	em.merge(user);
+            em.flush();
+            id = user.getIdUser();
+            tx.commit();
+            return id;
+        }
+        catch (PersistenceException e)
+        {
+            if (tx.isActive()) tx.rollback();
+            return id;
+        }
+        finally 
+        {
+            em.close();
+        }
+    }
+    
     public User getById(int id)
     {
         User user = null;
@@ -138,8 +163,6 @@ public class UserDB {
         tx.commit();
         em.close();
         
-        
-    }
-    
+    } 
     
 }
