@@ -250,7 +250,11 @@ public class UserEndpoint {
 		
 	}
 	
+<<<<<<< HEAD
 	//Will consume a SkillListBean of userId
+=======
+	//Will consume a SkillListBean
+>>>>>>> 9d9c43be49466fa2de626cc78d84d6288d28326c
 	@POST
 	@Path("/insertSkillUser")
 	@Consumes({"application/json"})
