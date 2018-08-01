@@ -9,10 +9,12 @@
 	http://cxf.apache.org/schemas/jaxrs.xsd">
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<bean id="User" class="service.UserEndpoint" />
+	<bean id="Advertisment" class="service.AdvertismentEndpoint" />
 	
 	<jaxrs:server id="base" address="/">	
 		<jaxrs:serviceBeans>
 			<ref bean="User"/>
+			<ref bean="Advertisment"/>
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<!-- bean class="utilities.CustomJSONProvider"/-->
