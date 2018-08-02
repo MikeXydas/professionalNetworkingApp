@@ -6,5 +6,5 @@ mysql*
 User_has_Skill.java
 personalScripts/
 backupFiles/
-linkedInRestfulProject/build/classes/META-INF/
-linkedInRestfulProject/.*
+linkedInRestfulProject/src/META-INF/
+linkedInRestfulProject/

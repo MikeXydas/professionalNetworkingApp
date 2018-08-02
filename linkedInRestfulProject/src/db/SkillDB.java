@@ -87,6 +87,31 @@ public class SkillDB {
         }
     }
     
+    public int mergeSkill(Skill skill)
+    {
+        int id = -1;
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try 
+        {
+            em.merge(skill);
+            em.flush();
+            id = skill.getIdSkill();
+            tx.commit();
+            return id;
+        }
+        catch (PersistenceException e)
+        {
+            if (tx.isActive()) tx.rollback();
+            return id;
+        }
+        finally 
+        {
+            em.close();
+        }
+    }
+    
     public Skill getById(int id)
     {
         Skill skill = null;

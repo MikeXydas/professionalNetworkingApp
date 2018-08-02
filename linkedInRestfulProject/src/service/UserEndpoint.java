@@ -157,7 +157,6 @@ public class UserEndpoint {
 	@POST
 	@Path("/update")
 	@Consumes({"application/json"})
-	@Produces({"application/json"})
 	public Response updateUser(UserBean user) {
 		
 		entities.User userd = new entities.User();
@@ -194,7 +193,7 @@ public class UserEndpoint {
 	//Testing update
 	/*@POST
 	@Path("/update")
-	public Response updateUser(
+	public Response updateUser(AdvertismentBean
 			@FormParam("id") int id,
 			@FormParam("email") String email,
 			@FormParam("password") String password,

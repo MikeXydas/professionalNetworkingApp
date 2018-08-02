@@ -1,41 +1,16 @@
 package model;
 
-import java.util.Date;
+import java.util.List;
 
 public class AdvertismentPostBean {
 	
-	//Skills are a continuous text comma separated. For example C, Python
-	private String skills;
-	
-	private String text;
-	
-	private Date uploadTime;
-
 	private int userId;
 
-	public String getSkills() {
-		return skills;
-	}
-
-	public void setSkills(String skills) {
-		this.skills = skills;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public Date getUploadTime() {
-		return uploadTime;
-	}
-
-	public void setUploadTime(Date uploadTime) {
-		this.uploadTime = uploadTime;
-	}
+	private String title;
+	
+	private String descriptionText;
+	
+	private List<String> skills;
 
 	public int getUserId() {
 		return userId;
@@ -45,4 +20,29 @@ public class AdvertismentPostBean {
 		this.userId = userId;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescriptionText() {
+		return descriptionText;
+	}
+
+	public void setDescriptionText(String descriptionText) {
+		this.descriptionText = descriptionText;
+	}
+
+	public List<String> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<String> skills) {
+		this.skills = skills;
+	}
+
+	
 }

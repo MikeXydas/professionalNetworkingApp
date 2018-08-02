@@ -1,6 +1,7 @@
 package service;
 
 import java.security.Key;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -36,20 +37,32 @@ import model.UserBean;
 import model.LogInfoBean;
 import model.SkillListBean;
 import model.AdvertismentBean;
+import model.AdvertismentPostBean;
+
 
 @Path("/Advertisment")
 public class AdvertismentEndpoint {
 
-	//Testing the upload of an advertisment
-	/*@POST
+	//Testing the upload of an advertisement
+	@POST
 	@Path("/post")
 	public Response postAd(
 			@FormParam("id") int id,
 			@FormParam("title") String title,
-			@FormParam("content") String content) {
+			@FormParam("content") String content,
+			@FormParam("skillName") String skillName) {
 		AdvertismentDB advertismentDao = new AdvertismentDB();
 		UserDB userDao = new UserDB();
+		SkillDB skillDao = new SkillDB();
 
+		entities.Skill skilld = skillDao.find(skillName);
+
+		if(skilld == null) {
+			skilld = new entities.Skill();
+			skilld.setSkillName(skillName);
+			int skillId = skillDao.insertSkill(skilld);
+		}
+		
 		entities.User userd = userDao.getById(id);
 		entities.Advertisment ad = new entities.Advertisment();
 		
@@ -60,34 +73,54 @@ public class AdvertismentEndpoint {
 		ad.setUser(userd);
 		
 		entities.AdvertismentPK pk = new entities.AdvertismentPK();
-		pk.setUser_idUser(id);
+		//pk.setUser_idUser(id);
 		ad.setId(pk);
 		advertismentDao.insertAdvertisment(ad);
 
+		skilld.setAdvertisments(Arrays.asList(ad));
+		skilld.setUsers(Arrays.asList(userd));
+		skillDao.mergeSkill(skilld);
+		
 		return Response.status(200).entity("Succesfully uploaded advertisment").build();
-	}*/
+	}
 	
-	//CARE since the adBean must have the User field not null to get the user id
 	@POST
 	@Path("/post")
 	@Consumes({"application/json"})
-	public Response postAd(final AdvertismentBean adBean) {
+	public Response postAd(final AdvertismentPostBean adBean) {
 		AdvertismentDB advertismentDao = new AdvertismentDB();
 		UserDB userDao = new UserDB();
+		SkillDB skillDao = new SkillDB();
 
-		entities.User userd = userDao.getById(adBean.getUser().getIdUser());
+		entities.User userd = userDao.getById(adBean.getUserId());
 		entities.Advertisment ad = new entities.Advertisment();
 		
+		//Initializing the new add entity
 		ad.setTitle(adBean.getTitle());
 		ad.setDescriptionText(adBean.getDescriptionText());
 		Date date = new Date();
 		ad.setUploadTime(date);
 		ad.setUser(userd);
 		
+		//Primary key initialization
 		entities.AdvertismentPK pk = new entities.AdvertismentPK();
-		pk.setUser_idUser(adBean.getUser().getIdUser());
+		pk.setUser_idUser(adBean.getUserId());
 		ad.setId(pk);
 		advertismentDao.insertAdvertisment(ad);
+		
+		//Update correctly the AdHasSkill table
+		List<String> skillList = adBean.getSkills();
+		for (int i = 0; i < skillList.size(); i++) {
+			entities.Skill skilld = skillDao.find(skillList.get(i));
+			if(skilld == null) {
+				skilld = new entities.Skill();
+				skilld.setSkillName(skillList.get(i));
+				int skillId = skillDao.insertSkill(skilld);
+			}
+			skilld.setAdvertisments(Arrays.asList(ad));
+			skilld.setUsers(Arrays.asList(userd));
+			skillDao.mergeSkill(skilld);
+		}
 
 		return Response.status(200).build();
 	}
