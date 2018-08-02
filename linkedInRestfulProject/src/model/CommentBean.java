@@ -10,10 +10,8 @@ public class CommentBean {
 	private CommentPK id;
 	private String contentText;
 	private Date uploadTime;
+	private int commenterId;
 	private Article article;
-	
-	public CommentBean() {
-	}
 	
 	public CommentPK getId() {
 		return id;
@@ -33,11 +31,18 @@ public class CommentBean {
 	public void setUploadTime(Date uploadTime) {
 		this.uploadTime = uploadTime;
 	}
+	public int getCommenterId() {
+		return commenterId;
+	}
+	public void setCommenterId(int commenterId) {
+		this.commenterId = commenterId;
+	}
 	public Article getArticle() {
 		return article;
 	}
 	public void setArticle(Article article) {
 		this.article = article;
 	}
+	
 
 }

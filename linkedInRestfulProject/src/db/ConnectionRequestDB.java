@@ -118,4 +118,15 @@ public class ConnectionRequestDB {
         
         return connectionRequest;
     }
+    
+    public void deleteConnectionRequest(ConnectionRequest connectionRequest) {
+    	EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+    	em.remove(connectionRequest);
+    	
+    	tx.commit();
+    	em.close();
+    }
 }

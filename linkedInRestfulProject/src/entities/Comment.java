@@ -24,6 +24,8 @@ public class Comment implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date uploadTime;
 
+	private int commenterId;
+	
 	//bi-directional many-to-one association to Article
 	@ManyToOne
 	@JoinColumns({
@@ -59,6 +61,14 @@ public class Comment implements Serializable {
 		this.uploadTime = uploadTime;
 	}
 
+	public int getCommenterId() {
+		return this.commenterId;
+	}
+	
+	public void setCommenterId(int commenterId) {
+		this.commenterId = commenterId;
+	}
+	
 	public Article getArticle() {
 		return this.article;
 	}
@@ -66,5 +76,5 @@ public class Comment implements Serializable {
 	public void setArticle(Article article) {
 		this.article = article;
 	}
-
+	
 }

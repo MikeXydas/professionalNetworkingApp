@@ -21,6 +21,8 @@ public class Interest implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date interestTime;
 
+	private int interesterId;
+	
 	//bi-directional many-to-one association to Article
 	@ManyToOne
 	@JoinColumns({
@@ -48,6 +50,14 @@ public class Interest implements Serializable {
 		this.interestTime = interestTime;
 	}
 
+	public int getInteresterId() {
+		return this.interesterId;
+	}
+	
+	public void setInteresterId(int interesterId) {
+		this.interesterId = interesterId;
+	}
+	
 	public Article getArticle() {
 		return this.article;
 	}
