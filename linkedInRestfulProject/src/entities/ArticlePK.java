@@ -12,6 +12,7 @@ public class ArticlePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idArticle;
 
 	@Column(name="User_idUser", insertable=false, updatable=false)

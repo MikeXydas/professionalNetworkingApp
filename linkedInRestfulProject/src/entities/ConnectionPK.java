@@ -12,6 +12,7 @@ public class ConnectionPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idConnection;
 
 	@Column(name="User_idUser", insertable=false, updatable=false)

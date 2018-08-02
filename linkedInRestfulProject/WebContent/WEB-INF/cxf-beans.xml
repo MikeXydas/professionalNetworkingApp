@@ -10,11 +10,13 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<bean id="User" class="service.UserEndpoint" />
 	<bean id="Advertisment" class="service.AdvertismentEndpoint" />
+	<bean id="ConnectionRequest" class="service.ConnectionRequestEndpoint" />
 	
 	<jaxrs:server id="base" address="/">	
 		<jaxrs:serviceBeans>
 			<ref bean="User"/>
 			<ref bean="Advertisment"/>
+			<ref bean="ConnectionRequest"/>
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>
 			<!-- bean class="utilities.CustomJSONProvider"/-->

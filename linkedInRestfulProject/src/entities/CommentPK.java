@@ -12,6 +12,7 @@ public class CommentPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idComment;
 
 	@Column(name="Article_idArticle", insertable=false, updatable=false)

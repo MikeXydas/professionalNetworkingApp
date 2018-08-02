@@ -11,5 +11,8 @@ TO DO:
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 
-	CARE ON UPDATING USER: I have made everything update except their skills since I have to use the SkillDB (not yet implemented).
+CARE ON UPDATING USER: Two services must be called. One for updating the skills of the user and one for everything else
+
+CARE ON CONNECTION_REQUEST: senderId mustbe considered as the exact opposite (receiver id) TO BE FIXED
+	
 	

@@ -12,6 +12,7 @@ public class MessagePK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int idMessage;
 
 	@Column(name="Conversation_idConversation", insertable=false, updatable=false)
