@@ -31,7 +31,7 @@ import db.UserDB;
 import db.SkillDB;
 import db.AdvertismentDB;
 import db.ConnectionRequestDB;
-
+import db.ConnectionDB;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
@@ -129,6 +129,91 @@ public class ConnectionRequestEndpoint {
 			return Response.status(200).build();
 		}
 	}
+	
+	/*@POST
+	@Path("/accept")
+	public Response sendRequest(
+			@FormParam("reqId") int reqId,
+			@FormParam("sendId") int sendId) {
+		
+		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
+		UserDB userDao = new UserDB();
+		ConnectionDB connectionDao = new ConnectionDB();
+		
+		entities.ConnectionRequestPK reqPk = new entities.ConnectionRequestPK();
+		reqPk.setIdConnectionRequest(reqId);
+		reqPk.setUser_idUser(sendId);
+		
+		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqPk);
+		
+		entities.User userReceive = userDao.getById(reqd.getSenderId());
+		
+		entities.User userSend = reqd.getUser();
+		
+		connectionRequestDao.deleteConnectionRequest(reqd);
+
+		entities.Connection sendConnect = new entities.Connection();
+		entities.Connection receiveConnect = new entities.Connection();
+
+		entities.ConnectionPK sendPk = new entities.ConnectionPK();
+		entities.ConnectionPK receivePk = new entities.ConnectionPK();;
+		
+		sendConnect.setUser(userSend);
+		receiveConnect.setUser(userReceive);
+		
+		sendConnect.setId(sendPk);
+		receiveConnect.setId(receivePk);
+		
+		sendConnect.setConnectedUserId(userReceive.getIdUser());
+		receiveConnect.setConnectedUserId(userSend.getIdUser());
+		
+		connectionDao.insertConnection(sendConnect);
+		connectionDao.insertConnection(receiveConnect);
+		
+		return Response.status(200).entity("Succesfully accepted request").build();
+
+	}*/
+	
+	
+	@Path("/accept")
+	@Consumes({"application/json"})
+	public Response acceptRequest(final ConnectionRequestBean reqBean) {
+		
+		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
+		UserDB userDao = new UserDB();
+		ConnectionDB connectionDao = new ConnectionDB();
+		
+		entities.ConnectionRequestPK reqPk = reqBean.getId();
+		
+		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqPk);
+
+		entities.User userReceive = userDao.getById(reqd.getSenderId());
+		entities.User userSend = reqd.getUser();
+		
+		connectionRequestDao.deleteConnectionRequest(reqd);
+
+		entities.Connection sendConnect = new entities.Connection();
+		entities.Connection receiveConnect = new entities.Connection();
+
+		entities.ConnectionPK sendPk = new entities.ConnectionPK();
+		entities.ConnectionPK receivePk = new entities.ConnectionPK();;
+		
+		sendConnect.setUser(userSend);
+		receiveConnect.setUser(userReceive);
+		
+		sendConnect.setId(sendPk);
+		receiveConnect.setId(receivePk);
+		
+		sendConnect.setConnectedUserId(userReceive.getIdUser());
+		receiveConnect.setConnectedUserId(userSend.getIdUser());
+		
+		connectionDao.insertConnection(sendConnect);
+		connectionDao.insertConnection(receiveConnect);
+		
+		return Response.status(200).build();
+		
+	}
+
 }
 
 
