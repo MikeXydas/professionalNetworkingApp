@@ -13,6 +13,6 @@ Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?
 
 CARE ON UPDATING USER: Two services must be called. One for updating the skills of the user and one for everything else
 
-CARE ON CONNECTION_REQUEST: senderId mustbe considered as the exact opposite (receiver id) TO BE FIXED
+CARE ON CONNECTION_REQUEST: senderId must be considered as the exact opposite (receiver id) TO BE FIXED
 	
-	
+!! No persistence.xml on the src/META-INF folder  !!
