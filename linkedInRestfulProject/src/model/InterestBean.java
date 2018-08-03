@@ -2,20 +2,17 @@ package model;
 
 import java.util.Date;
 
-import entities.Article;
-import entities.InterestPK;
-
 public class InterestBean {
 	
-	private InterestPK id;
+	private InterestPKBean id;
 	private Date interestTime;
 	private int interesterId;
-	private Article article;
+	private ArticleBean article;
 	
-	public InterestPK getId() {
+	public InterestPKBean getId() {
 		return id;
 	}
-	public void setId(InterestPK id) {
+	public void setId(InterestPKBean id) {
 		this.id = id;
 	}
 	public Date getInterestTime() {
@@ -30,10 +27,10 @@ public class InterestBean {
 	public void setInteresterId(int interesterId) {
 		this.interesterId = interesterId;
 	}
-	public Article getArticle() {
+	public ArticleBean getArticle() {
 		return article;
 	}
-	public void setArticle(Article article) {
+	public void setArticle(ArticleBean article) {
 		this.article = article;
 	}
 	

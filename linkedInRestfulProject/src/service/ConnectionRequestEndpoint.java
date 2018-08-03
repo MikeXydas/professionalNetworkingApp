@@ -40,6 +40,7 @@ import model.SkillListBean;
 import model.AdvertismentBean;
 import model.AdvertismentPostBean;
 import model.ConnectionRequestBean;
+import model.ConnectionRequestPKBean;
 
 @Path("ConnectionRequest")
 public class ConnectionRequestEndpoint {
@@ -183,8 +184,10 @@ public class ConnectionRequestEndpoint {
 		UserDB userDao = new UserDB();
 		ConnectionDB connectionDao = new ConnectionDB();
 		
-		entities.ConnectionRequestPK reqPk = reqBean.getId();
-		
+		ConnectionRequestPKBean reqPkBean = reqBean.getId();
+		entities.ConnectionRequestPK reqPk = new entities.ConnectionRequestPK();
+		reqPk.setIdConnectionRequest(reqPkBean.getIdConnectionRequest());
+		reqPk.setUser_idUser(reqPkBean.getUser_idUser());
 		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqPk);
 
 		entities.User userReceive = userDao.getById(reqd.getSenderId());

@@ -3,31 +3,23 @@ package model;
 import java.util.Date;
 import java.util.List;
 
-import entities.ArticlePK;
-import entities.Comment;
-import entities.Interest;
-import entities.User;
-
 public class ArticleBean {
 	
-	private ArticlePK id;
+	private ArticlePKBean id;
 	private String contentText;
 	private String photoUrl;
 	private String soundUrl;
 	private String title;
 	private Date uploadTime;
 	private String videoUrl;
-	private User user;
-	private List<Comment> comments;
-	private List<Interest> interests;
+	private UserBean user;
+	private List<CommentBean> comments;
+	private List<InterestBean> interests;
 	
-	public ArticleBean() {
-	}
-	
-	public ArticlePK getId() {
+	public ArticlePKBean getId() {
 		return id;
 	}
-	public void setId(ArticlePK id) {
+	public void setId(ArticlePKBean id) {
 		this.id = id;
 	}
 	public String getContentText() {
@@ -66,22 +58,22 @@ public class ArticleBean {
 	public void setVideoUrl(String videoUrl) {
 		this.videoUrl = videoUrl;
 	}
-	public User getUser() {
+	public UserBean getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(UserBean user) {
 		this.user = user;
 	}
-	public List<Comment> getComments() {
+	public List<CommentBean> getComments() {
 		return comments;
 	}
-	public void setComments(List<Comment> comments) {
+	public void setComments(List<CommentBean> comments) {
 		this.comments = comments;
 	}
-	public List<Interest> getInterests() {
+	public List<InterestBean> getInterests() {
 		return interests;
 	}
-	public void setInterests(List<Interest> interests) {
+	public void setInterests(List<InterestBean> interests) {
 		this.interests = interests;
 	}
 

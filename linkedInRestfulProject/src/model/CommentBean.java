@@ -2,21 +2,18 @@ package model;
 
 import java.util.Date;
 
-import entities.Article;
-import entities.CommentPK;
-
 public class CommentBean {
 
-	private CommentPK id;
+	private CommentPKBean id;
 	private String contentText;
 	private Date uploadTime;
 	private int commenterId;
-	private Article article;
+	private ArticleBean article;
 	
-	public CommentPK getId() {
+	public CommentPKBean getId() {
 		return id;
 	}
-	public void setId(CommentPK id) {
+	public void setId(CommentPKBean id) {
 		this.id = id;
 	}
 	public String getContentText() {
@@ -37,12 +34,11 @@ public class CommentBean {
 	public void setCommenterId(int commenterId) {
 		this.commenterId = commenterId;
 	}
-	public Article getArticle() {
+	public ArticleBean getArticle() {
 		return article;
 	}
-	public void setArticle(Article article) {
+	public void setArticle(ArticleBean article) {
 		this.article = article;
 	}
 	
-
 }
