@@ -28,8 +28,10 @@ import annotations.Secured;
 import javax.ws.rs.core.UriBuilder;
 
 import db.UserDB;
+import entities.Application;
 import db.SkillDB;
 import db.AdvertismentDB;
+import db.ApplicationDB;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -38,13 +40,14 @@ import model.LogInfoBean;
 import model.SkillListBean;
 import model.AdvertismentBean;
 import model.AdvertismentPostBean;
+import model.ApplyBean;
 
 
 @Path("/Advertisment")
 public class AdvertismentEndpoint {
 
 	//Testing the upload of an advertisement
-	@POST
+	/*@POST
 	@Path("/post")
 	public Response postAd(
 			@FormParam("id") int id,
@@ -82,7 +85,7 @@ public class AdvertismentEndpoint {
 		skillDao.mergeSkill(skilld);
 		
 		return Response.status(200).entity("Succesfully uploaded advertisment").build();
-	}
+	}*/
 	
 	@POST
 	@Path("/post")
@@ -122,6 +125,74 @@ public class AdvertismentEndpoint {
 			skillDao.mergeSkill(skilld);
 		}
 
+		return Response.status(200).build();
+	}
+	
+	/*@POST
+	@Path("/apply")
+	public Response postAd(
+			@FormParam("adId") int adId,
+			@FormParam("userId") int userId,
+			@FormParam("appId") int appId) {
+		
+		AdvertismentDB advertismentDao = new AdvertismentDB();
+		ApplicationDB applicationDao = new ApplicationDB();
+		
+		entities.AdvertismentPK adPk = new entities.AdvertismentPK();
+		adPk.setIdAdvertisment(adId);
+		adPk.setUser_idUser(userId);
+		entities.Advertisment add = advertismentDao.getById(adPk);
+		
+
+		List<Application> applications = add.getApplications();
+
+		for (int i = 0; i < applications.size(); i++) {
+			entities.Application currentApp = applications.get(i);
+			if(currentApp.getApplicantId() == appId) {
+				return Response.status(200).entity("App already exists").build();
+			}
+		}
+
+		entities.Application appd = new entities.Application();
+		appd.setAdvertisment(add);
+		appd.setApplicantId(appId);
+		entities.ApplicationPK appPk = new entities.ApplicationPK();
+		appd.setId(appPk);
+		applicationDao.insertApplication(appd);
+		
+		return Response.status(200).entity("Succesfully applied to advertisment").build();
+	
+	}*/
+	
+	@POST
+	@Path("/apply")
+	@Consumes({"application/json"})
+	public Response applyAd(final ApplyBean applyBean) {
+		AdvertismentDB advertismentDao = new AdvertismentDB();
+		ApplicationDB applicationDao = new ApplicationDB();
+		
+		entities.AdvertismentPK adPk = new entities.AdvertismentPK();
+		adPk.setIdAdvertisment(applyBean.getAdId());
+		adPk.setUser_idUser(applyBean.getAdOwnerId());
+		entities.Advertisment add = advertismentDao.getById(adPk);
+
+		List<Application> applications = add.getApplications();
+
+		for (int i = 0; i < applications.size(); i++) {
+			entities.Application currentApp = applications.get(i);
+			if(currentApp.getApplicantId() == applyBean.getUserId()) {
+				//CASE: The application already exists
+				return Response.status(200).build();
+			}
+		}
+		
+		entities.Application appd = new entities.Application();
+		appd.setAdvertisment(add);
+		appd.setApplicantId(applyBean.getUserId());
+		entities.ApplicationPK appPk = new entities.ApplicationPK();
+		appd.setId(appPk);
+		applicationDao.insertApplication(appd);
+		
 		return Response.status(200).build();
 	}
 			
