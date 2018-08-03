@@ -1,21 +1,15 @@
 package model;
 
-import entities.Advertisment;
-import entities.ApplicationPK;
-
 public class ApplicationBean {
 	
-	private ApplicationPK id;
+	private ApplicationPKBean id;
 	private int applicantId;
-	private Advertisment advertisment;
+	private AdvertismentBean advertisment;
 	
-	public ApplicationBean( ) {
-	}
-	
-	public ApplicationPK getId() {
+	public ApplicationPKBean getId() {
 		return id;
 	}
-	public void setId(ApplicationPK id) {
+	public void setId(ApplicationPKBean id) {
 		this.id = id;
 	}
 	public int getApplicantId() {
@@ -24,11 +18,11 @@ public class ApplicationBean {
 	public void setApplicantId(int applicantId) {
 		this.applicantId = applicantId;
 	}
-	public Advertisment getAdvertisment() {
+	public AdvertismentBean getAdvertisment() {
 		return advertisment;
 	}
-	public void setAdvertisment(Advertisment advertisment) {
+	public void setAdvertisment(AdvertismentBean advertisment) {
 		this.advertisment = advertisment;
 	}
-
+	
 }

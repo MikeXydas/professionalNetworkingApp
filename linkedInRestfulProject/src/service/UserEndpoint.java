@@ -143,10 +143,6 @@ public class UserEndpoint {
 			user.setPhotoUrl(userd.getPhotoUrl());
 			user.setEducationText(userd.getEducationText());
 			user.setJobExperienceText(userd.getJobExperienceText());
-			user.setConnectionRequests(userd.getConnectionRequests());
-			user.setConnections(userd.getConnections());
-			user.setAdvertisments(userd.getAdvertisments());
-			user.setConversations(userd.getConversations());
 		}
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();

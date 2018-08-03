@@ -2,17 +2,11 @@ package model;
 
 import java.util.List;
 
-import entities.Message;
-import entities.User;
-
 public class ConversationBean {
 	
 	private int idConversation;
-	private List<Message> messages;
-	private List<User> users;
-	
-	public ConversationBean () {
-	}
+	private List<MessageBean> messages;
+	private List<UserBean> users;
 	
 	public int getIdConversation() {
 		return idConversation;
@@ -20,17 +14,19 @@ public class ConversationBean {
 	public void setIdConversation(int idConversation) {
 		this.idConversation = idConversation;
 	}
-	public List<Message> getMessages() {
+	public List<MessageBean> getMessages() {
 		return messages;
 	}
-	public void setMessages(List<Message> messages) {
+	public void setMessages(List<MessageBean> messages) {
 		this.messages = messages;
 	}
-	public List<User> getUsers() {
+	public List<UserBean> getUsers() {
 		return users;
 	}
-	public void setUsers(List<User> users) {
+	public void setUsers(List<UserBean> users) {
 		this.users = users;
 	}
+	
+
 	
 }

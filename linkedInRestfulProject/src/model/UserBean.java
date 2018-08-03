@@ -2,12 +2,6 @@ package model;
 
 import java.util.List;
 
-import entities.Advertisment;
-import entities.Article;
-import entities.Connection;
-import entities.ConnectionRequest;
-import entities.Conversation;
-
 public class UserBean {
 	
 	private int idUser;
@@ -20,14 +14,11 @@ public class UserBean {
 	private String password;
 	private String phoneNumber;
 	private String photoUrl;
-	private List<Advertisment> advertisments;
-	private List<Article> articles;
-	private List<Connection> connections;
-	private List<ConnectionRequest> connectionRequests;
-	private List<Conversation> conversations;
-	
-	public UserBean() {	
-	}
+	private List<AdvertismentBean> advertisments;
+	private List<ArticleBean> articles;
+	private List<ConnectionBean> connections;
+	private List<ConnectionRequestBean> connectionRequests;
+	private List<ConversationBean> conversations;
 	
 	public int getIdUser() {
 		return idUser;
@@ -89,34 +80,36 @@ public class UserBean {
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
-	public List<Advertisment> getAdvertisments() {
+	public List<AdvertismentBean> getAdvertisments() {
 		return advertisments;
 	}
-	public void setAdvertisments(List<Advertisment> advertisments) {
+	public void setAdvertisments(List<AdvertismentBean> advertisments) {
 		this.advertisments = advertisments;
 	}
-	public List<Article> getArticles() {
+	public List<ArticleBean> getArticles() {
 		return articles;
 	}
-	public void setArticles(List<Article> articles) {
+	public void setArticles(List<ArticleBean> articles) {
 		this.articles = articles;
 	}
-	public List<Connection> getConnections() {
+	public List<ConnectionBean> getConnections() {
 		return connections;
 	}
-	public void setConnections(List<Connection> connections) {
+	public void setConnections(List<ConnectionBean> connections) {
 		this.connections = connections;
 	}
-	public List<ConnectionRequest> getConnectionRequests() {
+	public List<ConnectionRequestBean> getConnectionRequests() {
 		return connectionRequests;
 	}
-	public void setConnectionRequests(List<ConnectionRequest> connectionRequests) {
+	public void setConnectionRequests(List<ConnectionRequestBean> connectionRequests) {
 		this.connectionRequests = connectionRequests;
 	}
-	public List<Conversation> getConversations() {
+	public List<ConversationBean> getConversations() {
 		return conversations;
 	}
-	public void setConversations(List<Conversation> conversations) {
+	public void setConversations(List<ConversationBean> conversations) {
 		this.conversations = conversations;
 	}
+	
+	
 }

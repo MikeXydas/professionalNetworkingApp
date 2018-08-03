@@ -1,21 +1,15 @@
 package model;
 
-import entities.ConnectionPK;
-import entities.User;
-
 public class ConnectionBean {
 
-	private ConnectionPK id;
+	private ConnectionPKBean id;
 	private int conncetedUserId;
-	private User user;
+	private UserBean user;
 	
-	public ConnectionBean() {	
-	}
-	
-	public ConnectionPK getId() {
+	public ConnectionPKBean getId() {
 		return id;
 	}
-	public void setId(ConnectionPK id) {
+	public void setId(ConnectionPKBean id) {
 		this.id = id;
 	}
 	public int getConncetedUserId() {
@@ -24,11 +18,13 @@ public class ConnectionBean {
 	public void setConncetedUserId(int conncetedUserId) {
 		this.conncetedUserId = conncetedUserId;
 	}
-	public User getUser() {
+	public UserBean getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(UserBean user) {
 		this.user = user;
 	}
+	
+
 
 }

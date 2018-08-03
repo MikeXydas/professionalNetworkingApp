@@ -2,23 +2,17 @@ package model;
 
 import java.util.Date;
 
-import entities.ConnectionRequestPK;
-import entities.User;
-
 public class ConnectionRequestBean {
 
-	private ConnectionRequestPK id;
+	private ConnectionRequestPKBean id;
 	private int senderId;
 	private Date sendTime;
-	private User user;
+	private UserBean user;
 	
-	public ConnectionRequestBean() {
-	}
-	
-	public ConnectionRequestPK getId() {
+	public ConnectionRequestPKBean getId() {
 		return id;
 	}
-	public void setId(ConnectionRequestPK id) {
+	public void setId(ConnectionRequestPKBean id) {
 		this.id = id;
 	}
 	public int getSenderId() {
@@ -33,13 +27,12 @@ public class ConnectionRequestBean {
 	public void setSendTime(Date sendTime) {
 		this.sendTime = sendTime;
 	}
-	public User getUser() {
+	public UserBean getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(UserBean user) {
 		this.user = user;
 	}
 	
 	
-
 }

@@ -3,25 +3,20 @@ package model;
 import java.util.Date;
 import java.util.List;
 
-import entities.AdvertismentPK;
-import entities.Application;
-import entities.Skill;
-import entities.User;
-
 public class AdvertismentBean {
 	
-	private AdvertismentPK id;
+	private AdvertismentPKBean id;
 	private String descriptionText;
 	private String title;
 	private Date uploadTime;
-	private User user;
-	private List<Application> applications;
-	private List<Skill> skills;
+	private UserBean user;
+	private List<ApplicationBean> applications;
+	private List<SkillBean> skills;
 	
-	public AdvertismentPK getId() {
+	public AdvertismentPKBean getId() {
 		return id;
 	}
-	public void setId(AdvertismentPK id) {
+	public void setId(AdvertismentPKBean id) {
 		this.id = id;
 	}
 	public String getDescriptionText() {
@@ -42,25 +37,25 @@ public class AdvertismentBean {
 	public void setUploadTime(Date uploadTime) {
 		this.uploadTime = uploadTime;
 	}
-	public User getUser() {
+	public UserBean getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(UserBean user) {
 		this.user = user;
 	}
-	public List<Application> getApplications() {
+	public List<ApplicationBean> getApplications() {
 		return applications;
 	}
-	public void setApplications(List<Application> applications) {
+	public void setApplications(List<ApplicationBean> applications) {
 		this.applications = applications;
 	}
-	public List<Skill> getSkills() {
+	public List<SkillBean> getSkills() {
 		return skills;
 	}
-	public void setSkills(List<Skill> skills) {
+	public void setSkills(List<SkillBean> skills) {
 		this.skills = skills;
 	}
-
-
-
+	
+	
+	
 }
