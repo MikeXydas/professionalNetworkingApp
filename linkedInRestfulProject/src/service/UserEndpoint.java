@@ -68,6 +68,10 @@ public class UserEndpoint {
 		userd.setLastName(user.getLastName());
 		userd.setPhoneNumber(user.getPhoneNumber());
 		userd.setPhotoUrl(user.getPhotoUrl());
+		userd.setIsPublicEducation(0);
+		userd.setIsPublicJob(0);
+		userd.setIsPublicSkill(0);
+		
 		int id = userDao.insertUser(userd);
 		return Response.created(
 				UriBuilder.fromResource(UserEndpoint.class)
@@ -143,6 +147,9 @@ public class UserEndpoint {
 			user.setPhotoUrl(userd.getPhotoUrl());
 			user.setEducationText(userd.getEducationText());
 			user.setJobExperienceText(userd.getJobExperienceText());
+			user.setIsPublicEducation(userd.getIsPublicEducation());
+			user.setIsPublicJob(userd.getIsPublicJob());
+			user.setIsPublicSkill(userd.getIsPublicSkill());
 		}
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();
@@ -150,7 +157,7 @@ public class UserEndpoint {
 		return Response.ok(user).build();
 	}
 	
-	@POST
+	/*@POST
 	@Path("/update")
 	@Consumes({"application/json"})
 	public Response updateUser(UserBean user) {
@@ -166,13 +173,15 @@ public class UserEndpoint {
 		userd.setPhotoUrl(user.getPhotoUrl());
 		userd.setEducationText(user.getEducationText());
 		userd.setJobExperienceText(user.getJobExperienceText());
-		
+		userd.setIsPublicEducation(user.getIsPublicEducation());
+		userd.setIsPublicJob(user.getIsPublicJob());
+		userd.setIsPublicSkill(user.getIsPublicSkill());
 		UserDB userDao = new UserDB();
 		userDao.updateUser(userd);
 		
 		return Response.ok().build();
 		
-	}
+	}*/
 	
 	@GET
 	@Path("/skill")
@@ -187,9 +196,9 @@ public class UserEndpoint {
 	}
 	
 	//Testing update
-	/*@POST
+	@POST
 	@Path("/update")
-	public Response updateUser(AdvertismentBean
+	public Response updateUser(
 			@FormParam("id") int id,
 			@FormParam("email") String email,
 			@FormParam("password") String password,
@@ -198,7 +207,10 @@ public class UserEndpoint {
 			@FormParam("phoneNumber") String phoneNumber,
 			@FormParam("educationText") String educationText,
 			@FormParam("jobExperienceText") String jobExperienceText,
-			@FormParam("photoUrl") String photoUrl) {
+			@FormParam("photoUrl") String photoUrl,
+			@FormParam("isPublicEducation") int isPublicEducation,
+			@FormParam("isPublicJob") int isPublicJob,
+			@FormParam("isPublicSkill") int isPublicSkill) {
 		
 		entities.User userd = new entities.User();
 		
@@ -211,13 +223,15 @@ public class UserEndpoint {
 		userd.setPhotoUrl(photoUrl);
 		userd.setEducationText(educationText);
 		userd.setJobExperienceText(jobExperienceText);
-		
+		userd.setIsPublicEducation(isPublicEducation);
+		userd.setIsPublicJob(isPublicJob);
+		userd.setIsPublicSkill(isPublicSkill);
 		UserDB userDao = new UserDB();
 		userDao.updateUser(userd);
 		
 		return Response.status(200).entity("Succesfully updated user: " + id).build();
 
-	}*/
+	}
 	
 	//Testing insertion of one skill
 	@POST

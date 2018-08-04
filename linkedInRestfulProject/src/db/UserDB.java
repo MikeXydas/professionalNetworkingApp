@@ -138,6 +138,9 @@ public class UserDB {
         String phoneNumber = user.getPhoneNumber();
         String educationText = user.getEducationText();
         String jobExperienceText = user.getJobExperienceText();
+        int isPublicEducation = user.getIsPublicEducation();
+        int isPublicJob = user.getIsPublicJob();
+        int isPublicSkill = user.getIsPublicSkill();
         
         //I do not want to update null strings
         if(photoUrl == null)
@@ -147,7 +150,7 @@ public class UserDB {
         if(jobExperienceText == null)
         	jobExperienceText = "EMPTY";
         
-        Query updUser = em.createQuery("UPDATE User user SET user.email = :email, user.password = :password, user.firstName = :firstName, user.lastName = :lastName, user.photoUrl = :photoUrl, user.phoneNumber = :phoneNumber, user.educationText = :educationText, user.jobExperienceText = :jobExperienceText WHERE user.idUser = :id");
+        Query updUser = em.createQuery("UPDATE User user SET user.email = :email, user.password = :password, user.firstName = :firstName, user.lastName = :lastName, user.photoUrl = :photoUrl, user.phoneNumber = :phoneNumber, user.educationText = :educationText, user.jobExperienceText = :jobExperienceText, user.isPublicEducation = :isPublicEducation, user.isPublicJob = :isPublicJob, user.isPublicSkill = :isPublicSkill WHERE user.idUser = :id");
         updUser.setParameter("firstName", firstName);
         updUser.setParameter("lastName", lastName);
         updUser.setParameter("email", email);
@@ -156,6 +159,10 @@ public class UserDB {
         updUser.setParameter("phoneNumber", phoneNumber);
         updUser.setParameter("educationText", educationText);
         updUser.setParameter("jobExperienceText", jobExperienceText);
+        updUser.setParameter("isPublicEducation", isPublicEducation);
+        updUser.setParameter("isPublicJob", isPublicJob);
+        updUser.setParameter("isPublicSkill", isPublicSkill);
+
         updUser.setParameter("id", id);
         
         updUser.executeUpdate();

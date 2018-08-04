@@ -14,12 +14,34 @@ public class UserBean {
 	private String password;
 	private String phoneNumber;
 	private String photoUrl;
+	private int isPublicEducation;
+	private int isPublicJob;
+	private int isPublicSkill;
 	private List<AdvertismentBean> advertisments;
 	private List<ArticleBean> articles;
 	private List<ConnectionBean> connections;
 	private List<ConnectionRequestBean> connectionRequests;
 	private List<ConversationBean> conversations;
 	
+	
+	public int getIsPublicEducation() {
+		return isPublicEducation;
+	}
+	public void setIsPublicEducation(int isPublicEducation) {
+		this.isPublicEducation = isPublicEducation;
+	}
+	public int getIsPublicJob() {
+		return isPublicJob;
+	}
+	public void setIsPublicJob(int isPublicJob) {
+		this.isPublicJob = isPublicJob;
+	}
+	public int getIsPublicSkill() {
+		return isPublicSkill;
+	}
+	public void setIsPublicSkill(int isPublicSkill) {
+		this.isPublicSkill = isPublicSkill;
+	}
 	public int getIdUser() {
 		return idUser;
 	}

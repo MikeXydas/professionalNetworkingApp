@@ -38,6 +38,12 @@ public class User implements Serializable {
 	private String phoneNumber;
 
 	private String photoUrl;
+	
+	private int isPublicEducation;
+	
+	private int isPublicJob;
+
+	private int isPublicSkill;
 
 	//bi-directional many-to-one association to Advertisment
 	@OneToMany(mappedBy="user")
@@ -266,6 +272,30 @@ public class User implements Serializable {
 
 	public void setSkills(List<Skill> skills) {
 		this.skills = skills;
+	}
+	
+	public int getIsPublicEducation() {
+		return this.isPublicEducation;
+	}
+
+	public void setIsPublicEducation(int isPublicEducation) {
+		this.isPublicEducation = isPublicEducation;
+	}
+	
+	public int getIsPublicJob() {
+		return this.isPublicJob;
+	}
+
+	public void setIsPublicJob(int isPublicJob) {
+		this.isPublicJob = isPublicJob;
+	}
+	
+	public int getIsPublicSkill() {
+		return this.isPublicSkill;
+	}
+
+	public void setIsPublicSkill(int isPublicSkill) {
+		this.isPublicSkill = isPublicSkill;
 	}
 
 }
