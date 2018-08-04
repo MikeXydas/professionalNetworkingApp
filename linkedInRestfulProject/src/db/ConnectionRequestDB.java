@@ -133,4 +133,22 @@ public class ConnectionRequestDB {
     	tx.commit();
     	em.close();
     }
+    
+    public List<ConnectionRequest> getPendingRequests(int receiverId) {
+        List<ConnectionRequest> connectionRequests = null;
+    	EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        Query q = em.createQuery("Select c from ConnectionRequest c where c.senderId = :senderId");
+        q.setParameter("senderId", receiverId);
+        
+        connectionRequests = q.getResultList();
+        tx.commit();
+        em.close();
+        
+        return connectionRequests;
+        
+        
+    }
 }

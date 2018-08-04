@@ -41,12 +41,13 @@ import model.AdvertismentBean;
 import model.AdvertismentPostBean;
 import model.ConnectionRequestBean;
 import model.ConnectionRequestPKBean;
+import model.PendingRequestBean;
 
 @Path("ConnectionRequest")
 public class ConnectionRequestEndpoint {
 
 	//Testing the send request (no checks)
-	/*@POST
+	@POST
 	@Path("/send")
 	public Response sendRequest(
 			@FormParam("idSend") int idSend,
@@ -87,9 +88,9 @@ public class ConnectionRequestEndpoint {
 			return Response.status(200).entity("Request already existed").build();
 		
 		
-	}*/
+	}
 	
-	@POST
+	/*@POST
 	@Path("/send")
 	@Consumes({"application/json"})
 	public Response sendRequest(final ConnectionRequestBean reqBean) {
@@ -129,7 +130,7 @@ public class ConnectionRequestEndpoint {
 			//Case that the request already exists
 			return Response.status(200).build();
 		}
-	}
+	}*/
 	
 	/*@POST
 	@Path("/accept")
@@ -175,7 +176,7 @@ public class ConnectionRequestEndpoint {
 
 	}*/
 	
-	
+	@POST
 	@Path("/accept")
 	@Consumes({"application/json"})
 	public Response acceptRequest(final ConnectionRequestBean reqBean) {
@@ -215,6 +216,52 @@ public class ConnectionRequestEndpoint {
 		
 		return Response.status(200).build();
 		
+	}
+	
+	//Example call: http://localhost:8080/linkedInRestfulProject/services/ConnectionRequest/pending/33
+		
+	//This test only returns the first names of the people that requested connection on the userId
+	/*@GET
+	@Path("/pending/{id:[0-9]*}")
+	public Response returnPendingRequests(
+			@PathParam("id") int id) {
+		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
+
+		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id);
+		if(requests.size() == 0) {
+			return Response.status(200).entity("No pending request").build();
+		}
+		else {
+			String retString = "";
+			for(int i = 0; i < requests.size(); i++) {
+				retString += " | " + requests.get(i).getUser().getFirstName();
+			}
+			return Response.status(200).entity(retString).build();
+		}
+	}*/
+	
+	@GET
+	@Path("/pending/{id:[0-9]*}")
+	@Produces({"application/json"})
+	public List<PendingRequestBean> returnPendingRequests(@PathParam("id") int id) {
+		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
+		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id);
+
+		List<PendingRequestBean> retList;
+		
+		for(int i = 0; i < requests.size(); i++) {
+			PendingRequestBean temp = new PendingRequestBean();
+			temp.setUserId(requests.get(i).getUser().getIdUser());
+			temp.setFirstName(requests.get(i).getUser().getFirstName());
+			temp.setLastName(requests.get(i).getUser().getLastName());
+			temp.setReqId(requests.get(i).getId().getIdConnectionRequest());
+			temp.setPhotoUrl(requests.get(i).getUser().getPhotoUrl());
+			temp.setSendTime(requests.get(i).getSendTime());
+			
+			retList.add(temp);
+		}
+		
+		return retList;
 	}
 
 }
