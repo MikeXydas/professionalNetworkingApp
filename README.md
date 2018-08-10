@@ -8,6 +8,7 @@ The project has many dependencies in order to be able to run correctly
 TO DO:
 	1) DONE Complete all the java beans (Not sure of the association lists) 
 	2) Create Endpoints (Care for their name in web.xml)
+	3) Add commnets and interests on the XML getting created
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 
