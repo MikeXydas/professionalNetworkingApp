@@ -1,10 +1,12 @@
 package model;
 
+import java.util.Date;
 import java.util.List;
 
 public class ConversationBean {
 	
 	private int idConversation;
+	private Date lastModified;
 	private List<MessageBean> messages;
 	private List<UserBean> users;
 	
@@ -13,6 +15,12 @@ public class ConversationBean {
 	}
 	public void setIdConversation(int idConversation) {
 		this.idConversation = idConversation;
+	}
+	public Date getLastModified() {
+		return lastModified;
+	}
+	public void setLastModified(Date lastModified) {
+		this.lastModified = lastModified;
 	}
 	public List<MessageBean> getMessages() {
 		return messages;

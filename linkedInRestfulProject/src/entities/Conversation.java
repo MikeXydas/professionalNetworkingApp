@@ -2,6 +2,8 @@ package entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import java.util.Date;
 import java.util.List;
 
 
@@ -19,6 +21,9 @@ public class Conversation implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int idConversation;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastModified;
+	
 	//bi-directional many-to-one association to Message
 	@OneToMany(mappedBy="conversation")
 	private List<Message> messages;
@@ -28,6 +33,14 @@ public class Conversation implements Serializable {
 	private List<User> users;
 
 	public Conversation() {
+	}
+
+	public Date getLastModified() {
+		return this.lastModified;
+	}
+
+	public void setLastModified(Date lastModified) {
+		this.lastModified = lastModified;
 	}
 
 	public int getIdConversation() {
