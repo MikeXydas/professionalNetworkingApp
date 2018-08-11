@@ -48,6 +48,8 @@ import db.SkillDB;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
+import model.ChangeEmailBean;
+import model.ChangePasswordBean;
 import model.ExportXMLBean;
 import model.LogInfoBean;
 import model.SkillListBean;
@@ -449,4 +451,42 @@ public class UserEndpoint {
 		
 		return user;
 	}
+	
+	/*@POST
+	@Path("/changePassword")
+	public Response search(
+			@FormParam("id") int id,
+			@FormParam("password") String password) {
+		
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.getById(id);
+		userd.setPassword(password);
+		userDao.mergeUser(userd);
+		return Response.status(200).entity("Changed password of user: " + userd.getFirstName()).build();
+	}*/
+	
+	@POST
+	@Consumes({"application/json"})
+	@Path("/changePassword")
+	public Response changePassword(ChangePasswordBean changePasswordBean) {
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.getById(changePasswordBean.getUserId());
+		userd.setPassword(changePasswordBean.getPassword());
+		userDao.mergeUser(userd);
+
+		return Response.status(200).build();
+	}
+	
+	@POST
+	@Consumes({"application/json"})
+	@Path("/changeEmail")
+	public Response changeEmail(ChangeEmailBean changeEmailBean) {
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.getById(changeEmailBean.getUserId());
+		userd.setEmail(changeEmailBean.getEmail());
+		userDao.mergeUser(userd);
+
+		return Response.status(200).build();
+	}
+
 }

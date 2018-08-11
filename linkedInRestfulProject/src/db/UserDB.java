@@ -218,6 +218,16 @@ public class UserDB {
         tx.commit();
         em.close();
         
-    } 
+    }
+    
+    public void updatePassword(String newPassword, User userd) {
+    	EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        userd.setPassword(newPassword);
+        
+        
+    }
     
 }
