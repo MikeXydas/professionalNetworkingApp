@@ -54,6 +54,54 @@ public class UserDB {
         
     }
     
+    public User findEmail(String email)
+    {
+        User user = null;
+        
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        Query q = em.createQuery("Select u from User u where u.email = :email");
+        q.setParameter("email", email);
+        List users =  q.getResultList();
+        tx.commit();
+        em.close();
+        
+        if (users != null && users.size() == 1)
+        {
+            user = (User) users.get(0);
+        }
+
+        return user;
+        
+    }
+    
+    public User findName(String firstName, String lastName)
+    {
+        User user = null;
+        
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        Query q = em.createQuery("Select u from User u where lower(u.firstName) like :firstName and lower(u.lastName) like :lastName");
+        q.setParameter("firstName", firstName);
+        q.setParameter("lastName", lastName);
+
+        List users =  q.getResultList();
+        tx.commit();
+        em.close();
+        
+        if (users != null && users.size() == 1)
+        {
+            user = (User) users.get(0);
+        }
+
+        return user;
+        
+    }
+    
     public int insertUser(User user)
     {
     	//TODO: Check if email exists and return suitable message

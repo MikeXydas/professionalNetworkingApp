@@ -51,6 +51,7 @@ import model.UserBean;
 import model.ExportXMLBean;
 import model.LogInfoBean;
 import model.SkillListBean;
+import model.SearchBean;
 import utilities.XmlCreator;
 
 @Path("/User")
@@ -74,7 +75,7 @@ public class UserEndpoint {
 
 		entities.User userd;
 		//Checking if user already exists
-		userd = userDao.find(user.getEmail(), user.getPassword());
+		userd = userDao.findEmail(user.getEmail());
 		if(userd != null)
 			return Response.status(Response.Status.UNAUTHORIZED).build();
 		
@@ -145,6 +146,7 @@ public class UserEndpoint {
 				  .compact();
 		return jws;
     }
+	
 	
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
@@ -395,4 +397,56 @@ public class UserEndpoint {
                 .build();
 	}
 	
+	/*@GET
+	@Path("/search")
+	public Response search(
+			@FormParam("firstName") String firstName,
+			@FormParam("lastName") String lastName) {
+		
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.findName(firstName, lastName);
+		
+		if(userd == null)
+			return Response.status(200).entity("User does not exist").build();
+		else
+			return Response.status(200).entity("You searched: " + userd.getEmail()).build();
+		
+	}*/
+	
+	@GET
+	@Consumes({"application/json"})
+	@Produces({"application/json"})
+	@Path("/search")
+	public Response search(SearchBean searchBean) {
+		
+		UserDB userDao = new UserDB();
+		entities.User userd = userDao.findName(searchBean.getFirstName(), searchBean.getLastName());
+		
+		return Response.ok(createUserBeanFromEntity(userd)).build();
+	}
+	
+	private static UserBean createUserBeanFromEntity(entities.User userd) {
+		
+		UserBean user = new UserBean();
+		if (userd != null) {
+			user.setIdUser(userd.getIdUser());
+			user.setLastName(userd.getLastName());
+			user.setFirstName(userd.getFirstName());
+			user.setPassword(userd.getPassword());
+			user.setEmail(userd.getEmail());
+			user.setIsModerator(userd.getIsModerator());
+			user.setPhoneNumber(userd.getPhoneNumber());
+			user.setPhotoUrl(userd.getPhotoUrl());
+			user.setEducationText(userd.getEducationText());
+			user.setJobExperienceText(userd.getJobExperienceText());
+			user.setIsPublicEducation(userd.getIsPublicEducation());
+			user.setIsPublicJob(userd.getIsPublicJob());
+			user.setIsPublicSkill(userd.getIsPublicSkill());
+		}
+		else {
+			user.setIdUser(-1);
+		}
+		
+		return user;
+	}
 }
