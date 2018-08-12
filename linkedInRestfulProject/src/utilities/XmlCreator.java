@@ -15,6 +15,8 @@ public class XmlCreator {
 		user.appendChild(getUserElements(doc, user, "lastName", userd.getLastName()));
 		user.appendChild(getUserElements(doc, user, "email", userd.getEmail()));
 		user.appendChild(getUserElements(doc, user, "phoneNumber", userd.getPhoneNumber()));
+		user.appendChild(getUserElements(doc, user, "photoUrl", userd.getPhotoUrl()));
+
 		if(userd.getEducationText() != null)
 			user.appendChild(getUserElements(doc, user, "educationText", userd.getEducationText()));
 		else

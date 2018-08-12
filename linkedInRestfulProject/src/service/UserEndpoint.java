@@ -34,6 +34,8 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -56,9 +58,15 @@ import model.SkillListBean;
 import model.SearchBean;
 import utilities.XmlCreator;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
+
 @Path("/User")
 public class UserEndpoint {
 	
+	private String FILE_SYSTEM = "/home/mike/Desktop/linkedInFileSystem";
+			
 	@GET
 	@Path("query")
 	public Response getUser(@Context UriInfo info) {
@@ -88,12 +96,27 @@ public class UserEndpoint {
 		userd.setFirstName(user.getFirstName());
 		userd.setLastName(user.getLastName());
 		userd.setPhoneNumber(user.getPhoneNumber());
-		userd.setPhotoUrl(user.getPhotoUrl());
+		//userd.setPhotoUrl(user.getPhotoUrl());
+		
 		userd.setIsPublicEducation(0);
 		userd.setIsPublicJob(0);
 		userd.setIsPublicSkill(0);
 		
 		int id = userDao.insertUser(userd);
+		
+		String fileName = "userPic" + id;
+		String imagePath = FILE_SYSTEM + "/userPics/" + fileName;
+		if(user.getPhotoUrl() != null) {		
+			try {
+				FileUtils.writeByteArrayToFile((new File(imagePath)), user.getPhotoUrl());
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		userd.setPhotoUrl(imagePath);
+		userDao.mergeUser(userd);
+		
 		return Response.created(
 				UriBuilder.fromResource(UserEndpoint.class)
 				.path(String.valueOf(id)).build()).build();
@@ -153,7 +176,7 @@ public class UserEndpoint {
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
 	@Produces({"application/json"})
-	public Response findById(@PathParam("id") final Integer id) {
+	public Response findById(@PathParam("id") final Integer id) throws IOException {
 		UserDB userDao = new UserDB();
 		entities.User userd = userDao.getById(id);
 		UserBean user = null;
@@ -166,12 +189,24 @@ public class UserEndpoint {
 			user.setEmail(userd.getEmail());
 			user.setIsModerator(userd.getIsModerator());
 			user.setPhoneNumber(userd.getPhoneNumber());
-			user.setPhotoUrl(userd.getPhotoUrl());
+			//user.setPhotoUrl(userd.getPhotoUrl());
 			user.setEducationText(userd.getEducationText());
 			user.setJobExperienceText(userd.getJobExperienceText());
 			user.setIsPublicEducation(userd.getIsPublicEducation());
 			user.setIsPublicJob(userd.getIsPublicJob());
 			user.setIsPublicSkill(userd.getIsPublicSkill());
+			
+			if(userd.getPhotoUrl() != null) {
+				InputStream in = new FileInputStream(new File(userd.getPhotoUrl()));
+				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+				StringBuilder out = new StringBuilder();
+				String line;
+				while ((line = reader.readLine()) != null) {
+					out.append(line);
+				}
+				user.setFinalPhotoUrl(out.toString());
+				reader.close();
+			}
 		}
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();
@@ -179,31 +214,7 @@ public class UserEndpoint {
 		return Response.ok(user).build();
 	}
 	
-	/*@POST
-	@Path("/update")
-	@Consumes({"application/json"})
-	public Response updateUser(UserBean user) {
-		
-		entities.User userd = new entities.User();
-		
-		userd.setIdUser(user.getIdUser());
-		userd.setLastName(user.getLastName());
-		userd.setFirstName(user.getFirstName());
-		userd.setPassword(user.getPassword());
-		userd.setEmail(user.getEmail());
-		userd.setPhoneNumber(user.getPhoneNumber());
-		userd.setPhotoUrl(user.getPhotoUrl());
-		userd.setEducationText(user.getEducationText());
-		userd.setJobExperienceText(user.getJobExperienceText());
-		userd.setIsPublicEducation(user.getIsPublicEducation());
-		userd.setIsPublicJob(user.getIsPublicJob());
-		userd.setIsPublicSkill(user.getIsPublicSkill());
-		UserDB userDao = new UserDB();
-		userDao.updateUser(userd);
-		
-		return Response.ok().build();
-		
-	}*/
+	
 	
 	@GET
 	@Path("/skill")
@@ -218,7 +229,7 @@ public class UserEndpoint {
 	}
 	
 	//Testing update
-	@POST
+	/*@POST
 	@Path("/update")
 	public Response updateUser(
 			@FormParam("id") int id,
@@ -253,6 +264,46 @@ public class UserEndpoint {
 		
 		return Response.status(200).entity("Succesfully updated user: " + id).build();
 
+	}*/
+	
+	@POST
+	@Path("/update")
+	@Consumes({"application/json"})
+	public Response updateUser(UserBean user) {
+		
+		entities.User userd = new entities.User();
+		
+		userd.setIdUser(user.getIdUser());
+		userd.setLastName(user.getLastName());
+		userd.setFirstName(user.getFirstName());
+		userd.setPassword(user.getPassword());
+		userd.setEmail(user.getEmail());
+		userd.setPhoneNumber(user.getPhoneNumber());
+		//userd.setPhotoUrl(user.getPhotoUrl());
+		
+		if(user.getPhotoUrl() != null) {
+			String fileName = "userPic" + user.getIdUser();
+			String imagePath = FILE_SYSTEM + "/userPics/" + fileName;
+			if(user.getPhotoUrl() != null) {		
+				try {
+					FileUtils.writeByteArrayToFile((new File(imagePath)), user.getPhotoUrl());
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			userd.setPhotoUrl(imagePath);
+		}
+		userd.setEducationText(user.getEducationText());
+		userd.setJobExperienceText(user.getJobExperienceText());
+		userd.setIsPublicEducation(user.getIsPublicEducation());
+		userd.setIsPublicJob(user.getIsPublicJob());
+		userd.setIsPublicSkill(user.getIsPublicSkill());
+		UserDB userDao = new UserDB();
+		userDao.updateUser(userd);
+		
+		return Response.ok().build();
+		
 	}
 	
 	//Testing insertion of one skill
@@ -438,7 +489,7 @@ public class UserEndpoint {
 			user.setEmail(userd.getEmail());
 			user.setIsModerator(userd.getIsModerator());
 			user.setPhoneNumber(userd.getPhoneNumber());
-			user.setPhotoUrl(userd.getPhotoUrl());
+			//user.setPhotoUrl(userd.getPhotoUrl());
 			user.setEducationText(userd.getEducationText());
 			user.setJobExperienceText(userd.getJobExperienceText());
 			user.setIsPublicEducation(userd.getIsPublicEducation());
@@ -488,5 +539,55 @@ public class UserEndpoint {
 
 		return Response.status(200).build();
 	}
-
+	
+	
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path("/upload")
+	public Response uploadFile(
+			@FormDataParam("file") InputStream uploadedInputStream,
+			@FormDataParam("file") FormDataContentDisposition fileDetail) {
+		// check if all form parameters are provided
+		if (uploadedInputStream == null )
+			return Response.status(400).entity("Invalid form data").build();
+		// create our destination folder, if it not exists
+		try {
+			createFolderIfNotExists("/home/mike/Desktop/linkedInFileSystem/userPics");
+		} catch (SecurityException se) {
+			return Response.status(500)
+					.entity("Can not create destination folder on server")
+					.build();
+		}
+		//String uploadedFileLocation = UPLOAD_FOLDER + fileDetail.getFileName();
+		String fileName = "userPic" + 10 + ".jpeg";
+		String imagePath = "/home/mike/Desktop/linkedInFileSystem" + "/userPics/" + fileName;
+		try {
+			saveToFile(uploadedInputStream, imagePath);
+		} catch (IOException e) {
+			return Response.status(500).entity("Can not save file").build();
+		}
+		return Response.status(200)
+				.entity("File saved to " + imagePath).build();
+	}
+	
+	private void saveToFile(InputStream inStream, String target)
+			throws IOException {
+		OutputStream out = null;
+		int read = 0;
+		byte[] bytes = new byte[1024];
+		out = new FileOutputStream(new File(target));
+		while ((read = inStream.read(bytes)) != -1) {
+			out.write(bytes, 0, read);
+		}
+		out.flush();
+		out.close();
+	}
+	
+	private void createFolderIfNotExists(String dirName)
+			throws SecurityException {
+		File theDir = new File(dirName);
+		if (!theDir.exists()) {
+			theDir.mkdir();
+		}
+	}
 }
