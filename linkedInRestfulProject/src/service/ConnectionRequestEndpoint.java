@@ -1,5 +1,6 @@
 package service;
 
+import java.io.IOException;
 import java.security.Key;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import db.ConnectionDB;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
+import utilities.FileManipulation;
 import model.LogInfoBean;
 import model.SkillListBean;
 import model.AdvertismentBean;
@@ -243,8 +245,10 @@ public class ConnectionRequestEndpoint {
 	@GET
 	@Path("/pending/{id:[0-9]*}")
 	@Produces({"application/json"})
-	public List<PendingRequestBean> returnPendingRequests(@PathParam("id") int id) {
+	public List<PendingRequestBean> returnPendingRequests(@PathParam("id") int id) throws IOException {
 		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
+		FileManipulation photoManip = new FileManipulation();
+
 		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id);
 
 		List<PendingRequestBean> retList = new ArrayList<PendingRequestBean>() ;
@@ -255,8 +259,12 @@ public class ConnectionRequestEndpoint {
 			temp.setFirstName(requests.get(i).getUser().getFirstName());
 			temp.setLastName(requests.get(i).getUser().getLastName());
 			temp.setReqId(requests.get(i).getId().getIdConnectionRequest());
-			temp.setPhotoUrl(requests.get(i).getUser().getPhotoUrl());
+			//temp.setPhotoUrl(requests.get(i).getUser().getPhotoUrl());
 			temp.setSendTime(requests.get(i).getSendTime());
+			
+			if(requests.get(i).getUser().getPhotoUrl() != null) {
+				temp.setPhotoString64(photoManip.SendFile(requests.get(i).getUser().getPhotoUrl()));
+			}
 			
 			retList.add(temp);
 		}

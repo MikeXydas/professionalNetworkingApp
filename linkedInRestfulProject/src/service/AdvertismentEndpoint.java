@@ -128,6 +128,7 @@ public class AdvertismentEndpoint {
 		return Response.status(200).build();
 	}
 	
+
 	/*@POST
 	@Path("/apply")
 	public Response postAd(

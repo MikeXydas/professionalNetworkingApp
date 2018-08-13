@@ -23,6 +23,8 @@ public class ArticleBean {
 	private String videoUrl;
 	private String videoString64;;
 	
+	private int userId;
+	
 	private UserBean user;
 	private List<CommentBean> comments;
 	private List<InterestBean> interests;
@@ -107,6 +109,12 @@ public class ArticleBean {
 		this.uploadTime = uploadTime;
 	}
 
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public UserBean getUser() {
 		return user;
 	}

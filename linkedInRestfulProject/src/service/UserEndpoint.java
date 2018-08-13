@@ -544,7 +544,7 @@ public class UserEndpoint {
 	}
 	
 	
-	@POST
+	/*@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/upload")
 	public Response uploadFile(
@@ -592,5 +592,5 @@ public class UserEndpoint {
 		if (!theDir.exists()) {
 			theDir.mkdir();
 		}
-	}
+	}*/
 }
