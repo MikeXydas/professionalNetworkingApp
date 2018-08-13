@@ -247,7 +247,7 @@ public class ConnectionRequestEndpoint {
 		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
 		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id);
 
-		List<PendingRequestBean> retList = null;
+		List<PendingRequestBean> retList = new ArrayList<PendingRequestBean>() ;
 		
 		for(int i = 0; i < requests.size(); i++) {
 			PendingRequestBean temp = new PendingRequestBean();

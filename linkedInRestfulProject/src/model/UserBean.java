@@ -13,9 +13,9 @@ public class UserBean {
 	private String lastName;
 	private String password;
 	private String phoneNumber;
-	private byte[] photoUrl;
-	private String photoUrlString;
-	private String finalPhotoUrl;
+	private byte[] photoBytes;
+	private String photoUrl;
+	private String photoString64;
 	private int isPublicEducation;
 	private int isPublicJob;
 	private int isPublicSkill;
@@ -98,23 +98,24 @@ public class UserBean {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public byte[] getPhotoUrl() {
+	
+	public byte[] getPhotoBytes() {
+		return photoBytes;
+	}
+	public void setPhotoBytes(byte[] photoBytes) {
+		this.photoBytes = photoBytes;
+	}
+	public String getPhotoUrl() {
 		return photoUrl;
 	}
-	public void setPhotoUrl(byte[] photoUrl) {
+	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
-	public String getPhotoUrlString() {
-		return photoUrlString;
+	public String getPhotoString64() {
+		return photoString64;
 	}
-	public void setPhotoUrlString(String photoUrlString) {
-		this.photoUrlString = photoUrlString;
-	}
-	public String getFinalPhotoUrl() {
-		return finalPhotoUrl;
-	}
-	public void setFinalPhotoUrl(String finalPhotoUrl) {
-		this.finalPhotoUrl = finalPhotoUrl;
+	public void setPhotoString64(String photoString64) {
+		this.photoString64 = photoString64;
 	}
 	public List<AdvertismentBean> getAdvertisments() {
 		return advertisments;

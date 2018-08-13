@@ -8,20 +8,20 @@ public class ArticleBean {
 	private ArticlePKBean id;
 	private String contentText;
 	
-	private String photoUrl;
 	private byte[] photoBytes;
-	private String finalPhotoUrl;
+	private String photoUrl;
+	private String photoString64;
 	
-	private String soundUrl;
 	private byte[] soundBytes;
-	private String finalSoundUrl;
+	private String soundUrl;
+	private String soundString64;
 	
 	private String title;
 	private Date uploadTime;
 	
-	private String videoUrl;
 	private byte[] videoBytes;
-	private String finalVideoUrl;
+	private String videoUrl;
+	private String videoString64;;
 	
 	private UserBean user;
 	private List<CommentBean> comments;
@@ -39,17 +39,60 @@ public class ArticleBean {
 	public void setContentText(String contentText) {
 		this.contentText = contentText;
 	}
+
+	public byte[] getPhotoBytes() {
+		return photoBytes;
+	}
+	public void setPhotoBytes(byte[] photoBytes) {
+		this.photoBytes = photoBytes;
+	}
 	public String getPhotoUrl() {
 		return photoUrl;
 	}
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
+	public String getPhotoString64() {
+		return photoString64;
+	}
+	public void setPhotoString64(String photoString64) {
+		this.photoString64 = photoString64;
+	}
+	public byte[] getSoundBytes() {
+		return soundBytes;
+	}
+	public void setSoundBytes(byte[] soundBytes) {
+		this.soundBytes = soundBytes;
+	}
 	public String getSoundUrl() {
 		return soundUrl;
 	}
 	public void setSoundUrl(String soundUrl) {
 		this.soundUrl = soundUrl;
+	}
+	public String getSoundString64() {
+		return soundString64;
+	}
+	public void setSoundString64(String soundString64) {
+		this.soundString64 = soundString64;
+	}
+	public byte[] getVideoBytes() {
+		return videoBytes;
+	}
+	public void setVideoBytes(byte[] videoBytes) {
+		this.videoBytes = videoBytes;
+	}
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
+	}
+	public String getVideoString64() {
+		return videoString64;
+	}
+	public void setVideoString64(String videoString64) {
+		this.videoString64 = videoString64;
 	}
 	public String getTitle() {
 		return title;
@@ -63,48 +106,7 @@ public class ArticleBean {
 	public void setUploadTime(Date uploadTime) {
 		this.uploadTime = uploadTime;
 	}
-	public String getVideoUrl() {
-		return videoUrl;
-	}
-	public void setVideoUrl(String videoUrl) {
-		this.videoUrl = videoUrl;
-	}
-	public byte[] getPhotoBytes() {
-		return photoBytes;
-	}
-	public void setPhotoBytes(byte[] photoBytes) {
-		this.photoBytes = photoBytes;
-	}
-	public String getFinalPhotoUrl() {
-		return finalPhotoUrl;
-	}
-	public void setFinalPhotoUrl(String finalPhotoUrl) {
-		this.finalPhotoUrl = finalPhotoUrl;
-	}
-	public byte[] getSoundBytes() {
-		return soundBytes;
-	}
-	public void setSoundBytes(byte[] soundBytes) {
-		this.soundBytes = soundBytes;
-	}
-	public String getFinalSoundUrl() {
-		return finalSoundUrl;
-	}
-	public void setFinalSoundUrl(String finalSoundUrl) {
-		this.finalSoundUrl = finalSoundUrl;
-	}
-	public byte[] getVideoBytes() {
-		return videoBytes;
-	}
-	public void setVideoBytes(byte[] videoBytes) {
-		this.videoBytes = videoBytes;
-	}
-	public String getFinalVideoUrl() {
-		return finalVideoUrl;
-	}
-	public void setFinalVideoUrl(String finalVideoUrl) {
-		this.finalVideoUrl = finalVideoUrl;
-	}
+
 	public UserBean getUser() {
 		return user;
 	}

@@ -57,6 +57,7 @@ import model.LogInfoBean;
 import model.SkillListBean;
 import model.SearchBean;
 import utilities.XmlCreator;
+import utilities.FileManipulation;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -82,6 +83,7 @@ public class UserEndpoint {
 	@Consumes({ "application/json" })
 	public Response addUser(final UserBean user) {
 		UserDB userDao = new UserDB();
+		FileManipulation photoManip = new FileManipulation();
 
 		entities.User userd;
 		//Checking if user already exists
@@ -106,7 +108,7 @@ public class UserEndpoint {
 		
 		String fileName = "userPic" + id;
 		String imagePath = FILE_SYSTEM + "/userPics/" + fileName;
-		if(user.getPhotoUrl() != null) {		
+		/*if(user.getPhotoUrl() != null) {		
 			try {
 				FileUtils.writeByteArrayToFile((new File(imagePath)), user.getPhotoUrl());
 			}
@@ -114,7 +116,12 @@ public class UserEndpoint {
 				e.printStackTrace();
 			}
 		}
-		userd.setPhotoUrl(imagePath);
+		
+		userd.setPhotoUrl(imagePath);*/
+		
+		if(user.getPhotoBytes() != null) {
+			userd.setPhotoUrl(photoManip.ReceiveFile(imagePath, user.getPhotoBytes()));
+		}
 		userDao.mergeUser(userd);
 		
 		return Response.created(
@@ -179,6 +186,7 @@ public class UserEndpoint {
 	public Response findById(@PathParam("id") final Integer id) throws IOException {
 		UserDB userDao = new UserDB();
 		entities.User userd = userDao.getById(id);
+		FileManipulation photoManip = new FileManipulation();
 		UserBean user = null;
 		if (userd != null) {
 			user = new UserBean();
@@ -195,17 +203,8 @@ public class UserEndpoint {
 			user.setIsPublicEducation(userd.getIsPublicEducation());
 			user.setIsPublicJob(userd.getIsPublicJob());
 			user.setIsPublicSkill(userd.getIsPublicSkill());
-			
 			if(userd.getPhotoUrl() != null) {
-				InputStream in = new FileInputStream(new File(userd.getPhotoUrl()));
-				BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-				StringBuilder out = new StringBuilder();
-				String line;
-				while ((line = reader.readLine()) != null) {
-					out.append(line);
-				}
-				user.setFinalPhotoUrl(out.toString());
-				reader.close();
+				user.setPhotoString64(photoManip.SendFile(userd.getPhotoUrl()));
 			}
 		}
 		if (user == null) {
@@ -272,7 +271,8 @@ public class UserEndpoint {
 	public Response updateUser(UserBean user) {
 		
 		entities.User userd = new entities.User();
-		
+		FileManipulation photoManip = new FileManipulation();
+
 		userd.setIdUser(user.getIdUser());
 		userd.setLastName(user.getLastName());
 		userd.setFirstName(user.getFirstName());
@@ -281,17 +281,20 @@ public class UserEndpoint {
 		userd.setPhoneNumber(user.getPhoneNumber());
 		//userd.setPhotoUrl(user.getPhotoUrl());
 		
-		if(user.getPhotoUrl() != null) {
+		
+		if(user.getPhotoBytes() != null) {
 			String fileName = "userPic" + user.getIdUser();
 			String imagePath = FILE_SYSTEM + "/userPics/" + fileName;
-			if(user.getPhotoUrl() != null) {		
+			
+			userd.setPhotoUrl(photoManip.ReceiveFile(imagePath, user.getPhotoBytes()));
+			/*if(user.getPhotoUrl() != null) {		
 				try {
 					FileUtils.writeByteArrayToFile((new File(imagePath)), user.getPhotoUrl());
 				}
 				catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
+			}*/
 			userd.setPhotoUrl(imagePath);
 		}
 		userd.setEducationText(user.getEducationText());

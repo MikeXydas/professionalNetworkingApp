@@ -8,7 +8,9 @@ public class PendingRequestBean {
 		private int reqId;
 		private String firstName;
 		private String lastName;
+		private byte[] photoBytes;
 		private String photoUrl;
+		private String photoString64;
 		private Date sendTime;
 		
 		public int getReqId() {
@@ -35,11 +37,24 @@ public class PendingRequestBean {
 		public void setLastName(String lastName) {
 			this.lastName = lastName;
 		}
+		
+		public byte[] getPhotoBytes() {
+			return photoBytes;
+		}
+		public void setPhotoBytes(byte[] photoBytes) {
+			this.photoBytes = photoBytes;
+		}
 		public String getPhotoUrl() {
 			return photoUrl;
 		}
 		public void setPhotoUrl(String photoUrl) {
 			this.photoUrl = photoUrl;
+		}
+		public String getPhotoString64() {
+			return photoString64;
+		}
+		public void setPhotoString64(String photoString64) {
+			this.photoString64 = photoString64;
 		}
 		public Date getSendTime() {
 			return sendTime;
