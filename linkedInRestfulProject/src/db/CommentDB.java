@@ -29,6 +29,23 @@ public class CommentDB {
         return comments;
     }
     
+	@SuppressWarnings("unchecked")
+	public List<Comment> commentsOfUser(int id) {
+		
+		List<Comment> comments = null;
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        Query q = em.createQuery("Select c from Comment c where c.commenterId = :id");
+        q.setParameter("id", id);
+        
+        comments = q.getResultList();
+        
+        tx.commit();
+        em.close();
+        return comments;
+    }
     //Returns the ad specified by the id only
     /*public Comment find(int id)
     {
@@ -120,5 +137,7 @@ public class CommentDB {
         
         return comment;
     }
+    
+    
 
 }

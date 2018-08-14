@@ -7,6 +7,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import entities.Comment;
 import entities.Interest;
 import entities.InterestPK;
 
@@ -29,6 +30,24 @@ public class InterestDB {
         return interests;
     }
     
+	@SuppressWarnings("unchecked")
+	public List<Interest> interestsOfUser(int id) {
+		
+		List<Interest> interests = null;
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        Query q = em.createQuery("Select i from Interest i where i.interesterId = :id");
+        q.setParameter("id", id);
+        
+        interests = q.getResultList();
+        
+        tx.commit();
+        em.close();
+        return interests;
+    }
+	
     //Returns the ad specified by the id only
     /*public Interest find(int id)
     {
