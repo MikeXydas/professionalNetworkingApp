@@ -45,19 +45,27 @@ import annotations.Secured;
 import javax.ws.rs.core.UriBuilder;
 
 import db.UserDB;
+import entities.Article;
 import db.SkillDB;
 import db.ArticleDB;
+import db.InterestDB;
+import db.CommentDB;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
 import model.ChangeEmailBean;
 import model.ChangePasswordBean;
+import model.CommentBean;
 import model.ExportXMLBean;
+import model.InterestBean;
 import model.LogInfoBean;
+import model.PendingRequestBean;
 import model.SkillListBean;
 import model.SearchBean;
 import model.ArticleBean;
+import model.ShowInterestBean;
+import model.PostCommentBean;
 import utilities.XmlCreator;
 import utilities.FileManipulation;
 
@@ -68,7 +76,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 public class ArticleEndpoint {
 	private String FILE_SYSTEM = "/home/mike/Desktop/linkedInFileSystem";
 
-	@POST
+	/*@POST
 	@Path("/post")
 	public Response uploadArticle(
 			@FormParam("id") int id,
@@ -93,7 +101,7 @@ public class ArticleEndpoint {
 		
 		return Response.status(200).entity("Succesfully posted article").build();
 
-	}
+	}*/
 	
 	@POST
 	@Path("/post")
@@ -142,14 +150,167 @@ public class ArticleEndpoint {
 		return Response.status(200).build();
 	}
 	
-	@GET
-	@Path("/show")
+	/*@POST
+	@Path("/interest")
 	public Response uploadArticle(
+			@FormParam("articleId") int articleId,
+			@FormParam("interesterId") int interesterId) {
+		ArticleDB articleDao = new ArticleDB();
+		//UserDB userDao = new UserDB();
+		InterestDB interestDao = new InterestDB();
+		
+		
+		entities.Article articled = articleDao.getByArticleId(articleId);
+		//entities.User userd = userDao.getById(articled.getUser().getIdUser());
+		entities.Interest interestd = new entities.Interest();
+		entities.InterestPK interestPK = new entities.InterestPK();
+		interestd.setId(interestPK);
+		
+		interestd.setArticle(articled);
+		Date date = new Date();
+		interestd.setInterestTime(date);
+		interestd.setInteresterId(interesterId);
+		
+		interestDao.insertInterest(interestd);
+		
+		return Response.status(200).entity("Succesfully showed interest on article: " + articled.getTitle()).build();
+	}*/
+	
+	@POST
+	@Path("/showInterest")
+	@Consumes({"application/json"})
+	public Response showInterest(final ShowInterestBean intBean) {
+		ArticleDB articleDao = new ArticleDB();
+		InterestDB interestDao = new InterestDB();
+		entities.Article articled = articleDao.getByArticleId(intBean.getArticleId());
+		entities.Interest interestd = new entities.Interest();
+		entities.InterestPK interestPK = new entities.InterestPK();
+		interestd.setId(interestPK);
+		
+		interestd.setArticle(articled);
+		Date date = new Date();
+		interestd.setInterestTime(date);
+		interestd.setInteresterId(intBean.getInteresterId());
+		
+		interestDao.insertInterest(interestd);
+		
+		return Response.status(200).build();
+	}
+	
+	@POST
+	@Path("/postCommnet")
+	@Consumes({"application/json"})
+	public Response showInterest(final PostCommentBean commBean) {
+		ArticleDB articleDao = new ArticleDB();
+		CommentDB commentDao = new CommentDB();
+		entities.Article articled = articleDao.getByArticleId(commBean.getArticleId());
+		entities.Comment commentd = new entities.Comment();
+		entities.CommentPK commentPK = new entities.CommentPK();
+		commentd.setId(commentPK);
+		
+		commentd.setArticle(articled);
+		commentd.setCommenterId(commBean.getCommenterId());
+		Date date = new Date();
+		commentd.setUploadTime(date);
+		commentd.setContentText(commBean.getText());
+		
+		commentDao.insertComment(commentd);
+		
+		return Response.status(200).build();
+	}
+	
+	@GET
+	@Path("/showArticles/{id:[0-9]*}")
+	@Produces({"application/json"})
+	public List<ArticleBean> returnHomepageArticles(@PathParam("id") int id) throws IOException {
+		ArticleDB articleDao = new ArticleDB();
+		List<Article> articles = null;
+		articles = articleDao.getConnectedArticles(id);
+		
+		List<ArticleBean> articleBeans = new ArrayList<ArticleBean>();
+		
+		for(int i = 0; i < articles.size(); i++) {
+			articleBeans.add(createArticleBean(articles.get(i)));
+		}
+		
+		return articleBeans;
+	}
+	
+	@GET
+	@Path("/showArticles")
+	public Response showHomepageArticles(
 			@FormParam("id") int id) {
 		ArticleDB articleDao = new ArticleDB();
-		entities.Article articled = articleDao.getByArticleId(id);
+		//entities.Article articled = articleDao.getByArticleId(id);
+		List<Article> articles = null;
+		articles = articleDao.getConnectedArticles(id);
 		
-		return Response.status(200).entity("Title: " + articled.getTitle()).build();
+		
+		return Response.status(200).entity("Numb of articles found: " + articles.size()).build();
+	}
+	
+	//Creates an articleBean from an article entity
+	private ArticleBean createArticleBean(entities.Article articled) throws IOException {
+		ArticleBean artBean = new ArticleBean();
+		UserBean user = new UserBean();
+		FileManipulation fileManip= new FileManipulation();
+		List<CommentBean> comments = new ArrayList<CommentBean>();
+		List<InterestBean> interests = new ArrayList<InterestBean>();
+		
+		//Setting user bean
+		//artBean.setIdArticle(articled.getId().getIdArticle());
+		user.setFirstName(articled.getUser().getFirstName());
+		user.setLastName(articled.getUser().getLastName());
+		artBean.setUser(user);
+		
+		//Setting comments list
+		List<entities.Comment> commentsd = articled.getComments();
+		for(int i = 0; i < commentsd.size(); i++) {
+			CommentBean temp = new CommentBean();
+			temp.setArticleId(articled.getId().getIdArticle());
+			temp.setCommentId(articled.getComments().get(i).getId().getIdComment());
+			temp.setCommenterId(articled.getComments().get(i).getCommenterId());
+			temp.setContentText(articled.getComments().get(i).getContentText());
+			temp.setUploadTime(articled.getComments().get(i).getUploadTime());
+			
+			comments.add(temp);
+		}
+		artBean.setComments(comments);
+		
+		//Setting interests list
+		List<entities.Interest> interestsd = articled.getInterests();
+		for(int i = 0; i < interestsd.size(); i++) {
+			InterestBean temp = new InterestBean();
+			temp.setArticleId(articled.getId().getIdArticle());
+			temp.setInteresterId(articled.getInterests().get(i).getId().getIdInterest());
+			temp.setInteresterId(articled.getInterests().get(i).getInteresterId());
+			temp.setInterestTime(articled.getInterests().get(i).getInterestTime());
+			
+			interests.add(temp);
+		}
+		artBean.setInterests(interests);
+		
+		//Setting article contents
+		artBean.setIdArticle(articled.getId().getIdArticle());
+		artBean.setTitle(articled.getTitle());
+		artBean.setUploadTime(articled.getUploadTime());
+		if(articled.getContentText() != null) {
+			artBean.setContentText(articled.getContentText());
+		}
+		
+		if(articled.getPhotoUrl() != null) {
+			artBean.setPhotoString64(fileManip.SendFile(articled.getPhotoUrl()));
+		}
+		
+		if(articled.getSoundUrl() != null) {
+			artBean.setSoundString64(fileManip.SendFile(articled.getSoundUrl()));
+		}
+		
+		if(articled.getVideoUrl() != null) {
+			artBean.setVideoString64(fileManip.SendFile(articled.getVideoUrl()));
+		}
+		
+		return artBean;
 	}
 	
 }

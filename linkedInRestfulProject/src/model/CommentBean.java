@@ -4,17 +4,24 @@ import java.util.Date;
 
 public class CommentBean {
 
-	private CommentPKBean id;
+	private int commentId;
+	private int articleId;
 	private String contentText;
 	private Date uploadTime;
 	private int commenterId;
 	private ArticleBean article;
 	
-	public CommentPKBean getId() {
-		return id;
+	public int getCommentId() {
+		return commentId;
 	}
-	public void setId(CommentPKBean id) {
-		this.id = id;
+	public void setCommentId(int commentId) {
+		this.commentId = commentId;
+	}
+	public int getArticleId() {
+		return articleId;
+	}
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
 	}
 	public String getContentText() {
 		return contentText;

@@ -1,0 +1,1 @@
+SELECT * FROM Article a WHERE a.User_idUser in (SELECT c.connectedUserId FROM Connection c where c.User_idUser = 42) or a.User_idUser = 42

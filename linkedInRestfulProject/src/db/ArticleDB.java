@@ -143,4 +143,24 @@ public class ArticleDB {
 
         return article;
     }
+    
+    @SuppressWarnings("unchecked")
+	public List<Article> getConnectedArticles(int userId) {
+    	List<Article> articles = null;
+    	
+    	EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        //Will return userId's and connected with userId articles 
+        Query q = em.createQuery("SELECT a FROM Article a WHERE a.id.user_idUser in (SELECT c.connectedUserId FROM Connection c where c.id.user_idUser = :userId) or a.id.user_idUser = :userId");
+
+        q.setParameter("userId", userId);
+        
+        articles = q.getResultList();
+        tx.commit();
+        em.close();
+        
+        return articles;
+    }
 }

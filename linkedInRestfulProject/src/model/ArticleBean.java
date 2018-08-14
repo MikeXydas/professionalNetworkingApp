@@ -5,7 +5,8 @@ import java.util.List;
 
 public class ArticleBean {
 	
-	private ArticlePKBean id;
+	private int idArticle;
+	private int user_idUser;
 	private String contentText;
 	
 	private byte[] photoBytes;
@@ -29,11 +30,17 @@ public class ArticleBean {
 	private List<CommentBean> comments;
 	private List<InterestBean> interests;
 	
-	public ArticlePKBean getId() {
-		return id;
+	public int getIdArticle() {
+		return idArticle;
 	}
-	public void setId(ArticlePKBean id) {
-		this.id = id;
+	public void setIdArticle(int idArticle) {
+		this.idArticle = idArticle;
+	}
+	public int getUser_idUser() {
+		return user_idUser;
+	}
+	public void setUser_idUser(int user_idUser) {
+		this.user_idUser = user_idUser;
 	}
 	public String getContentText() {
 		return contentText;

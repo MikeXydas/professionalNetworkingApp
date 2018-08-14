@@ -4,16 +4,23 @@ import java.util.Date;
 
 public class InterestBean {
 	
-	private InterestPKBean id;
+	private int interestId;
+	private int articleId;
 	private Date interestTime;
 	private int interesterId;
 	private ArticleBean article;
 	
-	public InterestPKBean getId() {
-		return id;
+	public int getInterestId() {
+		return interestId;
 	}
-	public void setId(InterestPKBean id) {
-		this.id = id;
+	public void setInterestId(int interestId) {
+		this.interestId = interestId;
+	}
+	public int getArticleId() {
+		return articleId;
+	}
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
 	}
 	public Date getInterestTime() {
 		return interestTime;
