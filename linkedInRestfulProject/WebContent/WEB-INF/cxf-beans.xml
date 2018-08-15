@@ -12,6 +12,8 @@
 	<bean id="Advertisment" class="service.AdvertismentEndpoint" />
 	<bean id="ConnectionRequest" class="service.ConnectionRequestEndpoint" />
 	<bean id="Article" class="service.ArticleEndpoint" />
+	<bean id="Conversation" class="service.ConversationEndpoint"/>
+	<bean id="Message" class="service.MessageEndpoint"/>
 	
 	<jaxrs:server id="base" address="/">	
 		<jaxrs:serviceBeans>
@@ -19,6 +21,8 @@
 			<ref bean="Advertisment"/>
 			<ref bean="ConnectionRequest"/>
 			<ref bean="Article"/>
+			<ref bean="Conversation"/>
+			<ref bean="Message"/>
 			
 		</jaxrs:serviceBeans>
 		<jaxrs:providers>

@@ -236,7 +236,7 @@ public class ArticleEndpoint {
 		return articleBeans;
 	}
 	
-	@GET
+	@POST
 	@Path("/showArticles")
 	public Response showHomepageArticles(
 			@FormParam("id") int id) {

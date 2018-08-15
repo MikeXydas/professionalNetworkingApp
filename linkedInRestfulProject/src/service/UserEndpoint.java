@@ -406,7 +406,7 @@ public class UserEndpoint {
                 .build();
 	}*/
 	
-	@GET
+	@POST
 	@Path("/getXML")
 	@Consumes({"application/json"})
     @Produces(MediaType.APPLICATION_XML)
@@ -469,7 +469,7 @@ public class UserEndpoint {
 		
 	}*/
 	
-	@GET
+	@POST
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
 	@Path("/search")
