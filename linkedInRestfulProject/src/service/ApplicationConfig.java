@@ -30,6 +30,9 @@ public class ApplicationConfig extends Application {
         resources.add(service.ArticleEndpoint.class);
         resources.add(service.ConnectionRequestEndpoint.class);
         resources.add(service.UserEndpoint.class);
+        resources.add(service.ConversationEndpoint.class);
+        resources.add(service.MessageEndpoint.class);
+
     }
     
 }

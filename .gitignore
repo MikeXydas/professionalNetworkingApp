@@ -9,3 +9,41 @@ backupFiles/
 linkedInRestfulProject/src/META-INF/
 linkedInRestfulProject/build/*
 linkedInFront/node_modules/
+
+# compiled output
+/linkedInFront/dist
+/linkedInFront/tmp
+/linkedInFront/out-tsc
+
+# dependencies
+/linkedInFront/node_modules
+
+# IDEs and editors
+/linkedInFront/.idea
+/linkedInFront/.project
+/linkedInFront/.classpath
+/linkedInFront/.c9/
+/linkedInFront/*.launch
+/linkedInFront/.settings/
+/linkedInFront/*.sublime-workspace
+
+# IDE - VSCode
+/linkedInFront/.vscode/*
+/linkedInFront/!.vscode/settings.json
+/linkedInFront/!.vscode/tasks.json
+/linkedInFront/!.vscode/launch.json
+/linkedInFront/!.vscode/extensions.json
+
+# misc
+/linkedInFront/.sass-cache
+/linkedInFront/connect.lock
+/linkedInFront/coverage
+/linkedInFront/libpeerconnection.log
+/linkedInFront/npm-debug.log
+/linkedInFront/yarn-error.log
+/linkedInFront/testem.log
+/linkedInFront/typings
+
+# System Files
+/linkedInFront/.DS_Store
+/linkedInFront/Thumbs.db
