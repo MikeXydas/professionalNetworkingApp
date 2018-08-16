@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import entities.User;
 import entities.Advertisment;
+import entities.ConnectionRequest;
 import entities.Conversation;
 import entities.Message;
 import entities.MessagePK;
@@ -99,4 +100,20 @@ public class MessageDB {
         return message;
     }
     
+    @SuppressWarnings("unchecked")
+	public List<Message> getConvMessages(int convId) {
+    	List<Message> messages = null;
+    	EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        Query q = em.createQuery("Select m from Message m where m.id.conversation_idConversation = :convId");
+        q.setParameter("convId", convId);
+        
+        messages = q.getResultList();
+        tx.commit();
+        em.close();
+        
+        return messages;
+    }
 }

@@ -87,6 +87,31 @@ public class ConversationDB {
         }
 	}
 	
+	public int mergeConversation(Conversation conv) {
+		 
+		int id = -1;
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try 
+        {
+        	em.merge(conv);
+        	em.flush();
+        	id = conv.getIdConversation();
+        	tx.commit();
+        	return id;
+        }
+        catch(PersistenceException e)
+        {
+            if (tx.isActive()) tx.rollback();
+            return id;
+        }
+        finally 
+        {
+            em.close();
+        }
+	}
+	
 	public Conversation getById(int id) 
 	{
         Conversation conv= null;

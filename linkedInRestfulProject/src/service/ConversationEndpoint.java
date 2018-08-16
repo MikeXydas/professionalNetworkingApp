@@ -29,6 +29,7 @@ import javax.ws.rs.core.UriBuilder;
 import db.UserDB;
 import db.ConversationDB;
 import db.SkillDB;
+import db.MessageDB;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -36,8 +37,9 @@ import model.UserBean;
 import model.LogInfoBean;
 import model.SkillListBean;
 import model.ConversationBean;
-
 import model.BeginConversationBean;
+import model.MessageBean;
+import model.PendingRequestBean;
 
 @Path("/Conversation")
 public class ConversationEndpoint {
@@ -134,5 +136,51 @@ public class ConversationEndpoint {
 		
 		return Response.status(200).entity("Succesfully found conversation between users: " + userId1 + "  and " + userId2 + " with conversation id " + convid).build();
 	}
+	
+	@GET
+	@Produces({"application/json"})
+	@Path("/showMessages/{id:[0-9]*}")
+	public List<MessageBean> returnMessages (@PathParam("id") int id) {
+		MessageDB messageDao = new MessageDB();
+		
+		List<entities.Message> messages = messageDao.getConvMessages(id);
+		
+		List<MessageBean> retList = new ArrayList<MessageBean>();
+		
+		for(int i = 0; i < messages.size(); i++) {
+			MessageBean temp = new MessageBean();
+			
+			temp.setSenderId(messages.get(i).getSenderId());
+			temp.setContentText(messages.get(i).getContentText());
+			temp.setSendTime(messages.get(i).getSendTime());
+			
+			retList.add(temp);
+		}
+		
+		return retList;
+		
+	}
 
+	/*@GET
+	@Path("/showMessages/{id:[0-9]*}")
+	public Response returnMessages (@PathParam("id") int id) {
+		MessageDB messageDao = new MessageDB();
+		
+		List<entities.Message> messages = messageDao.getConvMessages(id);
+		
+		List<MessageBean> retList = new ArrayList<MessageBean>();
+		
+		for(int i = 0; i < messages.size(); i++) {
+			MessageBean temp = new MessageBean();
+			
+			temp.setSenderId(messages.get(i).getSenderId());
+			temp.setContentText(messages.get(i).getContentText());
+			temp.setSendTime(messages.get(i).getSendTime());
+			
+			retList.add(temp);
+		}
+		
+		return Response.status(200).entity("Messages in conv: " + retList.size()).build();
+		
+	}*/
 }

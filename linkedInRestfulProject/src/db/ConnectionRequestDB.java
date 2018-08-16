@@ -134,7 +134,8 @@ public class ConnectionRequestDB {
     	em.close();
     }
     
-    public List<ConnectionRequest> getPendingRequests(int receiverId) {
+    @SuppressWarnings("unchecked")
+	public List<ConnectionRequest> getPendingRequests(int receiverId) {
         List<ConnectionRequest> connectionRequests = null;
     	EntityManager em = JPAResource.factory.createEntityManager();
         EntityTransaction tx = em.getTransaction();

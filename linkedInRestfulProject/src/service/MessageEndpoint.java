@@ -68,6 +68,9 @@ public class MessageEndpoint {
 		pk.setConversation_idConversation(convId);
 		message.setId(pk);
 		
+		conv.setLastModified(date);
+		
+		convDao.mergeConversation(conv);
 		messageDao.insertMessage(message);
 		
 		
@@ -94,6 +97,9 @@ public class MessageEndpoint {
 		//pk.setConversation_idConversation(convId);
 		message.setId(pk);
 		
+		conv.setLastModified(date);
+		
+		convDao.mergeConversation(conv);
 		messageDao.insertMessage(message);
 		
 		
