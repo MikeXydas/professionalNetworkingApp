@@ -56,6 +56,7 @@ import model.ExportXMLBean;
 import model.LogInfoBean;
 import model.SkillListBean;
 import model.SearchBean;
+import model.RegisterFormBean;
 import utilities.XmlCreator;
 import utilities.FileManipulation;
 
@@ -81,9 +82,9 @@ public class UserEndpoint {
 	@POST
 	@Path("/add")
 	@Consumes({ "application/json" })
-	public Response addUser(final UserBean user) {
+	public Response addUser(final RegisterFormBean user) {
 		UserDB userDao = new UserDB();
-		FileManipulation photoManip = new FileManipulation();
+		//FileManipulation photoManip = new FileManipulation();
 
 		entities.User userd;
 		//Checking if user already exists
@@ -106,8 +107,8 @@ public class UserEndpoint {
 		
 		int id = userDao.insertUser(userd);
 		
-		String fileName = "userPic" + id;
-		String imagePath = FILE_SYSTEM + "/userPics/" + fileName;
+		//String fileName = "userPic" + id;
+		//String imagePath = FILE_SYSTEM + "/userPics/" + fileName;
 		/*if(user.getPhotoUrl() != null) {		
 			try {
 				FileUtils.writeByteArrayToFile((new File(imagePath)), user.getPhotoUrl());
@@ -119,9 +120,9 @@ public class UserEndpoint {
 		
 		userd.setPhotoUrl(imagePath);*/
 		
-		if(user.getPhotoBytes() != null) {
-			userd.setPhotoUrl(photoManip.ReceiveFile(imagePath, user.getPhotoBytes()));
-		}
+		//if(user.getPhotoBytes() != null) {
+		//	userd.setPhotoUrl(photoManip.ReceiveFile(imagePath, user.getPhotoBytes()));
+		//}
 		userDao.mergeUser(userd);
 		
 		return Response.created(
