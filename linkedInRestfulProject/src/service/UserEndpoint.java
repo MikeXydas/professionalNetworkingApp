@@ -124,7 +124,7 @@ public class UserEndpoint {
 		//	userd.setPhotoUrl(photoManip.ReceiveFile(imagePath, user.getPhotoBytes()));
 		//}
 		userDao.mergeUser(userd);
-		
+		//return Response.status(200).build();
 		return Response.created(
 				UriBuilder.fromResource(UserEndpoint.class)
 				.path(String.valueOf(id)).build()).build();

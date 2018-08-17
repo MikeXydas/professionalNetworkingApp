@@ -7,7 +7,7 @@ import javax.ws.rs.core.Application;
  *
  * @author ic
  */
-@javax.ws.rs.ApplicationPath("service")
+@javax.ws.rs.ApplicationPath("linkedInRestfulProject")
 public class ApplicationConfig extends Application {
 
     @Override

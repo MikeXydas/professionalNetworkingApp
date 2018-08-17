@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { RegisterUser } from './registerUser'
+import { RegisterService } from './register.service'
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
+  providers: [ RegisterService ],
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
@@ -17,7 +20,11 @@ export class RegisterComponent implements OnInit {
     lastName: '',
     phoneNumber: ''
   }
-  constructor(private formBuilder: FormBuilder) { 
+
+  registeredUser : RegisterUser;
+
+  constructor(private formBuilder: FormBuilder,
+              private registerService: RegisterService) { 
     this.registerForm = formBuilder.group( {
       email: ['', Validators.required],
       confirmPassword: ['', Validators.required],
@@ -47,7 +54,24 @@ export class RegisterComponent implements OnInit {
             
   }
   onSubmit() {
-    console.log(this.register);
+
+    console.log(this.register.email);
+    const newUser : RegisterUser = {  email: this.register.email,
+                                      password: this.register.password,
+                                      firstName: this.register.firstName,
+                                      lastName: this.register.lastName,
+                                      phoneNumber: this.register.phoneNumber}
+
+
+    /*this.registeredUser.email = this.register.email;
+    this.registeredUser.email = this.registerForm.controls['password'].value;
+    this.registeredUser.email = this.registerForm.controls['firstName'].value;
+    this.registeredUser.email = this.registerForm.controls['elastNamemail'].value;
+    this.registeredUser.email = this.registerForm.controls['phoneNumber'].value;*/
+
+    console.log(this.registerService.addUser(newUser));
+    //console.log(newUser);
+
   }
   ngOnInit() {
   }
