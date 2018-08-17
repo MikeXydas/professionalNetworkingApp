@@ -82,6 +82,7 @@ public class UserEndpoint {
 	@POST
 	@Path("/add")
 	@Consumes({ "application/json" })
+	@Produces({"application/json"})
 	public Response addUser(final RegisterFormBean user) {
 		UserDB userDao = new UserDB();
 		//FileManipulation photoManip = new FileManipulation();
@@ -89,8 +90,9 @@ public class UserEndpoint {
 		entities.User userd;
 		//Checking if user already exists
 		userd = userDao.findEmail(user.getEmail());
+		String userExists = "0";
 		if(userd != null)
-			return Response.status(Response.Status.UNAUTHORIZED).build();
+			return Response.ok("{ \"id\": 0}", "application/json").build();
 		
 		userd = new entities.User();
 		userd.setEmail(user.getEmail());
@@ -106,7 +108,7 @@ public class UserEndpoint {
 		userd.setIsPublicSkill(0);
 		
 		int id = userDao.insertUser(userd);
-		
+		String retId = Integer.toString(id);
 		//String fileName = "userPic" + id;
 		//String imagePath = FILE_SYSTEM + "/userPics/" + fileName;
 		/*if(user.getPhotoUrl() != null) {		
@@ -125,9 +127,9 @@ public class UserEndpoint {
 		//}
 		userDao.mergeUser(userd);
 		//return Response.status(200).build();
-		return Response.created(
-				UriBuilder.fromResource(UserEndpoint.class)
-				.path(String.valueOf(id)).build()).build();
+		//return Response.ok(retId, "text/plain").build();
+		return Response.ok("{ \"id\": " + retId + "}", "application/json").build();
+
 	}
 	
 	

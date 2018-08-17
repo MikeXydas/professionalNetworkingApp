@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { RegisterUser } from './registerUser'
 import { RegisterService } from './register.service'
+import { Anwser } from './anwser'
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,9 @@ export class RegisterComponent implements OnInit {
   }
 
   registeredUser : RegisterUser;
-
+  anwser : Anwser = {id: 1};
+  userExists : any;
+  
   constructor(private formBuilder: FormBuilder,
               private registerService: RegisterService) { 
     this.registerForm = formBuilder.group( {
@@ -43,6 +46,10 @@ export class RegisterComponent implements OnInit {
   isPasswordIncorrect() {
     return this.registerForm.controls['password'].value != this.registerForm.controls['confirmPassword'].value
   }
+
+  isEmailUsed() {
+    return this.anwser.id == 0;
+  }
   isIncomplete() {
     return this.isInvalid('email') ||
     this.isInvalid('password') ||
@@ -55,7 +62,6 @@ export class RegisterComponent implements OnInit {
   }
   onSubmit() {
 
-    console.log(this.register.email);
     const newUser : RegisterUser = {  email: this.register.email,
                                       password: this.register.password,
                                       firstName: this.register.firstName,
@@ -69,9 +75,14 @@ export class RegisterComponent implements OnInit {
     this.registeredUser.email = this.registerForm.controls['elastNamemail'].value;
     this.registeredUser.email = this.registerForm.controls['phoneNumber'].value;*/
 
-    console.log(this.registerService.addUser(newUser));
+    //console.log(this.registerService.addUser(newUser).subscribe);
+  
+    //this.registerService.addUser(newUser)
+    //  .subscribe(response => (this.userExists = response));
+    //console.log(this.userExists);
     //console.log(newUser);
-
+    this.registerService.addUser(newUser)
+      .subscribe((response : Anwser) => (this.anwser = response));
   }
   ngOnInit() {
   }
