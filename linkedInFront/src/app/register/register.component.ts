@@ -14,13 +14,13 @@ export class RegisterComponent implements OnInit {
 
   registerForm;
 
-  register = {
+  /*register = {
     email: '',
     password: '',
     firstName: '',
     lastName: '',
     phoneNumber: ''
-  }
+  }*/
 
   registeredUser : RegisterUser;
   anwser : Anwser = {id: 1};
@@ -62,13 +62,19 @@ export class RegisterComponent implements OnInit {
   }
   onSubmit() {
 
-    const newUser : RegisterUser = {  email: this.register.email,
+    /*const newUser : RegisterUser = {  email: this.register.email,
                                       password: this.register.password,
                                       firstName: this.register.firstName,
                                       lastName: this.register.lastName,
-                                      phoneNumber: this.register.phoneNumber}
+                                      phoneNumber: this.register.phoneNumber}*/
 
-
+      const newUser : RegisterUser = {  
+        email: this.registerForm.controls['email'].value,
+        password: this.registerForm.controls['password'].value,
+        firstName: this.registerForm.controls['firstName'].value,
+        lastName: this.registerForm.controls['lastName'].value,
+        phoneNumber: this.registerForm.controls['phoneNumber'].value
+      }
     /*this.registeredUser.email = this.register.email;
     this.registeredUser.email = this.registerForm.controls['password'].value;
     this.registeredUser.email = this.registerForm.controls['firstName'].value;

@@ -57,6 +57,7 @@ import model.LogInfoBean;
 import model.SkillListBean;
 import model.SearchBean;
 import model.RegisterFormBean;
+import model.LoginReturned;
 import utilities.XmlCreator;
 import utilities.FileManipulation;
 
@@ -136,13 +137,16 @@ public class UserEndpoint {
 	@POST
 	@Path("/login")
 	@Consumes({"application/json"})
-	@Produces({"text/plain"})
+	@Produces({"application/json"})
 	public Response login(final LogInfoBean loginInfo) {
 		UserDB userDao = new UserDB();
-		entities.User userd = userDao.find(loginInfo.getEmai(), loginInfo.getPassword());
+		entities.User userd = userDao.find(loginInfo.getEmail(), loginInfo.getPassword());
 		if (userd != null) {
-			String token = issueToken(loginInfo.getEmai());
-			return Response.ok(token, "text/plain").build();
+			String token = issueToken(Integer.toString(userd.getIdUser()));
+			LoginReturned ret = new LoginReturned();
+			ret.setToken(token);
+			ret.setId(userd.getIdUser());
+			return Response.ok(ret).build();
 		}
 		else {
 			return Response.status(Response.Status.UNAUTHORIZED).build();

@@ -2,14 +2,14 @@ package model;
 
 public class LogInfoBean {
 
-		private String emai;
+		private String email;
 		private String password;
 		
-		public String getEmai() {
-			return emai;
+		public String getEmail() {
+			return email;
 		}
-		public void setEmai(String emai) {
-			this.emai = emai;
+		public void setEmai(String email) {
+			this.email = email;
 		}
 		public String getPassword() {
 			return password;

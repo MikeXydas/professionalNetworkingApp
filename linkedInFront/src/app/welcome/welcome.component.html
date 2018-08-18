@@ -1,0 +1,57 @@
+<div class="grid-container">
+  <div> 
+    <p class="welcome-message">Welcome to linkedIn</p>
+  </div>
+  <div> 
+      <div class="container">
+          <div class="row main">
+            <div class="main-login main-center">
+            <h5>Login</h5>
+              <form class="" method="post" action="#" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                
+                <div class="form-group ">
+                    <span class="btn-primary btn-lg" *ngIf="failedLogin()">Wrong email or password</span>
+                </div>
+
+                <div class="form-group">
+                  <label for="email" class="cols-sm-2 control-label">Your Email</label>
+                  <div class="cols-sm-10">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                      <input type="text" class="form-control" name="email" id="email"  
+                      placeholder="Enter your Email" formControlName="email"
+                      />
+                    </div>
+                  </div>
+                </div>
+        
+        
+                <div class="form-group">
+                  <label for="password" class="cols-sm-2 control-label">Password</label>
+                  <div class="cols-sm-10">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                      <input type="password" class="form-control" name="password" id="password"  
+                      placeholder="Enter your Password" formControlName="password"
+                      />
+                    </div>
+                  </div>
+                </div>
+        
+                <div class="form-group ">
+                  <input id="button" type="submit" class="btn btn-primary btn-lg btn-block login-button" *ngIf="!isLoading()" value="Sign in"/>
+                </div>
+
+                <div class="form-group ">
+                    <span class="btn-primary btn-lg" *ngIf="isLoading()">Loading</span>
+                </div>
+                <!-- <div class="form-group ">
+                    <input id="button" type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Register"/>
+                </div> -->
+               
+              </form>
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
