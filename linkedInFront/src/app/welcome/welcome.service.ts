@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { GlobalVariable } from '../global'
 import { HttpHeaders } from '@angular/common/http';
+import jwt_decode from 'jwt-decode';
 
 import { LoginForm } from './loginForm'
 
@@ -34,6 +35,10 @@ export class WelcomeService {
             }));
     }
 
+    getLoginedUser() {
+      let decoded = jwt_decode(localStorage.getItem('currentUser'));
+      return decoded.sub;
+    }
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');

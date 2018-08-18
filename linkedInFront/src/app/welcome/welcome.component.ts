@@ -56,7 +56,7 @@ export class WelcomeComponent implements OnInit {
     .pipe(first())
     .subscribe(
       data=> {
-        console.log("Succesful login");
+        console.log("DEBUG: Id of successfully loggined user: " + this.welcomeService.getLoginedUser());
         this.loginFailed = 0;
       },
       error => {

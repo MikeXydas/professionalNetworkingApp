@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { RegisterUser } from './registerUser'
 import { RegisterService } from './register.service'
 import { Anwser } from './anwser'
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-register',
@@ -25,9 +26,10 @@ export class RegisterComponent implements OnInit {
   registeredUser : RegisterUser;
   anwser : Anwser = {id: 1};
   userExists : any;
-  
+
   constructor(private formBuilder: FormBuilder,
-              private registerService: RegisterService) { 
+              private registerService: RegisterService,
+              private router :Router) { 
     this.registerForm = formBuilder.group( {
       email: ['', Validators.required],
       confirmPassword: ['', Validators.required],
@@ -48,7 +50,8 @@ export class RegisterComponent implements OnInit {
   }
 
   isEmailUsed() {
-    return this.anwser.id == 0;
+    if(this.anwser.id == 0)
+      return true;
   }
   isIncomplete() {
     return this.isInvalid('email') ||
@@ -88,7 +91,12 @@ export class RegisterComponent implements OnInit {
     //console.log(this.userExists);
     //console.log(newUser);
     this.registerService.addUser(newUser)
-      .subscribe((response : Anwser) => (this.anwser = response));
+      .subscribe((response : Anwser) => {
+        this.anwser = response;
+        if(this.anwser.id != 0){
+          this.router.navigate(['/']);
+        }
+      });
   }
   ngOnInit() {
   }

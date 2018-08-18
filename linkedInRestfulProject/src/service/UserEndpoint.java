@@ -79,7 +79,7 @@ public class UserEndpoint {
 		return Response.status(200).entity("First name is: " + userd.getFirstName()).build();
 	}
 	
-	@Secured
+	//@Secured
 	@POST
 	@Path("/add")
 	@Consumes({ "application/json" })
@@ -189,6 +189,7 @@ public class UserEndpoint {
 	
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
+	@Secured
 	@Produces({"application/json"})
 	public Response findById(@PathParam("id") final Integer id) throws IOException {
 		UserDB userDao = new UserDB();
@@ -223,6 +224,7 @@ public class UserEndpoint {
 	
 	
 	@GET
+	@Secured
 	@Path("/skill")
 	public Response getUserSkills(
 			@QueryParam("id") int id) {
@@ -273,6 +275,7 @@ public class UserEndpoint {
 	}*/
 	
 	@POST
+	@Secured
 	@Path("/update")
 	@Consumes({"application/json"})
 	public Response updateUser(UserBean user) {
@@ -318,6 +321,7 @@ public class UserEndpoint {
 	
 	//Testing insertion of one skill
 	@POST
+	@Secured
 	@Path("/insertSkill")
 	public Response insertSkill(
 			@FormParam("userId") int userId,
@@ -344,6 +348,7 @@ public class UserEndpoint {
 	
 	//Will consume a SkillListBean of userId
 	@POST
+	@Secured
 	@Path("/insertSkillUser")
 	@Consumes({"application/json"})
 	public Response insertSkillUser(final SkillListBean skillListBean) {
@@ -415,6 +420,7 @@ public class UserEndpoint {
 	
 	@POST
 	@Path("/getXML")
+	@Secured
 	@Consumes({"application/json"})
     @Produces(MediaType.APPLICATION_XML)
 	public Response getXML(final ExportXMLBean xmlBean) {
@@ -477,6 +483,7 @@ public class UserEndpoint {
 	}*/
 	
 	@POST
+	@Secured
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
 	@Path("/search")
@@ -527,6 +534,7 @@ public class UserEndpoint {
 	}*/
 	
 	@POST
+	@Secured
 	@Consumes({"application/json"})
 	@Path("/changePassword")
 	public Response changePassword(ChangePasswordBean changePasswordBean) {
@@ -539,6 +547,7 @@ public class UserEndpoint {
 	}
 	
 	@POST
+	@Secured
 	@Consumes({"application/json"})
 	@Path("/changeEmail")
 	public Response changeEmail(ChangeEmailBean changeEmailBean) {
