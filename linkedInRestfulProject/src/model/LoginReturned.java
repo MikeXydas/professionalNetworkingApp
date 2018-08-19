@@ -3,6 +3,7 @@ package model;
 public class LoginReturned {
 	private String token;
 	private int id;
+	private int isModerator;
 	
 	public String getToken() {
 		return token;
@@ -15,6 +16,12 @@ public class LoginReturned {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getIsModerator() {
+		return isModerator;
+	}
+	public void setIsModerator(int isModerator) {
+		this.isModerator = isModerator;
 	}
 	
 	

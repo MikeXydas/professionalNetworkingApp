@@ -12,6 +12,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
 
 import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
+import { ModeratorComponent } from './moderator/moderator.component';
 
 
 var routes  =[
@@ -22,6 +23,10 @@ var routes  =[
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'moderator',
+    component: ModeratorComponent
   }
 ];
 
@@ -29,7 +34,8 @@ var routes  =[
   declarations: [
     AppComponent,
     RegisterComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ModeratorComponent
   ],
   imports: [
     BrowserModule,

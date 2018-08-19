@@ -57,6 +57,9 @@ export class WelcomeComponent implements OnInit {
     .subscribe(
       data=> {
         console.log("DEBUG: Id of successfully loggined user: " + this.welcomeService.getLoginedUser());
+        if(data.isModerator == 1) {
+          this.router.navigate(['moderator']);
+        }
         this.loginFailed = 0;
       },
       error => {

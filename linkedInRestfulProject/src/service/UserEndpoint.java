@@ -146,6 +146,7 @@ public class UserEndpoint {
 			LoginReturned ret = new LoginReturned();
 			ret.setToken(token);
 			ret.setId(userd.getIdUser());
+			ret.setIsModerator(userd.getIsModerator());
 			return Response.ok(ret).build();
 		}
 		else {
@@ -466,6 +467,23 @@ public class UserEndpoint {
                 .build();
 	}
 	
+	@GET
+	@Path("/users")
+    @Produces({ "application/json" })
+	public Response returnUsers() {
+		UserDB userDao = new UserDB();
+		List<entities.User> users = null;
+		users = userDao.getUsers();
+		
+		List <UserBean> userBeans = new ArrayList<UserBean>();
+		
+		for(int i = 0; i < users.size(); i++) {
+			userBeans.add(createUserBeanFromEntity(users.get(i)));
+		}
+		
+		return Response.ok(userBeans).build();
+	}
+	
 	/*@GET
 	@Path("/search")
 	public Response search(
@@ -495,7 +513,7 @@ public class UserEndpoint {
 		return Response.ok(createUserBeanFromEntity(userd)).build();
 	}
 	
-	private static UserBean createUserBeanFromEntity(entities.User userd) {
+	private UserBean createUserBeanFromEntity(entities.User userd) {
 		
 		UserBean user = new UserBean();
 		if (userd != null) {
