@@ -1,0 +1,46 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+
+<div class="permaTop">
+  <div class= "navbar">
+    <a [routerLink]="['/moderator']" class="" >ExportXMLPage</a>
+    <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
+  </div>
+</div>
+
+<div *ngIf="isUserReceived() && isAccessValidated()" class="grid-container">
+  <div>
+    <img class="profPicture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="Lost my prof cat">
+    <h2 class="info">Basic info</h2>
+    <ul class="info">
+      <li><p><i class="fa fa-drivers-license-o"></i>{{ user.firstName }} {{ user.lastName }}</p></li>
+      <!-- Contact me list node-->
+    </ul>
+    <h2 class="info">Skills</h2>
+    <ul class="info">
+    <li>
+      <p *ngIf="existsSkills()">{{ skillsString }}</p>
+      <p *ngIf="!existsSkills()">User has not provided skills</p>
+    </li>
+    <!-- Contact me list node-->
+  </ul>
+  </div>
+  <div>
+    <div class="infoText">
+      <h2>Education Text</h2>
+      <p *ngIf="existsEducationText()">{{ user.educationText }}</p>
+      <p *ngIf="!existsEducationText()">User has not provided education text</p>
+      <h2>Job Experience Text</h2>
+      <p *ngIf="existsJobText()">{{ user.jobExperienceText }}</p>
+      <p *ngIf="!existsJobText()">User has not provided job experience text</p>
+    </div>
+    
+  </div>
+</div>
+
+
+
+

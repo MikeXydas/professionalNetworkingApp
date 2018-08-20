@@ -222,7 +222,7 @@ public class ArticleEndpoint {
 	@GET
 	@Path("/showArticles/{id:[0-9]*}")
 	@Produces({"application/json"})
-	public List<ArticleBean> returnHomepageArticles(@PathParam("id") int id) throws IOException {
+	public Response returnHomepageArticles(@PathParam("id") int id) throws IOException {
 		ArticleDB articleDao = new ArticleDB();
 		List<Article> articles = null;
 		articles = articleDao.getConnectedArticles(id);
@@ -233,7 +233,7 @@ public class ArticleEndpoint {
 			articleBeans.add(createArticleBean(articles.get(i)));
 		}
 		
-		return articleBeans;
+		return Response.status(200).entity(articleBeans).build();
 	}
 	
 	@POST

@@ -2,6 +2,8 @@ package model;
 
 import java.util.List;
 
+import entities.Skill;
+
 public class UserBean {
 	
 	private int idUser;
@@ -24,7 +26,8 @@ public class UserBean {
 	private List<ConnectionBean> connections;
 	private List<ConnectionRequestBean> connectionRequests;
 	private List<ConversationBean> conversations;
-	
+	private List<Skill> skills;
+
 	
 	public int getIsPublicEducation() {
 		return isPublicEducation;
@@ -146,6 +149,12 @@ public class UserBean {
 	}
 	public void setConversations(List<ConversationBean> conversations) {
 		this.conversations = conversations;
+	}
+	public List<Skill> getSkills() {
+		return skills;
+	}
+	public void setSkills(List<Skill> skills) {
+		this.skills = skills;
 	}
 	
 	

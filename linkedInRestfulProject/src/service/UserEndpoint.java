@@ -50,12 +50,14 @@ import db.SkillDB;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
+import model.ArticleBean;
 import model.ChangeEmailBean;
 import model.ChangePasswordBean;
 import model.ExportXMLBean;
 import model.LogInfoBean;
 import model.SkillListBean;
 import model.SearchBean;
+import model.SkillBean;
 import model.RegisterFormBean;
 import model.LoginReturned;
 import utilities.XmlCreator;
@@ -107,6 +109,7 @@ public class UserEndpoint {
 		userd.setIsPublicEducation(0);
 		userd.setIsPublicJob(0);
 		userd.setIsPublicSkill(0);
+		
 		
 		int id = userDao.insertUser(userd);
 		String retId = Integer.toString(id);
@@ -195,7 +198,7 @@ public class UserEndpoint {
 	public Response findById(@PathParam("id") final Integer id) throws IOException {
 		UserDB userDao = new UserDB();
 		entities.User userd = userDao.getById(id);
-		FileManipulation photoManip = new FileManipulation();
+		//FileManipulation photoManip = new FileManipulation();
 		UserBean user = null;
 		if (userd != null) {
 			user = new UserBean();
@@ -212,9 +215,9 @@ public class UserEndpoint {
 			user.setIsPublicEducation(userd.getIsPublicEducation());
 			user.setIsPublicJob(userd.getIsPublicJob());
 			user.setIsPublicSkill(userd.getIsPublicSkill());
-			if(userd.getPhotoUrl() != null) {
-				user.setPhotoString64(photoManip.SendFile(userd.getPhotoUrl()));
-			}
+			//if(userd.getPhotoUrl() != null) {
+			//	user.setPhotoString64(photoManip.SendFile(userd.getPhotoUrl()));
+			//}
 		}
 		if (user == null) {
 			return Response.status(Status.NOT_FOUND).build();
@@ -226,16 +229,24 @@ public class UserEndpoint {
 	
 	@GET
 	@Secured
-	@Path("/skill")
-	public Response getUserSkills(
-			@QueryParam("id") int id) {
+	@Produces({"application/json"})
+	@Path("/skill/{id:[0-9][0-9]*}")
+	public Response getUserSkills(@PathParam("id") final Integer id) {
 		UserDB userDao = new UserDB();
 		entities.User userd = userDao.getById(id);
+		List <SkillBean> skillBeans = new ArrayList<SkillBean>();
 		
-		int sz = userd.getSkills().size();
-		return Response.status(200).entity("User: " + userd.getFirstName() + " has " + sz + " skills").build();
+		for(int i = 0; i < userd.getSkills().size(); i++) {
+			SkillBean temp = new SkillBean();
+			temp.setSkillName(userd.getSkills().get(i).getSkillName());
+			temp.setIdSkill(userd.getSkills().get(i).getIdSkill());
+			skillBeans.add(temp);
+
+		}
+		return Response.status(200).entity(skillBeans).build();
 
 	}
+	
 	
 	//Testing update
 	/*@POST
@@ -343,7 +354,7 @@ public class UserEndpoint {
 		userd.setSkills(Arrays.asList(skilld));
 		userDao.mergeUser(userd);
 		
-		return Response.status(200).entity("Succesfully inserted skill: " + skillName + "on user: " + userd.getIdUser()).build();
+		return Response.status(200).entity("Succesfully inserted skill: " + skillName + " on user: " + userd.getIdUser()).build();
 		
 	}
 	
@@ -363,7 +374,7 @@ public class UserEndpoint {
 			if(skilld == null) {
 				skilld = new entities.Skill();
 				skilld.setSkillName(skillList.get(i));
-				int skillId = skillDao.insertSkill(skilld);
+				skillDao.insertSkill(skilld);
 			}
 			userd.setSkills(Arrays.asList(skilld));
 			userDao.mergeUser(userd);

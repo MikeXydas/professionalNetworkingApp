@@ -4,13 +4,14 @@ import { map } from 'rxjs/operators';
 import { GlobalVariable } from '../global'
 import { HttpHeaders } from '@angular/common/http';
 import jwt_decode from 'jwt-decode';
+import {Router} from "@angular/router";
 
 import { LoginForm } from './loginForm'
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json',
-    'responseType': 'text/plain'
+    //'responseType': 'text/plain'
   })
 };
 
@@ -19,7 +20,8 @@ const httpOptions = {
 })
 export class WelcomeService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private router: Router) { }
 
     login(loginForm : LoginForm) {
         return this.http.post<any>(GlobalVariable.BASE_API_URL + `User/login`, loginForm, httpOptions)
@@ -42,5 +44,6 @@ export class WelcomeService {
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
+        this.router.navigate(['']);
     }
 }

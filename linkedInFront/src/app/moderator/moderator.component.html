@@ -36,7 +36,7 @@
 <div class="container">
     
   <div class="list-group" *ngFor="let user of users; let i = index">
-    <a href="#" class="list-group-item box">
+    <a [routerLink]="['/usermod', users[i].idUser]" class="list-group-item box">
               
       <div class="" >
         <img class="profImg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="Cat missing...">
