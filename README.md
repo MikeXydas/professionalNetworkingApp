@@ -3,7 +3,8 @@
 TO DO:
 	REGISTER: Supposingly 100% complete
 	LOGIN: Redirect on hompeage
-	MODERATOR: No fileSystem photos, Redirect on user profile when clicking
+	MODERATOR: No fileSystem photos
+	MODERATOR_USER_PROFILE: No fileSystem photos
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 
