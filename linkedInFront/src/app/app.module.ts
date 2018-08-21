@@ -15,7 +15,8 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { ModeratorComponent } from './moderator/moderator.component';
 import { UsermodComponent } from './usermod/usermod.component';
 import { WelcomeService} from './welcome/welcome.service'
-import { GetuserService } from './getuser.service'
+import { GetuserService } from './getuser.service';
+import { UserprofComponent } from './userprof/userprof.component'
 
 var routes  =[
   {
@@ -33,6 +34,10 @@ var routes  =[
   {
     path: 'usermod/:id',
     component: UsermodComponent
+  },
+  {
+    path: 'userprof/:id',
+    component: UserprofComponent
   }
 ];
 
@@ -43,6 +48,7 @@ var routes  =[
     WelcomeComponent,
     ModeratorComponent,
     UsermodComponent,
+    UserprofComponent,
   ],
   imports: [
     BrowserModule,

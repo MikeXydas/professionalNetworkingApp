@@ -1,10 +1,12 @@
 # linkedInAssignment
 
 TO DO:
-	REGISTER: Supposingly 100% complete
-	LOGIN: Redirect on hompeage
-	MODERATOR: No fileSystem photos
-	MODERATOR_USER_PROFILE: No fileSystem photos
+	REGISTER: Supposingly 100% complete  
+	LOGIN: Redirect on hompeage  
+	MODERATOR: NO ACCESS VALIDATION, No fileSystem photos  
+	MODERATOR_USER_PROFILE: No fileSystem photos  
+	USER_PROFILE:No fileSystem photos, NO MY PROFILE  
+	
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 
