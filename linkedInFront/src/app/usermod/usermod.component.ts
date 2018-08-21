@@ -20,6 +20,7 @@ export class UsermodComponent implements OnInit {
   skillsReceived = false;
   validatedAccess = false;
 
+
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
               private getuserService : GetuserService) { }
@@ -70,15 +71,24 @@ export class UsermodComponent implements OnInit {
     return this.validatedAccess;
   }
 
+
   existsEducationText() {
-    if((this.userReceived == true) && (this.user.educationText != null) && (this.user.educationText != "") && (this.user.educationText != "NO"))
+    if((this.userReceived == true) 
+    && (this.user.educationText != null) 
+    && (this.user.educationText != "") 
+    && (this.user.educationText != "NO") 
+    && (this.user.educationText != "EMPTY"))
       return true;
     else
       return false;
   }
 
   existsJobText() {
-    if((this.userReceived == true) && (this.user.jobExperienceText != null) && (this.user.jobExperienceText != "") && (this.user.jobExperienceText != "NO"))
+    if((this.userReceived == true) 
+    && (this.user.jobExperienceText != null) 
+    && (this.user.jobExperienceText != "") 
+    && (this.user.jobExperienceText != "NO")
+    && (this.user.jobExperienceText != "EMPTY"))
       return true;
     else
       return false;
@@ -94,6 +104,5 @@ export class UsermodComponent implements OnInit {
   logOutCLick() {
     this.welcomeService.logout();
   }
-
 
 }

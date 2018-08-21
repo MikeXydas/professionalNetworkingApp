@@ -5,6 +5,13 @@ import { HttpClient } from '@angular/common/http';
 import { WelcomeService } from './welcome/welcome.service'
 import { Observable} from 'rxjs';
 
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json'
+  })
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -99,5 +106,13 @@ export class GetuserService {
     );
 
     return false;*/
+  }
+
+  updateUser(user) {
+    return this.http.post(this.apiRoot + "User/update", user, httpOptions);
+  }
+
+  insertSkills(skills) {
+    return this.http.post(this.apiRoot + "User/insertSkill", skills, httpOptions);
   }
 }

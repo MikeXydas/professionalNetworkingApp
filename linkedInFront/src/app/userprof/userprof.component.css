@@ -130,18 +130,29 @@ h2.info {
 
 }
 
-.sendBtn {
+.sendBtnL {
         background-color: #009edf;
         font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         float: auto;
         margin: 50px;
         padding: 20px;
         border: none;
-        
+        font-size: 27px;
+
 
 }
 
-.sendBtn:hover {
+.confirmBtn {
+        background-color: #009edf;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        float: center;
+        margin: 150px 200px;
+        padding: 20px;
+        font-size: 30px;
+        border: none;
+}
+
+.sendBtnL:hover, .editBtn:hover, .confirmBtn:hover {
         background-color: #07465f;
 }
 p.info {
@@ -177,6 +188,7 @@ ul.info {
         color: rgb(58, 56, 56);
         text-align: center;
         font-size: 23px;
+        overflow: hidden;       
 }
 
 .infoText h2 {
@@ -189,4 +201,28 @@ ul.info {
         padding: 0px 20px 30px 20px;
         font-style: italic;
 
+}
+
+.editBtn {
+        background-color: #009edf;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        float: auto;
+        margin: 20px;
+        padding: 10px;
+        border: none;
+}
+
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  margin: 20px;
+}
+
+.textareaInp {
+        width: 92%;
+        margin: 0% 4%;
 }

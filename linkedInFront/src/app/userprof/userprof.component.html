@@ -29,11 +29,11 @@
     <h2 class="info">Skills</h2>
     <ul class="info">
     <li>
-      <p *ngIf="isPublicSkill()">{{ skillsString }}</p>
-      <p *ngIf="!isPublicSkill()">User skills are not provided or they are private</p>
+      <p *ngIf="isPublicSkill() && existsSkills()">{{ skillsString }}</p>
+      <p *ngIf="!isPublicSkill() || existsSkills()">User skills are not provided or they are private</p>
     </li>
     <li>
-      <button type="button" class="sendBtn btn btn-primary btn-lg">Send Message</button>
+      <button type="button" class="sendBtnL btn btn-primary btn-lg">Send Message</button>
     </li>
     <!-- Contact me list node-->
   </ul>
@@ -41,11 +41,11 @@
   <div>
     <div class="infoText">
       <h2>Education Text</h2>
-      <p *ngIf="isPublicEducation()">{{ user.educationText }}</p>
-      <p *ngIf="!isPublicEducation()">User education text is not provided or it is private</p>
+      <p *ngIf="isPublicEducation() && existsEducationText()">{{ user.educationText }}</p>
+      <p *ngIf="!isPublicEducation() || !existsEducationText()">User education text is not provided or it is private</p>
       <h2>Job Experience Text</h2>
-      <p *ngIf="isPublicJob()">{{ user.jobExperienceText }}</p>
-      <p *ngIf="!isPublicJob()">User job experience text is not provided or it is private</p>
+      <p *ngIf="isPublicJob() && existsJobText()">{{ user.jobExperienceText }}</p>
+      <p *ngIf="!isPublicJob() && !existsJobText()">User job experience text is not provided or it is private</p>
     </div>
     
   </div>
@@ -53,31 +53,64 @@
 
 <div *ngIf="isUserReceived() && isAccessValidated() && isProfileMine()" class="grid-container">
   <div>
-    <img class="profPicture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="Lost my prof cat">
-    <h2 class="info">Basic info</h2>
-    <ul class="info">
-      <li><p><i class="fa fa-drivers-license-o"></i>{{ user.firstName }} {{ user.lastName }}</p></li>
+      <img class="profPicture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="Lost my prof cat">
+      <h2 class="info">Basic info</h2>
+      <ul class="info">
+        <li><p><i class="fa fa-drivers-license-o"></i>{{ user.firstName }} {{ user.lastName }}</p></li>
+        <!-- Contact me list node-->
+      </ul>
+      <h2 class="info">Skills</h2>
+      <ul class="info">
+      <li>
+        <p *ngIf="existsSkills()">{{ skillsString }}</p>
+        <p *ngIf="!existsSkills()">You have not provided any skills</p>
+        <div class="form-group">
+          <textarea [(ngModel)] ="skillsString" *ngIf="isEditingSkills()" class="form-control textareaInp" rows="4">{{ skillsString }}</textarea>
+        </div>
+      </li>
+      <li>
+        <div class="form-check form-check-inline">
+            <label class="form-check-label" >Public </label>          
+            <input *ngIf="!isPublicSkill()" class="form-check-input" type="checkbox" (change)="skillCheckEvent($event)" value="option1">
+            <input *ngIf="isPublicSkill()" checked class="form-check-input" type="checkbox" (change)="skillCheckEvent($event)" value="option1">
+            <button (click)="editSkills()" *ngIf="!isEditingSkills()" type="button" class="editBtn btn btn-primary btn-md">Edit</button>
+        </div>
+      </li>
       <!-- Contact me list node-->
     </ul>
-    <h2 class="info">Skills</h2>
-    <ul class="info">
-    <li>
-      <p *ngIf="isPublicSkill()">{{ skillsString }}</p>
-      <p *ngIf="!isPublicSkill()">User skills are not provided or they are private</p>
-    </li>
-    <!-- Contact me list node-->
-  </ul>
   </div>
-  <div>
-    <div class="infoText">
-      <h2>Education Text</h2>
-      <p *ngIf="isPublicEducation()">{{ user.educationText }}</p>
-      <p *ngIf="!isPublicEducation()">User education text is not provided or it is private</p>
-      <h2>Job Experience Text</h2>
-      <p *ngIf="isPublicJob()">{{ user.jobExperienceText }}</p>
-      <p *ngIf="!isPublicJob()">User job experience text is not provided or it is private</p>
+    <div>
+      <div>
+        <div class="infoText">
+          <h2>Education Text</h2>
+          <p *ngIf="existsEducationText()">{{ user.educationText }}</p>
+          <p *ngIf="!existsEducationText()">You have not provided education text</p>
+          <div class="form-group">
+            <textarea [(ngModel)] = "user.educationText" *ngIf="isEditingEducation()" class="form-control textareaInp" rows="4" >{{ user.educationText }}</textarea>
+          </div>
+          <div class="form-check form-check-inline pull-right">
+              <label class="form-check-label" >Public </label>          
+              <input *ngIf="!isPublicEducation()" class="form-check-input" type="checkbox" (change)="educationCheckEvent($event)" value="option1">
+              <input *ngIf="isPublicEducation()" checked class="form-check-input" type="checkbox" (change)="educationCheckEvent($event)" value="option1">
+              <button (click)="editEducation()" *ngIf="!isEditingEducation()" type="button" class="editBtn btn btn-primary btn-md">Edit</button>
+          </div>
+          <h2>Job Experience Text</h2>
+          <p *ngIf="existsJobText()">{{ user.jobExperienceText }}</p>
+          <p *ngIf="!existsJobText()">You have not provided job experience text</p>
+          <div class="form-group">
+            <textarea [(ngModel)] = "user.jobExperienceText" *ngIf="isEditingJob()" class="form-control textareaInp" rows="4" >{{ user.jobExperienceText }}</textarea>
+          </div>
+          <div class="form-check form-check-inline pull-right">
+              <label class="form-check-label" >Public </label>          
+              <input *ngIf="!isPublicJob()" class="form-check-input" type="checkbox" (change)="jobCheckEvent($event)"  value="option1">
+              <input *ngIf="isPublicJob()" checked class="form-check-input" type="checkbox" (change)="jobCheckEvent($event)"  value="option1">
+              <button (click)="editJob()" *ngIf="!isEditingJob()" type="button" class="editBtn btn btn-primary btn-md">Edit</button>
+          </div>
+          <button *ngIf="!isChanging()" (click)="confirmChanges()" type="button" class="confirmBtn btn btn-primary btn-lg">Confirm Changes</button>
+          <button *ngIf="isChanging()"  type="button" class="confirmBtn btn btn-primary btn-lg disabled">Changing...</button>
+
+      </div>
     </div>
-    
   </div>
 </div>
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GetuserService } from '../getuser.service'
 import { WelcomeService } from '../welcome/welcome.service';
+import { SkillsListBean } from './skillsListBean'
 
 @Component({
   selector: 'app-userprof',
@@ -19,6 +20,11 @@ export class UserprofComponent implements OnInit {
   userReceived = false;
   skillsReceived = false;
   validatedAccess = false;
+  updating = false;
+  editingEducation = false;
+  editingSkills = false;
+  editingJob = false;
+  changedSkills = false;
 
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
@@ -36,7 +42,7 @@ export class UserprofComponent implements OnInit {
             .subscribe(
               data=> {
                 this.validatedAccess = data;
-                if(this.welcomeService.getLoginedUser() == this.userId) {
+                if(this.welcomeService.getLoginedUser() == this.user.idUser) {
                   this.isMine = true;
                 }
                 this.userReceived = true; 
@@ -64,15 +70,15 @@ export class UserprofComponent implements OnInit {
   }
 
   isPublicEducation() {
-    return (this.user.isPublicEducation == 1) && (this.existsEducationText() == true);
+    return (this.user.isPublicEducation == 1);
   }
 
   isPublicJob() {
-    return (this.user.isPublicJob == 1) && (this.existsJobText() == true);
+    return (this.user.isPublicJob == 1);
   }
 
   isPublicSkill() {
-    return (this.user.isPublicSkill == 1) && (this.existsSkills() == true);
+    return (this.user.isPublicSkill == 1);
   }
 
   isProfileMine() {
@@ -88,14 +94,22 @@ export class UserprofComponent implements OnInit {
   }
 
   existsEducationText() {
-    if((this.userReceived == true) && (this.user.educationText != null) && (this.user.educationText != "") && (this.user.educationText != "NO"))
+    if((this.userReceived == true) 
+    && (this.user.educationText != null) 
+    && (this.user.educationText != "") 
+    && (this.user.educationText != "NO") 
+    && (this.user.educationText != "EMPTY"))
       return true;
     else
       return false;
   }
 
   existsJobText() {
-    if((this.userReceived == true) && (this.user.jobExperienceText != null) && (this.user.jobExperienceText != "") && (this.user.jobExperienceText != "NO"))
+    if((this.userReceived == true) 
+    && (this.user.jobExperienceText != null) 
+    && (this.user.jobExperienceText != "") 
+    && (this.user.jobExperienceText != "NO")
+    && (this.user.jobExperienceText != "EMPTY"))
       return true;
     else
       return false;
@@ -110,5 +124,121 @@ export class UserprofComponent implements OnInit {
 
   logOutCLick() {
     this.welcomeService.logout();
+  }
+
+  skillCheckEvent(event) {
+    if ( event.target.checked ) {
+        this.user.isPublicSkill = 1;
+    }
+    else if( !event.target.checked ) {
+      this.user.isPublicSkill = 0;
+    } 
+  }
+
+  educationCheckEvent(event) {
+    if ( event.target.checked ) {
+        this.user.isPublicEducation = 1;
+    }
+    else if( !event.target.checked ) {
+      this.user.isPublicEducation = 0;
+    } 
+  }
+
+
+  jobCheckEvent(event) {
+    if ( event.target.checked ) {
+        this.user.isPublicJob = 1;
+        console.log("Checked job");
+    }
+    else if( !event.target.checked ) {
+      this.user.isPublicJob = 0;
+      console.log("UnChecked job");
+
+    } 
+  }
+
+  isChanging() {
+    return this.updating;
+  }
+
+  confirmChanges() {
+    this.updating = true;
+    this.getuserService.updateUser(this.user)
+    .subscribe(
+      data=> {
+        this.updating = false;
+        this.editingEducation = false;
+        this.editingJob = false;
+        this.editingSkills = false;
+      }
+    );
+
+    if(this.changedSkills == true) {
+      const newSkills : SkillsListBean = {
+        userId: this.user.idUser,
+        skills: this.createSkillsList()
+      }
+      this.getuserService.insertSkills(newSkills)
+      .subscribe(
+        data=>{
+
+        }
+      );
+    }
+  }
+
+  isEditingEducation() {
+    return this.editingEducation;
+  }
+
+  isEditingJob() {
+    return this.editingJob;
+  }
+
+  isEditingSkills() {
+    this.changedSkills = true;
+    return this.editingSkills;
+  }
+
+  editEducation() {
+    this.editingEducation = !this.editingEducation;
+  }
+
+  editSkills() {
+    this.editingSkills = !this.editingSkills;
+  }
+
+  editJob() {
+    this.editingJob = !this.editingJob;
+  }
+
+  createSkillsList() {
+    var start = 0;
+    var end = 0;
+    var stringList : string[] = [];
+
+    if(this.skillsString.length == 0) {
+      return stringList;
+    }
+
+    while(end != -1) {
+      if((end = this.skillsString.indexOf(", ", start)) == -1) {
+        stringList.push(this.skillsString.slice(start));
+      }
+      else if(start == 0) {
+          stringList.push(this.skillsString.slice(start, end));
+          start = end + 2
+      }
+      else {
+        if(this.skillsString.length  < start) {
+          end = -1;
+        }
+        else {
+          stringList.push(this.skillsString.slice(start, end));
+          start = end + 2
+        }
+      }
+    }
+    return stringList;
   }
 }

@@ -332,7 +332,7 @@ public class UserEndpoint {
 	}
 	
 	//Testing insertion of one skill
-	@POST
+	/*@POST
 	@Secured
 	@Path("/insertSkill")
 	public Response insertSkill(
@@ -356,19 +356,20 @@ public class UserEndpoint {
 		
 		return Response.status(200).entity("Succesfully inserted skill: " + skillName + " on user: " + userd.getIdUser()).build();
 		
-	}
+	}*/
 	
 	//Will consume a SkillListBean of userId
 	@POST
 	@Secured
-	@Path("/insertSkillUser")
+	@Path("/insertSkill")
 	@Consumes({"application/json"})
-	public Response insertSkillUser(final SkillListBean skillListBean) {
+	public Response insertSkill(final SkillListBean skillListBean) {
 		UserDB userDao = new UserDB();
 		SkillDB skillDao = new SkillDB();
 		entities.User userd = userDao.getById(skillListBean.getUserId());
 		
 		List<String> skillList = skillListBean.getSkills();
+		List<entities.Skill> skillsd = new ArrayList<entities.Skill>();
 		for (int i = 0; i < skillList.size(); i++) {
 			entities.Skill skilld = skillDao.find(skillList.get(i));
 			if(skilld == null) {
@@ -376,10 +377,16 @@ public class UserEndpoint {
 				skilld.setSkillName(skillList.get(i));
 				skillDao.insertSkill(skilld);
 			}
-			userd.setSkills(Arrays.asList(skilld));
-			userDao.mergeUser(userd);
+			skillsd.add(skilld);
+			/*if(i == 0) {
+				userd.setSkills(Arrays.asList(skilld));
+			}
+			else {
+				userd.getSkills().add(skilld);
+			}*/
 		}
-		
+		userd.setSkills(skillsd);
+		userDao.mergeUser(userd);
 		return Response.status(200).build();
 	}
 	

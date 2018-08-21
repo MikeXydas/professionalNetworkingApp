@@ -5,7 +5,7 @@ TO DO:
 	LOGIN: Redirect on hompeage  
 	MODERATOR: NO ACCESS VALIDATION, No fileSystem photos  
 	MODERATOR_USER_PROFILE: No fileSystem photos  
-	USER_PROFILE:No fileSystem photos, NO MY PROFILE  
+	USER_PROFILE:No fileSystem photos, ON MY PROFILE: Cannot change name, add directions on the correct format of entering skills  
 	
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
