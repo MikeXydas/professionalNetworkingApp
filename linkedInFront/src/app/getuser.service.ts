@@ -115,4 +115,8 @@ export class GetuserService {
   insertSkills(skills) {
     return this.http.post(this.apiRoot + "User/insertSkill", skills, httpOptions);
   }
+
+  /*getConnectedUsers(id) {
+    return this.http.post(this.apiRoot + "ConnectionRequest/connections", "{\"id\": 42}",httpOptions);
+  }*/
 }

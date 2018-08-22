@@ -44,12 +44,13 @@ import model.AdvertismentPostBean;
 import model.ConnectionRequestBean;
 import model.ConnectionRequestPKBean;
 import model.PendingRequestBean;
+import model.SendId;
 
 @Path("ConnectionRequest")
 public class ConnectionRequestEndpoint {
 
 	//Testing the send request (no checks)
-	@POST
+	/*@POST
 	@Path("/send")
 	public Response sendRequest(
 			@FormParam("idSend") int idSend,
@@ -90,24 +91,24 @@ public class ConnectionRequestEndpoint {
 			return Response.status(200).entity("Request already existed").build();
 		
 		
-	}
+	}*/
 	
-	/*@POST
+	@POST
 	@Path("/send")
 	@Consumes({"application/json"})
 	public Response sendRequest(final ConnectionRequestBean reqBean) {
-		//Care senderId is actually receiverId (to be fixed)
+		//Care senderId IN THE ENTITY is actually receiverId (to be fixed)
 		
-		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
+		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();		
 		entities.ConnectionRequest connd = null;
 		UserDB userDao = new UserDB();
-		entities.User userd = userDao.getById(reqBean.getUser().getIdUser());
+		entities.User userd = userDao.getById(userDao.getById(reqBean.getUserId()).getIdUser());
 		List <entities.ConnectionRequest> reqList = userd.getConnectionRequests();
 		
 		int reqExists = 0;
 		int i;
 		for(i = 0; i < reqList.size(); i++) {
-			if(reqList.get(i).getSenderId() == reqBean.getSenderId()) {
+			if(reqList.get(i).getSenderId() == reqBean.getReceiverId()) {
 				reqExists = 1;
 				break;
 			}
@@ -115,7 +116,7 @@ public class ConnectionRequestEndpoint {
 		
 		if(reqExists == 0) {
 			connd = new entities.ConnectionRequest();
-			connd.setSenderId(reqBean.getSenderId());
+			connd.setSenderId(reqBean.getReceiverId());
 			Date date = new Date();
 			connd.setSendTime(date);
 			connd.setUser(userd);
@@ -132,7 +133,7 @@ public class ConnectionRequestEndpoint {
 			//Case that the request already exists
 			return Response.status(200).build();
 		}
-	}*/
+	}
 	
 	/*@POST
 	@Path("/accept")
@@ -187,11 +188,11 @@ public class ConnectionRequestEndpoint {
 		UserDB userDao = new UserDB();
 		ConnectionDB connectionDao = new ConnectionDB();
 		
-		ConnectionRequestPKBean reqPkBean = reqBean.getId();
-		entities.ConnectionRequestPK reqPk = new entities.ConnectionRequestPK();
-		reqPk.setIdConnectionRequest(reqPkBean.getIdConnectionRequest());
-		reqPk.setUser_idUser(reqPkBean.getUser_idUser());
-		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqPk);
+		//ConnectionRequestPKBean reqPkBean = reqBean.getId();
+		//entities.ConnectionRequestPK reqPk = new entities.ConnectionRequestPK();
+		//reqPk.setIdConnectionRequest(reqPkBean.getIdConnectionRequest());
+		//reqPk.setUser_idUser(reqPkBean.getUser_idUser());
+		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqBean.getId());
 
 		entities.User userReceive = userDao.getById(reqd.getSenderId());
 		entities.User userSend = reqd.getUser();
@@ -242,14 +243,15 @@ public class ConnectionRequestEndpoint {
 		}
 	}*/
 	
-	@GET
-	@Path("/pending/{id:[0-9]*}")
+	@POST
+	@Consumes({"application/json"})
 	@Produces({"application/json"})
-	public List<PendingRequestBean> returnPendingRequests(@PathParam("id") int id) throws IOException {
+	@Path("/pending")
+	public Response returnPendingRequests(final SendId id) throws IOException {
 		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
 		FileManipulation photoManip = new FileManipulation();
 
-		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id);
+		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id.getId());
 
 		List<PendingRequestBean> retList = new ArrayList<PendingRequestBean>();
 		
@@ -262,14 +264,33 @@ public class ConnectionRequestEndpoint {
 			//temp.setPhotoUrl(requests.get(i).getUser().getPhotoUrl());
 			temp.setSendTime(requests.get(i).getSendTime());
 			
-			if(requests.get(i).getUser().getPhotoUrl() != null) {
-				temp.setPhotoString64(photoManip.SendFile(requests.get(i).getUser().getPhotoUrl()));
-			}
+			//if(requests.get(i).getUser().getPhotoUrl() != null) {
+			//	temp.setPhotoString64(photoManip.SendFile(requests.get(i).getUser().getPhotoUrl()));
+			//}
 			
 			retList.add(temp);
 		}
 		
-		return retList;
+		return Response.status(200).entity(retList).build();
+	}
+	
+	@POST
+	@Path("/connections")
+	@Produces({"application/json"})
+	@Consumes({"application/json"})
+	public Response returnConnections (final SendId id) {
+		ConnectionDB connectionDao = new ConnectionDB();
+		UserEndpoint userEnd = new UserEndpoint();
+		
+		List<entities.Connection> connectionsd = connectionDao.getConnectionsOfUser(id.getId());
+		
+		List <UserBean> userBeans = new ArrayList<UserBean>();
+		
+		for(int i = 0; i < connectionsd.size(); i++) {
+			userBeans.add(userEnd.createUserBeanFromEntity(connectionsd.get(i).getUser()));
+		}
+		
+		return Response.ok(userBeans).build();
 	}
 
 }

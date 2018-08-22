@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModeratorService} from './moderator.service'
 import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { WelcomeService } from '../welcome/welcome.service';
 import { UserIds } from './userIds';
 import {saveAs as importedSaveAs} from "file-saver";
 
@@ -16,7 +16,8 @@ export class ModeratorComponent implements OnInit {
   users; 
 
   constructor(
-    private moderatorService: ModeratorService 
+    private moderatorService: ModeratorService ,
+    private welcomeService: WelcomeService,
   ) {
 
   }
@@ -75,4 +76,7 @@ export class ModeratorComponent implements OnInit {
     }
   }
 
+  logOutCLick() {
+    this.welcomeService.logout();
+  }
 }

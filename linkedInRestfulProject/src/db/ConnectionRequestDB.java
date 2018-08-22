@@ -102,21 +102,30 @@ public class ConnectionRequestDB {
         }
     }
     
-    public ConnectionRequest getById(ConnectionRequestPK id)
+    @SuppressWarnings("unchecked")
+	public ConnectionRequest getById(int id)
     {
+        List<ConnectionRequest> connectionRequests = null;
         ConnectionRequest connectionRequest = null;
         
         EntityManager em = JPAResource.factory.createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         
-        connectionRequest =em.find(ConnectionRequest.class, id);
-	
+        Query q = em.createQuery("Select req from ConnectionRequest req where req.id.idConnectionRequest = :id");
+        q.setParameter("id", id);
+        
+        connectionRequests = q.getResultList();
         tx.commit();
         em.close();
         
-        
+        if (connectionRequests != null && connectionRequests.size() == 1)
+        {
+            connectionRequest = (ConnectionRequest) connectionRequests.get(0);
+        }
+
         return connectionRequest;
+        
     }
     
     

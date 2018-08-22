@@ -6,6 +6,7 @@ import java.util.List;
 
 import db.CommentDB;
 import db.InterestDB;
+import db.UserDB;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,6 +16,7 @@ public class XmlCreator {
 	
 	public Node getUser(entities.User userd, Document doc) {
 		Element user = doc.createElement("User");
+		UserDB userDao = new UserDB();
 		user.setAttribute("id", Integer.toString(userd.getIdUser()));
 		user.appendChild(getUserElements(doc, user, "firstName", userd.getFirstName()));
 		user.appendChild(getUserElements(doc, user, "lastName", userd.getLastName()));
@@ -37,7 +39,7 @@ public class XmlCreator {
 		{
 			List <entities.Connection> connections = userd.getConnections();
 			for(int i = 0; i < connections.size(); i++) {
-				connectionsNode.appendChild(getConnections(connections.get(i).getUser(), doc, connections.get(i).getId().getIdConnection()));
+				connectionsNode.appendChild(getConnections(userDao.getById(connections.get(i).getConnectedUserId()), doc, connections.get(i).getId().getIdConnection()));
 			}
 		}
 		user.appendChild(connectionsNode);

@@ -65,7 +65,7 @@ img.logo{
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
-        background-color: rgb(29, 26, 31);
+        background-color: #009edf;
 }
 
 .dropdown-content {

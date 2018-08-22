@@ -3,11 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { GetuserService } from '../getuser.service'
 import { WelcomeService } from '../welcome/welcome.service';
 import { SkillsListBean } from './skillsListBean'
+import { ConnectionService } from '../connection.service';
+import { ConnectionRequest } from '../connectionRequest';
 
 @Component({
   selector: 'app-userprof',
   templateUrl: './userprof.component.html',
-  providers: [ GetuserService, WelcomeService ],
+  providers: [ GetuserService, WelcomeService, ConnectionService ],
   styleUrls: ['./userprof.component.css']
 })
 export class UserprofComponent implements OnInit {
@@ -15,6 +17,7 @@ export class UserprofComponent implements OnInit {
   isMine = false;
   userId;
   user;
+  loginedUser;
   skills;
   skillsString = "";
   userReceived = false;
@@ -25,10 +28,13 @@ export class UserprofComponent implements OnInit {
   editingSkills = false;
   editingJob = false;
   changedSkills = false;
+  isConnection = false;
+  connectionList;
 
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
-              private getuserService : GetuserService) { }
+              private getuserService : GetuserService,
+              private conectionService : ConnectionService) { }
 
   ngOnInit() {
     this.userId = this.route.paramMap.subscribe(
@@ -41,8 +47,9 @@ export class UserprofComponent implements OnInit {
             this.getuserService.getAccessLevelObs(1)
             .subscribe(
               data=> {
+                this.loginedUser = this.welcomeService.getLoginedUser();
                 this.validatedAccess = data;
-                if(this.welcomeService.getLoginedUser() == this.user.idUser) {
+                if(this.loginedUser == this.user.idUser) {
                   this.isMine = true;
                 }
                 this.userReceived = true; 
@@ -65,8 +72,34 @@ export class UserprofComponent implements OnInit {
             
           }
         );
+
+        this.conectionService.getConnectedUsers(this.welcomeService.getLoginedUser())
+        .subscribe(
+          data=> {
+            this.connectionList = data;
+            for(var whichConnection = 0; whichConnection < this.connectionList.length; whichConnection++) {
+              if(this.connectionList[whichConnection].idUser == this.user.idUser) {
+                this.isConnection = true;
+                console.log("aaa");
+                break;
+              }
+            }
+          }
+        );
       }
     );
+  }
+
+  sendRequest() {
+    const newReq : ConnectionRequest = {
+      id : 0,
+      receiverId : this.user.idUser,
+      sendTime : 0,
+      userId : this.loginedUser
+    }
+
+    this.conectionService.sendRequest(newReq)
+    .subscribe();
   }
 
   isPublicEducation() {

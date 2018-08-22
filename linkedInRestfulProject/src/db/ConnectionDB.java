@@ -28,6 +28,23 @@ public class ConnectionDB {
         return connections;
     }
 	
+	@SuppressWarnings("unchecked")
+	public List<Connection> getConnectionsOfUser(int id)
+    {
+        List<Connection> connections = null;
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        Query q = em.createQuery("Select c from Connection c where c.connectedUserId = :id");
+        q.setParameter("id", id);
+        connections =  q.getResultList();
+		
+        tx.commit();
+        em.close();
+        return connections;
+    }
+	
 	public ConnectionPK insertConnection(Connection connection)
     {
     	ConnectionPK id = null;
@@ -94,4 +111,6 @@ public class ConnectionDB {
         
         return connection;
     }
+    
+    
 }

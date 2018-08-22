@@ -16,7 +16,10 @@ import { ModeratorComponent } from './moderator/moderator.component';
 import { UsermodComponent } from './usermod/usermod.component';
 import { WelcomeService} from './welcome/welcome.service'
 import { GetuserService } from './getuser.service';
-import { UserprofComponent } from './userprof/userprof.component'
+import { ConnectionService } from './connection.service'
+
+import { UserprofComponent } from './userprof/userprof.component';
+import { SettingsComponent } from './settings/settings.component'
 
 var routes  =[
   {
@@ -38,6 +41,10 @@ var routes  =[
   {
     path: 'userprof/:id',
     component: UserprofComponent
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent
   }
 ];
 
@@ -49,6 +56,8 @@ var routes  =[
     ModeratorComponent,
     UsermodComponent,
     UserprofComponent,
+    SettingsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -62,7 +71,8 @@ var routes  =[
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     WelcomeService,
-    GetuserService
+    GetuserService,
+    ConnectionService
   ],
   bootstrap: [AppComponent]
 })

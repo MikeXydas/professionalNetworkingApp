@@ -1,38 +1,41 @@
 package model;
 
 import java.util.Date;
-
+import java.sql.Timestamp;
 public class ConnectionRequestBean {
 
-	private ConnectionRequestPKBean id;
-	private int senderId;
-	private Date sendTime;
-	private UserBean user;
+	private int id;
+	private int receiverId;
+	private long sendTime;
+	private int userId;
 	
-	public ConnectionRequestPKBean getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(ConnectionRequestPKBean id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-	public int getSenderId() {
-		return senderId;
+	
+	public int getReceiverId() {
+		return receiverId;
 	}
-	public void setSenderId(int senderId) {
-		this.senderId = senderId;
+	public void setReceiverId(int receiverId) {
+		this.receiverId = receiverId;
 	}
-	public Date getSendTime() {
+	
+	public long getSendTime() {
 		return sendTime;
 	}
-	public void setSendTime(Date sendTime) {
+	public void setSendTime(long sendTime) {
 		this.sendTime = sendTime;
 	}
-	public UserBean getUser() {
-		return user;
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser(UserBean user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
+	
 	
 	
 }

@@ -4,9 +4,7 @@
   <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 
-<h1 class="title">
-  Moderator page
-</h1>
+
 <!-- <div class="contain">
   <div class="grid-container">
     <div>1</div>
@@ -32,14 +30,25 @@
   </ul>
 </div> -->
 
+<div class="permaTop">
+  <div class= "navbar">
+    <a [routerLink]="['/moderator']" class="current" >ExportXMLPage</a>
+    <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
+  </div>
+</div>
 
+<h1 class="title">
+    Moderator page
+  </h1>
+  
 <div class="container">
     
   <div class="list-group" *ngFor="let user of users; let i = index">
-    <a [routerLink]="['/usermod', users[i].idUser]" class="list-group-item box">
               
       <div class="" >
-        <img class="profImg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="Cat missing...">
+        <a [routerLink]="['/usermod', users[i].idUser]">
+          <img class="profImg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="Cat missing...">
+        </a>
         <p class="characteristics">{{user.firstName }} {{user.lastName }}</p>
         <p class="characteristics"> {{user.email }}</p>
         <p class="characteristics"> {{user.phoneNumber }}</p>
@@ -57,7 +66,6 @@
 
             </label>
         </div> -->
-    </a>
 
 	</div>
 

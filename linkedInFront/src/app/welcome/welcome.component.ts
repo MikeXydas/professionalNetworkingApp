@@ -60,6 +60,9 @@ export class WelcomeComponent implements OnInit {
         if(data.isModerator == 1) {
           this.router.navigate(['moderator']);
         }
+        else {
+          this.router.navigate(['userprof/', data.id]);
+        }
         this.loginFailed = 0;
       },
       error => {

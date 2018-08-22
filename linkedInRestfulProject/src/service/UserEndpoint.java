@@ -531,7 +531,7 @@ public class UserEndpoint {
 		return Response.ok(createUserBeanFromEntity(userd)).build();
 	}
 	
-	private UserBean createUserBeanFromEntity(entities.User userd) {
+	public UserBean createUserBeanFromEntity(entities.User userd) {
 		
 		UserBean user = new UserBean();
 		if (userd != null) {
