@@ -526,9 +526,14 @@ public class UserEndpoint {
 	public Response search(SearchBean searchBean) {
 		
 		UserDB userDao = new UserDB();
-		entities.User userd = userDao.findName(searchBean.getFirstName(), searchBean.getLastName());
-		
-		return Response.ok(createUserBeanFromEntity(userd)).build();
+		List <entities.User> list_userd = userDao.findName(searchBean.getFirstName(), searchBean.getLastName());
+		List <UserBean> userBeans = new ArrayList<UserBean>();
+		if(list_userd != null) {
+			for(int i=0;i<list_userd.size();i++) {
+				userBeans.add(createUserBeanFromEntity(list_userd.get(i)));
+			}
+		}
+		return Response.ok(userBeans).build();
 	}
 	
 	public UserBean createUserBeanFromEntity(entities.User userd) {

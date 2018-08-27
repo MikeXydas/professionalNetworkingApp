@@ -56,7 +56,7 @@ export class UserprofComponent implements OnInit {
               }
             );
           }
-        );
+        );65
 
         this.getuserService.getSkills(this.userId)
         .subscribe(

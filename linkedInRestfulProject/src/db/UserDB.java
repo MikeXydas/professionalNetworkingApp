@@ -77,9 +77,10 @@ public class UserDB {
         
     }
     
-    public User findName(String firstName, String lastName)
+    @SuppressWarnings("unchecked")
+	public List <User> findName(String firstName, String lastName)
     {
-        User user = null;
+        List <User> users = null;
         
         EntityManager em = JPAResource.factory.createEntityManager();
         EntityTransaction tx = em.getTransaction();
@@ -89,16 +90,10 @@ public class UserDB {
         q.setParameter("firstName", firstName);
         q.setParameter("lastName", lastName);
 
-        List users =  q.getResultList();
+        users =  q.getResultList();
         tx.commit();
         em.close();
-        
-        if (users != null && users.size() == 1)
-        {
-            user = (User) users.get(0);
-        }
-
-        return user;
+        return users;
         
     }
     

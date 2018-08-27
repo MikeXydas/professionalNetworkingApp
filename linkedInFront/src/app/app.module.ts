@@ -19,7 +19,8 @@ import { GetuserService } from './getuser.service';
 import { ConnectionService } from './connection.service'
 
 import { UserprofComponent } from './userprof/userprof.component';
-import { SettingsComponent } from './settings/settings.component'
+import { SettingsComponent } from './settings/settings.component';
+import { NetworkComponent } from './network/network.component'
 
 var routes  =[
   {
@@ -45,6 +46,10 @@ var routes  =[
   {
     path: 'settings',
     component: SettingsComponent
+  },
+  {
+    path: 'network',
+    component: NetworkComponent
   }
 ];
 
@@ -57,6 +62,7 @@ var routes  =[
     UsermodComponent,
     UserprofComponent,
     SettingsComponent,
+    NetworkComponent,
 
   ],
   imports: [
