@@ -81,7 +81,6 @@ public class UserEndpoint {
 		return Response.status(200).entity("First name is: " + userd.getFirstName()).build();
 	}
 	
-	//@Secured
 	@POST
 	@Path("/add")
 	@Consumes({ "application/json" })
@@ -291,10 +290,17 @@ public class UserEndpoint {
 	@Path("/update")
 	@Consumes({"application/json"})
 	public Response updateUser(UserBean user) {
-		
+		UserDB userDao = new UserDB();
+		entities.User temp;
+		if((temp = userDao.findEmail(user.getEmail())) != null) {
+			if(temp.getIdUser() != user.getIdUser()) {
+				return Response.status(Response.Status.FORBIDDEN).build();
+			}
+		}
 		entities.User userd = new entities.User();
 		FileManipulation photoManip = new FileManipulation();
 
+		
 		userd.setIdUser(user.getIdUser());
 		userd.setLastName(user.getLastName());
 		userd.setFirstName(user.getFirstName());
@@ -304,11 +310,11 @@ public class UserEndpoint {
 		//userd.setPhotoUrl(user.getPhotoUrl());
 		
 		
-		if(user.getPhotoBytes() != null) {
+		/*if(user.getPhotoBytes() != null) {
 			String fileName = "userPic" + user.getIdUser();
 			String imagePath = FILE_SYSTEM + "/userPics/" + fileName;
 			
-			userd.setPhotoUrl(photoManip.ReceiveFile(imagePath, user.getPhotoBytes()));
+			userd.setPhotoUrl(photoManip.ReceiveFile(imagePath, user.getPhotoBytes()));*/
 			/*if(user.getPhotoUrl() != null) {		
 				try {
 					FileUtils.writeByteArrayToFile((new File(imagePath)), user.getPhotoUrl());
@@ -317,14 +323,13 @@ public class UserEndpoint {
 					e.printStackTrace();
 				}
 			}*/
-			userd.setPhotoUrl(imagePath);
-		}
+			/*userd.setPhotoUrl(imagePath);
+		}*/
 		userd.setEducationText(user.getEducationText());
 		userd.setJobExperienceText(user.getJobExperienceText());
 		userd.setIsPublicEducation(user.getIsPublicEducation());
 		userd.setIsPublicJob(user.getIsPublicJob());
 		userd.setIsPublicSkill(user.getIsPublicSkill());
-		UserDB userDao = new UserDB();
 		userDao.updateUser(userd);
 		
 		return Response.ok().build();

@@ -11,13 +11,16 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SettingsComponent implements OnInit {
 
-  userId;
+  loginedUser;
   user;
   userReceived = false;
   validatedAccess = false;
   newEmail = "";
   newPass = "";
   confimNewPass = "";
+  isLoadingPass = false;
+  isLoadingEmail = false;
+  emailExists = false;
 
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
@@ -30,9 +33,9 @@ export class SettingsComponent implements OnInit {
       data=> {
         this.validatedAccess = data;
         if(this.validatedAccess == true) {
-          this.userId = this.welcomeService.getLoginedUser();
-          console.log(this.userId);
-          this.getuserService.getUser(this.userId)
+          this.loginedUser = this.welcomeService.getLoginedUser();
+          console.log(this.loginedUser);
+          this.getuserService.getUser(this.loginedUser)
           .subscribe(
             data=> {
               this.user = data;
@@ -61,15 +64,36 @@ export class SettingsComponent implements OnInit {
   }
 
   updateMail() {
+    this.isLoadingEmail = true;
     this.user.email = this.newEmail;
     this.getuserService.updateUser(this.user)
-    .subscribe();
+    .subscribe(
+      data=> {
+        this.newEmail = "";
+        this.isLoadingEmail = false;
+        this.emailExists = false;
+      },
+      error => {
+        this.isLoadingEmail = false;
+        this.emailExists = true;
+      }
+    );
   }
 
   updatePassword() {
+    this.isLoadingPass = true;
     this.user.password = this.newPass;
     this.getuserService.updateUser(this.user)
-    .subscribe();
+    .subscribe(
+      data=> {
+        this.newPass = "";
+        this.confimNewPass = "";
+        this.isLoadingPass = false;
+      },
+      error => {
+        this.isLoadingPass = false;
+      }
+    );
   }
 
 }

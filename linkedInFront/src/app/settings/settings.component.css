@@ -97,17 +97,15 @@ img.logo{
 
 .grid-container {
         display: grid;
-        grid-template-columns: 100%;
+        grid-template-columns: 50% 50%;
         grid-template-rows: auto;
         grid-gap: 50px;
         border-color: blue;
-        background-color: aquamarine;
+        background-color: rgb(255, 255, 255);
         padding: 0px;
         border: 2px;
-        float: center;
-
-
-      }
+        float: left;
+}
 
 
 .grid-container > div {
@@ -116,7 +114,18 @@ img.logo{
         text-align: center;
         font-size: 30px;
         height: 500px;
-        width:500px;
+        width:1000px;
         margin: 200px;
+        float: center;
         
+}
+
+.confirmBtn {
+        background-color: #009edf;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        float: center;
+        margin: 150px 200px;
+        padding: 20px;
+        font-size: 30px;
+        border: none;
 }

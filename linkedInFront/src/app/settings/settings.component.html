@@ -5,13 +5,43 @@
     <a [routerLink]="" class="" >Messaging</a>
     <a [routerLink]="" class="" >Network</a>
     <a [routerLink]="" class="" >Notifications</a>
-    <a [routerLink]="" class="" >Profile</a>
+    <a [routerLink]="['/userprof', loginedUser]" class="" >Profile</a>
     <a [routerLink]="['/settings']" class="current" >Settings</a>
     <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
   </div>
-
+</div>
   <div class="container grid-container">
     <div>
-      Under Development...
+      <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+      <p class="text-center">Use the form below to change your password</p>
+      <input type="password" [(ngModel)] = "newPass" class="input-lg form-control"   placeholder="New Password" autocomplete="off">
+      <br>
+      <input type="password" [(ngModel)] = "confimNewPass" class="input-lg form-control"   placeholder="Repeat Password" autocomplete="off">
+      <br>
+      <!-- <input *ngIf="!isPasswordValid()" type="submit" class="col-xs-12 btn btn-primary btn-load btn-lg" value="Change Password"> -->
+      <button *ngIf="isPasswordValid() && !isLoadingPass" (click)="updatePassword()" type="button" class="col-xs-12 btn btn-primary btn-lg">Change Password</button>
+      <button *ngIf="!isPasswordValid() && !isLoadingPass" type="button" class="col-xs-12 btn btn-primary btn-lg disabled">Password Mismatch</button>
+      <button *ngIf="isLoadingPass" type="button" class="col-xs-12 btn btn-primary btn-lg disabled">Changing password...</button>
+
+      </div><!--/col-sm-6-->
+      </div><!--/row-->
+    </div>
+
+    <div>
+      <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+      <p class="text-center">Use the form below to change your email</p>
+      <input [(ngModel)] = "newEmail" type="text" class="input-lg form-control"   placeholder="New Email">
+      <br>
+      <button *ngIf="isEmailValid() && !isLoadingEmail" (click)="updateMail()" type="button" class="col-xs-12 btn btn-primary btn-lg">Change Email</button>
+      <button *ngIf="!isEmailValid() && !isLoadingEmail" type="button" class="col-xs-12 btn btn-primary btn-lg disabled">Provide Email</button>
+      <button *ngIf="isLoadingEmail" type="button" class="col-xs-12 btn btn-primary btn-lg disabled">Changing Email...</button>
+      <div *ngIf="!isLoadingEmail && emailExists">
+        <br>
+        <button  type="button" class="col-xs-12 btn btn-primary btn-lg disabled">Email already exists</button>
+      </div>
+      </div><!--/col-sm-6-->
+      </div><!--/row-->
     </div>
   </div>

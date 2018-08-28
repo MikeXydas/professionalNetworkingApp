@@ -11,8 +11,8 @@
   <a [routerLink]="" class="" >Messaging</a>
   <a [routerLink]="['/network']" class="" >Network</a>
   <a [routerLink]="" class="" >Notifications</a>
-  <a *ngIf="!isProfileMine()" [routerLink]="" class="" >Profile</a>
-  <a *ngIf="isProfileMine()" [routerLink]="" class="current" >Profile</a>
+  <a *ngIf="!isProfileMine()" [routerLink]="['/userprof', loginedUser]" class="" >Profile</a>
+  <a *ngIf="isProfileMine()" [routerLink]="['/userprof', loginedUser]" class="current" >Profile</a>
   <a [routerLink]="['/settings']" class="" >Settings</a>
   <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
 </div>
