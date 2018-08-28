@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import entities.Advertisment;
 import entities.AdvertismentPK;
+import entities.ConnectionRequest;
 
 public class AdvertismentDB {
 
@@ -119,5 +120,31 @@ public class AdvertismentDB {
         
         
         return advertisment;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Advertisment getByAdId(int id)
+    {
+        List<Advertisment> advertisments = null;
+        Advertisment advertisment = null;
+        
+        EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        
+        Query q = em.createQuery("Select ad from Advertisment ad where ad.id.idAdvertisment = :id");
+        q.setParameter("id", id);
+        
+        advertisments = q.getResultList();
+        tx.commit();
+        em.close();
+        
+        if (advertisments != null && advertisments.size() == 1)
+        {
+            advertisment = (Advertisment) advertisments.get(0);
+        }
+
+        return advertisment;
+        
     }
 }

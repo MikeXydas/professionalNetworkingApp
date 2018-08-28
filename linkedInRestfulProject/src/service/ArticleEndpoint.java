@@ -110,7 +110,7 @@ public class ArticleEndpoint {
 		
 		ArticleDB articleDao = new ArticleDB();
 		UserDB userDao = new UserDB();
-		FileManipulation fileManip = new FileManipulation();
+		//FileManipulation fileManip = new FileManipulation();
 
 		entities.User userd = userDao.getById(articleBean.getUserId());
 		entities.Article articled = new entities.Article();
@@ -126,7 +126,7 @@ public class ArticleEndpoint {
 		articled.setUploadTime(date);
 		entities.ArticlePK insertedPK = articleDao.insertArticle(articled);
 		
-		if(articleBean.getPhotoBytes() != null) {
+		/*if(articleBean.getPhotoBytes() != null) {
 			String fileName = "articleImage" + insertedPK.getIdArticle();
 			String imagePath = FILE_SYSTEM + "/Article/image/" + fileName;
 			
@@ -145,7 +145,7 @@ public class ArticleEndpoint {
 			String videoPath = FILE_SYSTEM + "/Article/video/" + fileName;
 			
 			articled.setPhotoUrl(fileManip.ReceiveFile(videoPath, articleBean.getVideoBytes()));
-		}
+		}*/
 		
 		return Response.status(200).build();
 	}
@@ -183,6 +183,12 @@ public class ArticleEndpoint {
 		ArticleDB articleDao = new ArticleDB();
 		InterestDB interestDao = new InterestDB();
 		entities.Article articled = articleDao.getByArticleId(intBean.getArticleId());
+		
+		for(int i = 0; i < articled.getInterests().size(); i++) {
+			if(articled.getInterests().get(i).getInteresterId() == intBean.getInteresterId()) {
+				return Response.status(200).build();
+			}
+		}
 		entities.Interest interestd = new entities.Interest();
 		entities.InterestPK interestPK = new entities.InterestPK();
 		interestd.setId(interestPK);
@@ -198,12 +204,18 @@ public class ArticleEndpoint {
 	}
 	
 	@POST
-	@Path("/postCommnet")
+	@Path("/postComment")
 	@Consumes({"application/json"})
 	public Response showInterest(final PostCommentBean commBean) {
 		ArticleDB articleDao = new ArticleDB();
 		CommentDB commentDao = new CommentDB();
 		entities.Article articled = articleDao.getByArticleId(commBean.getArticleId());
+		
+		/*for(int i = 0; i < articled.getComments().size(); i++) {
+			if(articled.getInterests().get(i).getInteresterId() == commBean.getCommenterId()) {
+				return Response.status(200).build();
+			}
+		}*/
 		entities.Comment commentd = new entities.Comment();
 		entities.CommentPK commentPK = new entities.CommentPK();
 		commentd.setId(commentPK);
@@ -236,7 +248,7 @@ public class ArticleEndpoint {
 		return Response.status(200).entity(articleBeans).build();
 	}
 	
-	@POST
+	/*@POST
 	@Path("/showArticles")
 	public Response showHomepageArticles(
 			@FormParam("id") int id) {
@@ -247,7 +259,7 @@ public class ArticleEndpoint {
 		
 		
 		return Response.status(200).entity("Numb of articles found: " + articles.size()).build();
-	}
+	}*/
 	
 	//Creates an articleBean from an article entity
 	private ArticleBean createArticleBean(entities.Article articled) throws IOException {
@@ -293,8 +305,9 @@ public class ArticleEndpoint {
 		//Setting article contents
 		artBean.setIdArticle(articled.getId().getIdArticle());
 		artBean.setTitle(articled.getTitle());
+		artBean.setContentText(articled.getContentText());
 		artBean.setUploadTime(articled.getUploadTime());
-		if(articled.getContentText() != null) {
+		/*if(articled.getContentText() != null) {
 			artBean.setContentText(articled.getContentText());
 		}
 		
@@ -308,7 +321,7 @@ public class ArticleEndpoint {
 		
 		if(articled.getVideoUrl() != null) {
 			artBean.setVideoString64(fileManip.SendFile(articled.getVideoUrl()));
-		}
+		}*/
 		
 		return artBean;
 	}

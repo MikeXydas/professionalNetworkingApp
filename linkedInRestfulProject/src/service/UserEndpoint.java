@@ -574,6 +574,8 @@ public class UserEndpoint {
 		return Response.status(200).entity("Changed password of user: " + userd.getFirstName()).build();
 	}*/
 	
+	//PROPABLY NEVER USED
+	//NOT CHECKED
 	@POST
 	@Secured
 	@Consumes({"application/json"})
@@ -587,6 +589,8 @@ public class UserEndpoint {
 		return Response.status(200).build();
 	}
 	
+	//PROPABLY NEVER USED
+	//NOT CHECKED
 	@POST
 	@Secured
 	@Consumes({"application/json"})

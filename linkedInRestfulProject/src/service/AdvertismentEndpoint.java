@@ -172,10 +172,10 @@ public class AdvertismentEndpoint {
 		AdvertismentDB advertismentDao = new AdvertismentDB();
 		ApplicationDB applicationDao = new ApplicationDB();
 		
-		entities.AdvertismentPK adPk = new entities.AdvertismentPK();
-		adPk.setIdAdvertisment(applyBean.getAdId());
-		adPk.setUser_idUser(applyBean.getAdOwnerId());
-		entities.Advertisment add = advertismentDao.getById(adPk);
+		//entities.AdvertismentPK adPk = new entities.AdvertismentPK();
+		//adPk.setIdAdvertisment(applyBean.getAdId());
+		//adPk.setUser_idUser(applyBean.getAdOwnerId());
+		entities.Advertisment add = advertismentDao.getByAdId(applyBean.getAdId());
 
 		List<Application> applications = add.getApplications();
 

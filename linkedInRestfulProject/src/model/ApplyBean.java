@@ -3,7 +3,6 @@ package model;
 public class ApplyBean {
 
 	private int adId;
-	private int adOwnerId;
 	private int userId;
 	
 	public int getAdId() {
@@ -11,12 +10,6 @@ public class ApplyBean {
 	}
 	public void setAdId(int adId) {
 		this.adId = adId;
-	}
-	public int getAdOwnerId() {
-		return adOwnerId;
-	}
-	public void setAdOwnerId(int adOwnerId) {
-		this.adOwnerId = adOwnerId;
 	}
 	public int getUserId() {
 		return userId;
