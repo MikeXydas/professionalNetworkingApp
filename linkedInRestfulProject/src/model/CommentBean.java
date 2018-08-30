@@ -9,6 +9,8 @@ public class CommentBean {
 	private String contentText;
 	private Date uploadTime;
 	private int commenterId;
+	private String firstName;
+	private String lastName;
 	private ArticleBean article;
 	
 	public int getCommentId() {
@@ -47,5 +49,18 @@ public class CommentBean {
 	public void setArticle(ArticleBean article) {
 		this.article = article;
 	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GetuserService } from '../getuser.service'
 import { WelcomeService } from '../welcome/welcome.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ChildActivationStart } from '@angular/router';
 import { HomepageService } from './homepage.service';
 import { Article } from './article';
 import { Comment } from './comment';
@@ -25,6 +25,8 @@ export class HomepageComponent implements OnInit {
   networkReceived = false
   validatedAccess = false;
   loadingComplete = false;
+  commentBoxes: string[] = [];
+  successfulComment: boolean[] = [];
 
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
@@ -68,6 +70,11 @@ export class HomepageComponent implements OnInit {
             data => {
               this.articles = data;
               this.sortArticles();
+              this.sortComments();
+              for(var i = 0; i < this.articles.length; i++) {
+                this.commentBoxes.push("");
+                this.successfulComment.push(false);
+              }
               this.articlesReceived = true;
               console.log(this.articles);
             },
@@ -97,6 +104,57 @@ export class HomepageComponent implements OnInit {
     }
   }
 
+  sortComments() {
+    for(var whichArticle = 0; whichArticle < this.articles.length; whichArticle++) {
+      for(var i = 0; i < this.articles[whichArticle].comments.length; i++) {
+        for(var j = 0; j < this.articles[whichArticle].comments.length - i - 1; j++) {
+          if(this.articles[whichArticle].comments[j].uploadTime < this.articles[whichArticle].comments[j + 1].uploadTime) {
+            var temp = this.articles[whichArticle].comments[j];
+            this.articles[whichArticle].comments[j] = this.articles[whichArticle].comments[j + 1];
+            this.articles[whichArticle].comments[j + 1] = temp;
+          }
+        }
+      }
+    }
+  }
+
+  showInterest(whichArticle) {
+    const newInterest : Interest = {
+      articleId: this.articles[whichArticle].idArticle,
+      interesterId: this.loginedUser
+    }
+    console.log(this.articles[whichArticle].idArticle)
+    this.homepageService.showInterest(newInterest)
+    .subscribe(
+      data=> {
+        console.log("Succesfully showed interest");
+      },
+      error => {
+        console.log("Failed to show interest");
+      }
+    );
+  }
+
+  postComment(whichArticle) {
+    const newComment : Comment = {
+      articleId: this.articles[whichArticle].idArticle,
+      commenterId: this.loginedUser,
+      text: this.commentBoxes[whichArticle]
+    }
+
+    this.homepageService.postComment(newComment)
+    .subscribe(
+      data =>{
+        console.log("Successfully posted comment");
+        this.commentBoxes[whichArticle] = "";
+        this.successfulComment[whichArticle] = true;
+      },
+      error => {
+        console.log("Failed tp post comment");
+      }
+    );
+
+  }
   connectionsExist() {
     return this.network.length != 0;
   }
@@ -104,5 +162,19 @@ export class HomepageComponent implements OnInit {
   articlesExist() {
     return this.articles.length != 0;
   }
+
+  commentBoxValid(whichArticle) {
+    return this.commentBoxes[whichArticle] != "";
+  }
+
+  commentsExist(whichArticle) {
+    return this.articles[whichArticle].comments.length != 0;
+  }
+
+  transformDate(mseconds) {
+    var date = new Date(mseconds);
+    return date.toLocaleString();;
+  }
+
 
 }

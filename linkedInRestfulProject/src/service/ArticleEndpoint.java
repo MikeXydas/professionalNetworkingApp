@@ -183,10 +183,11 @@ public class ArticleEndpoint {
 		ArticleDB articleDao = new ArticleDB();
 		InterestDB interestDao = new InterestDB();
 		entities.Article articled = articleDao.getByArticleId(intBean.getArticleId());
-		
-		for(int i = 0; i < articled.getInterests().size(); i++) {
-			if(articled.getInterests().get(i).getInteresterId() == intBean.getInteresterId()) {
-				return Response.status(200).build();
+		if(articled.getInterests() != null) {
+			for(int i = 0; i < articled.getInterests().size(); i++) {
+				if(articled.getInterests().get(i).getInteresterId() == intBean.getInteresterId()) {
+					return Response.status(200).build();
+				}
 			}
 		}
 		entities.Interest interestd = new entities.Interest();
@@ -265,6 +266,7 @@ public class ArticleEndpoint {
 	private ArticleBean createArticleBean(entities.Article articled) throws IOException {
 		ArticleBean artBean = new ArticleBean();
 		UserBean user = new UserBean();
+		UserDB userDao = new UserDB();
 		FileManipulation fileManip= new FileManipulation();
 		List<CommentBean> comments = new ArrayList<CommentBean>();
 		List<InterestBean> interests = new ArrayList<InterestBean>();
@@ -286,6 +288,10 @@ public class ArticleEndpoint {
 			temp.setCommenterId(articled.getComments().get(i).getCommenterId());
 			temp.setContentText(articled.getComments().get(i).getContentText());
 			temp.setUploadTime(articled.getComments().get(i).getUploadTime());
+			
+			entities.User tempCommUser = userDao.getById(articled.getComments().get(i).getCommenterId());
+			temp.setFirstName(tempCommUser.getFirstName());
+			temp.setLastName(tempCommUser.getLastName());
 			
 			comments.add(temp);
 		}

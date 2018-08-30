@@ -121,3 +121,17 @@ p.info {
         width: 50px;
         height: 50px;
 }
+
+.interest {
+        font-size: 30px;
+        color: #007eaf;
+        font-style: italic;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+}
+
+.contComment {
+        width: 100%;
+        max-height: 500px;
+        overflow: scroll;
+}

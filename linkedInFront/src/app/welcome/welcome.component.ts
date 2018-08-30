@@ -61,7 +61,7 @@ export class WelcomeComponent implements OnInit {
           this.router.navigate(['moderator']);
         }
         else {
-          this.router.navigate(['userprof/', data.id]);
+          this.router.navigate(['homepage']);
         }
         this.loginFailed = 0;
       },
