@@ -17,7 +17,7 @@ export class ConnectionService {
   constructor(private http: HttpClient) { }
 
   getConnectedUsers(id) {
-    return this.http.post(this.apiRoot + "ConnectionRequest/connections", "{\"id\":" + id + "}",httpOptions);
+    return this.http.get(this.apiRoot + "ConnectionRequest/connections/" + id);
   }
 
   sendRequest(req) {

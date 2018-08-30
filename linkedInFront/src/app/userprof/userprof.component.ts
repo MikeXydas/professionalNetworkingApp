@@ -52,11 +52,24 @@ export class UserprofComponent implements OnInit {
                 if(this.loginedUser == this.user.idUser) {
                   this.isMine = true;
                 }
-                this.userReceived = true; 
+                this.userReceived = true;
+
+                this.conectionService.getConnectedUsers(this.welcomeService.getLoginedUser())
+                .subscribe(
+                  data=> {
+                    this.connectionList = data;
+                    for(var whichConnection = 0; whichConnection < this.connectionList.length; whichConnection++) {
+                      if(this.connectionList[whichConnection].idUser == this.user.idUser) {
+                        this.isConnection = true;
+                        break;
+                      }
+                    }
+                  }
+                );
               }
             );
           }
-        );65
+        );
 
         this.getuserService.getSkills(this.userId)
         .subscribe(
@@ -72,20 +85,7 @@ export class UserprofComponent implements OnInit {
             
           }
         );
-
-        this.conectionService.getConnectedUsers(this.welcomeService.getLoginedUser())
-        .subscribe(
-          data=> {
-            this.connectionList = data;
-            for(var whichConnection = 0; whichConnection < this.connectionList.length; whichConnection++) {
-              if(this.connectionList[whichConnection].idUser == this.user.idUser) {
-                this.isConnection = true;
-                console.log("aaa");
-                break;
-              }
-            }
-          }
-        );
+        
       }
     );
   }

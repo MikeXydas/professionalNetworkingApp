@@ -8,6 +8,7 @@ TO DO:
 	USER_PROFILE:No fileSystem photos, ON MY PROFILE: Cannot change name, add directions on the correct format of entering skills  
 	SETTINGS: Supposingly 100% complete  
 	NETWORK: Only search implemented (Not visually shown)  
+	HOMEPAGE: Dynamically show articles, add interest and comment functionality, ADD POST ARTICLE  
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 

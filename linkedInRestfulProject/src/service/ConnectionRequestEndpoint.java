@@ -274,15 +274,15 @@ public class ConnectionRequestEndpoint {
 		return Response.status(200).entity(retList).build();
 	}
 	
-	@POST
-	@Path("/connections")
+	@GET
+	@Path("/connections/{id:[0-9]*}")
 	@Produces({"application/json"})
 	@Consumes({"application/json"})
-	public Response returnConnections (final SendId id) {
+	public Response returnConnections (@PathParam("id") final Integer id) {
 		ConnectionDB connectionDao = new ConnectionDB();
 		UserEndpoint userEnd = new UserEndpoint();
 		
-		List<entities.Connection> connectionsd = connectionDao.getConnectionsOfUser(id.getId());
+		List<entities.Connection> connectionsd = connectionDao.getConnectionsOfUser(id);
 		
 		List <UserBean> userBeans = new ArrayList<UserBean>();
 		

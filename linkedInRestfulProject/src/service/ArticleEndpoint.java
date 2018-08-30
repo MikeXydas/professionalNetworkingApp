@@ -273,6 +273,8 @@ public class ArticleEndpoint {
 		//artBean.setIdArticle(articled.getId().getIdArticle());
 		user.setFirstName(articled.getUser().getFirstName());
 		user.setLastName(articled.getUser().getLastName());
+		user.setIdUser(articled.getUser().getIdUser());
+		
 		artBean.setUser(user);
 		
 		//Setting comments list
