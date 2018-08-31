@@ -221,6 +221,29 @@ public class ConnectionRequestEndpoint {
 		
 	}
 	
+	@POST
+	@Path("/decline")
+	@Consumes({"application/json"})
+	public Response declineRequest(final ConnectionRequestBean reqBean) {
+		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
+		UserDB userDao = new UserDB();
+		ConnectionDB connectionDao = new ConnectionDB();
+		
+		//ConnectionRequestPKBean reqPkBean = reqBean.getId();
+		//entities.ConnectionRequestPK reqPk = new entities.ConnectionRequestPK();
+		//reqPk.setIdConnectionRequest(reqPkBean.getIdConnectionRequest());
+		//reqPk.setUser_idUser(reqPkBean.getUser_idUser());
+		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqBean.getId());
+
+		entities.User userReceive = userDao.getById(reqd.getSenderId());
+		entities.User userSend = reqd.getUser();
+		
+		connectionRequestDao.deleteConnectionRequest(reqd);
+		
+		return Response.status(200).build();
+
+	}
+	
 	//Example call: http://localhost:8080/linkedInRestfulProject/services/ConnectionRequest/pending/33
 		
 	//This test only returns the first names of the people that requested connection on the userId

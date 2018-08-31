@@ -208,6 +208,7 @@ public class UserDB {
 
         updUser.setParameter("id", id);
         
+        System.out.println("Update: " + educationText);
         updUser.executeUpdate();
         
         tx.commit();

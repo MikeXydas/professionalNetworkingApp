@@ -285,6 +285,7 @@ public class UserEndpoint {
 
 	}*/
 	
+	//TODO: I do not have to create new userd
 	@POST
 	@Secured
 	@Path("/update")
@@ -298,8 +299,10 @@ public class UserEndpoint {
 			}
 		}
 		entities.User userd = new entities.User();
+		entities.User oldUserd = userDao.getById(user.getIdUser());
 		FileManipulation photoManip = new FileManipulation();
 
+		//System.out.println(user.getEducationText());
 		
 		userd.setIdUser(user.getIdUser());
 		userd.setLastName(user.getLastName());
@@ -307,6 +310,14 @@ public class UserEndpoint {
 		userd.setPassword(user.getPassword());
 		userd.setEmail(user.getEmail());
 		userd.setPhoneNumber(user.getPhoneNumber());
+		userd.setIsModerator(0);
+		userd.setAdvertisments(oldUserd.getAdvertisments());
+		userd.setArticles(oldUserd.getArticles());
+		userd.setConnections(oldUserd.getConnections());
+		userd.setConnectionRequests(oldUserd.getConnectionRequests());
+		userd.setConversations(oldUserd.getConversations());
+		userd.setSkills(oldUserd.getSkills());
+		
 		//userd.setPhotoUrl(user.getPhotoUrl());
 		
 		
@@ -330,7 +341,8 @@ public class UserEndpoint {
 		userd.setIsPublicEducation(user.getIsPublicEducation());
 		userd.setIsPublicJob(user.getIsPublicJob());
 		userd.setIsPublicSkill(user.getIsPublicSkill());
-		userDao.updateUser(userd);
+		//userDao.updateUser(userd);
+		userDao.mergeUser(userd);
 		
 		return Response.ok().build();
 		

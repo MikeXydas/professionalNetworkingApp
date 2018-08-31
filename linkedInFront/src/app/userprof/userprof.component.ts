@@ -23,7 +23,8 @@ export class UserprofComponent implements OnInit {
   userReceived = false;
   skillsReceived = false;
   validatedAccess = false;
-  updating = false;
+  updatingUser = false;
+  updatingSkills = false;
   editingEducation = false;
   editingSkills = false;
   editingJob = false;
@@ -191,15 +192,16 @@ export class UserprofComponent implements OnInit {
   }
 
   isChanging() {
-    return this.updating;
+    return this.updatingUser || this.updatingSkills;
   }
 
   confirmChanges() {
-    this.updating = true;
+    this.updatingUser = true;
+    this.updatingSkills = true;
     this.getuserService.updateUser(this.user)
     .subscribe(
       data=> {
-        this.updating = false;
+        this.updatingUser = false;
         this.editingEducation = false;
         this.editingJob = false;
         this.editingSkills = false;
@@ -214,9 +216,13 @@ export class UserprofComponent implements OnInit {
       this.getuserService.insertSkills(newSkills)
       .subscribe(
         data=>{
-
+          this.changedSkills = false;
+          this.updatingSkills = false;
         }
       );
+    }
+    else {
+      this.updatingSkills = false;
     }
   }
 

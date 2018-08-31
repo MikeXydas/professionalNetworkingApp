@@ -129,7 +129,11 @@ export class HomepageComponent implements OnInit {
       interesterId: this.loginedUser
     }
 
-
+    for(var whichInterest = 0; whichInterest < this.articles[whichArticle].interests.length; whichInterest++) {
+      if(this.articles[whichArticle].interests[whichInterest].interesterId == this.loginedUser) {
+        return;
+      }
+    }
     console.log(this.articles[whichArticle].idArticle)
     this.homepageService.showInterest(newInterest)
     .subscribe(
