@@ -3,12 +3,12 @@
 TO DO:
 	REGISTER: Supposingly 100% complete  
 	LOGIN: Supposingly 100% complete  
-	MODERATOR: NO ACCESS VALIDATION, No fileSystem photos  
+	MODERATOR: No fileSystem photos  
 	MODERATOR_USER_PROFILE: No fileSystem photos  
 	USER_PROFILE:No fileSystem photos, ON MY PROFILE: Cannot change name, add directions on the correct format of entering skills  
 	SETTINGS: Supposingly 100% complete  
 	NETWORK: Only search implemented (Not visually shown)  
-	HOMEPAGE: Dynamically update interests comments, ADD POST ARTICLE  
+	HOMEPAGE: No filesystem photos, videos, sound  
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 

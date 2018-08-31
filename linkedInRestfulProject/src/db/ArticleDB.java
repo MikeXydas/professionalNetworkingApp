@@ -152,8 +152,20 @@ public class ArticleDB {
         tx.begin();
     	List<Article> articles = null;
         
-        //Will return userId's and connected with userId articles 
-        Query q = em.createQuery("SELECT a FROM Article a WHERE a.id.user_idUser in (SELECT c.connectedUserId FROM Connection c where c.id.user_idUser = :userId) or a.id.user_idUser = :userId");
+        //Will return userId's and connected with userId articles
+    	String qString = "SELECT a FROM Article a "
+    			+ "WHERE a.id.user_idUser in (SELECT c.connectedUserId FROM Connection c where c.id.user_idUser = :userId) "
+    			+ "or a.id.user_idUser = :userId "
+    			+ "or a.id.idArticle in (Select i.id.article_idArticle FROM Interest i" + 
+    			"							WHERE i.interesterId in" + 
+    			"                            (SELECT c.connectedUserId FROM Connection c where c.id.user_idUser = :userId))";
+    	
+    	
+        //Query q = em.createQuery("SELECT a FROM Article a WHERE a.id.user_idUser in (SELECT c.connectedUserId FROM Connection c where c.id.user_idUser = :userId) or a.id.user_idUser = :userId");
+    	
+    	//String qString = "SELECT a FROM Article a Where a.id.idArticle in (Select i.id.article_idArticle FROM Interest i WHERE i.interesterId in (SELECT c.connectedUserId FROM Connection c where c.id.user_idUser = :userId))";
+        Query q = em.createQuery(qString);
+
 
         q.setParameter("userId", userId);
         

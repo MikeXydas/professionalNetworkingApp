@@ -4,40 +4,53 @@ import { FormBuilder, FormGroup, FormArray, FormControl, ValidatorFn } from '@an
 import { WelcomeService } from '../welcome/welcome.service';
 import { UserIds } from './userIds';
 import {saveAs as importedSaveAs} from "file-saver";
+import { GetuserService } from '../getuser.service'
 
 @Component({
   selector: 'app-moderator',
   templateUrl: './moderator.component.html',
-  providers: [ ModeratorService ],
+  providers: [ ModeratorService, GetuserService ],
   styleUrls: ['./moderator.component.css']
 })
 export class ModeratorComponent implements OnInit {
 
   users; 
+  validatedAccess = false;
 
   constructor(
     private moderatorService: ModeratorService ,
     private welcomeService: WelcomeService,
+    private getuserService : GetuserService
   ) {
 
   }
 
   checkedItems: number[] = [];
   ngOnInit() {
-    this.moderatorService.getUsers()
+
+    this.getuserService.getAccessLevelObs(2)
     .subscribe(
       data=> {
-        this.users = data;
-        for(var whichU = 0; whichU<this.users.length; whichU++ ) {
-          this.checkedItems.push(0);
+        this.validatedAccess = data;
+        if(this.validatedAccess == true) {
+          this.moderatorService.getUsers()
+          .subscribe(
+            data=> {
+              this.users = data;
+              for(var whichU = 0; whichU<this.users.length; whichU++ ) {
+                this.checkedItems.push(0);
+              }
+            },
+            error => {
+              console.log(error);
+            }
+          );
         }
-
       },
       error => {
-        console.log(error);
+        console.log("Failed to validate access level");
       }
     );
-
   }
 
   changeBox($event) {

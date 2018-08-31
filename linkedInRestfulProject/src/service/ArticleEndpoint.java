@@ -106,7 +106,8 @@ public class ArticleEndpoint {
 	@POST
 	@Path("/post")
 	@Consumes({"application/json"})
-	public Response postArticle(final ArticleBean articleBean) {
+	@Produces({"application/json"})
+	public Response postArticle(final ArticleBean articleBean) throws IOException {
 		
 		ArticleDB articleDao = new ArticleDB();
 		UserDB userDao = new UserDB();
@@ -147,7 +148,10 @@ public class ArticleEndpoint {
 			articled.setPhotoUrl(fileManip.ReceiveFile(videoPath, articleBean.getVideoBytes()));
 		}*/
 		
-		return Response.status(200).build();
+		
+		//entities.Article tempArticled = articleDao.getById(insertedPK);
+		//articled.getId().setUser_idUser(articleBean.getUserId());
+		return Response.status(200).entity(createArticleBean(articled)).build();
 	}
 	
 	/*@POST
@@ -179,6 +183,7 @@ public class ArticleEndpoint {
 	@POST
 	@Path("/showInterest")
 	@Consumes({"application/json"})
+	@Produces({"application/json"})
 	public Response showInterest(final ShowInterestBean intBean) {
 		ArticleDB articleDao = new ArticleDB();
 		InterestDB interestDao = new InterestDB();
@@ -201,7 +206,13 @@ public class ArticleEndpoint {
 		
 		interestDao.insertInterest(interestd);
 		
-		return Response.status(200).build();
+		InterestBean temp = new InterestBean();
+		temp.setArticleId(articled.getId().getIdArticle());
+		temp.setInteresterId(interestd.getId().getIdInterest());
+		temp.setInteresterId(interestd.getInteresterId());
+		temp.setInterestTime(interestd.getInterestTime());
+		
+		return Response.status(200).entity(temp).build();
 	}
 	
 	@POST
@@ -210,6 +221,7 @@ public class ArticleEndpoint {
 	public Response showInterest(final PostCommentBean commBean) {
 		ArticleDB articleDao = new ArticleDB();
 		CommentDB commentDao = new CommentDB();
+		UserDB userDao = new UserDB();
 		entities.Article articled = articleDao.getByArticleId(commBean.getArticleId());
 		
 		/*for(int i = 0; i < articled.getComments().size(); i++) {
@@ -229,7 +241,18 @@ public class ArticleEndpoint {
 		
 		commentDao.insertComment(commentd);
 		
-		return Response.status(200).build();
+		CommentBean temp = new CommentBean();
+		temp.setArticleId(articled.getId().getIdArticle());
+		temp.setCommentId(commentd.getId().getIdComment());
+		temp.setCommenterId(commentd.getCommenterId());
+		temp.setContentText(commentd.getContentText());
+		temp.setUploadTime(commentd.getUploadTime());
+		
+		entities.User tempCommUser = userDao.getById(commentd.getCommenterId());
+		temp.setFirstName(tempCommUser.getFirstName());
+		temp.setLastName(tempCommUser.getLastName());
+		
+		return Response.status(200).entity(temp).build();
 	}
 	
 	@GET

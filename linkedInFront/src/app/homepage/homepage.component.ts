@@ -25,6 +25,11 @@ export class HomepageComponent implements OnInit {
   networkReceived = false
   validatedAccess = false;
   loadingComplete = false;
+  articleTitle = "";
+  articleContext = "";
+  articleCollapsed = true;
+  successfulArticlePost = false;
+
   commentBoxes: string[] = [];
   successfulComment: boolean[] = [];
 
@@ -123,10 +128,13 @@ export class HomepageComponent implements OnInit {
       articleId: this.articles[whichArticle].idArticle,
       interesterId: this.loginedUser
     }
+
+
     console.log(this.articles[whichArticle].idArticle)
     this.homepageService.showInterest(newInterest)
     .subscribe(
       data=> {
+        this.articles[whichArticle].interests.push(data);
         console.log("Succesfully showed interest");
       },
       error => {
@@ -145,6 +153,7 @@ export class HomepageComponent implements OnInit {
     this.homepageService.postComment(newComment)
     .subscribe(
       data =>{
+        this.articles[whichArticle].comments.unshift(data);
         console.log("Successfully posted comment");
         this.commentBoxes[whichArticle] = "";
         this.successfulComment[whichArticle] = true;
@@ -153,8 +162,38 @@ export class HomepageComponent implements OnInit {
         console.log("Failed tp post comment");
       }
     );
-
   }
+
+  collapseButton() {
+    this.articleCollapsed = !this.articleCollapsed;
+  }
+
+  isArticleValid() {
+    return (this.articleTitle != "") && (this.articleContext != "");
+  }
+
+  postArticle() {
+    const newArticle : Article = {
+      userId: this.loginedUser,
+      title: this.articleTitle,
+      contentText:this.articleContext
+    }
+
+    this.homepageService.postArticle(newArticle)
+    .subscribe(
+      data=> {
+        this.articleCollapsed = true;
+        this.articles.unshift(data);
+        this.successfulArticlePost = true;
+        this.articleContext = "";
+        this.articleTitle = "";
+      },
+      error=> {
+        console.log(error);
+      }
+    )
+  }
+
   connectionsExist() {
     return this.network.length != 0;
   }
