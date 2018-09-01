@@ -180,9 +180,10 @@ public class ConnectionRequestEndpoint {
 	}*/
 	
 	@POST
-	@Path("/accept")
-	@Consumes({"application/json"})
-	public Response acceptRequest(final ConnectionRequestBean reqBean) {
+	//@Path("/accept")
+	//@Consumes({"application/json"})
+	@Path("/accept/{id:[0-9]*}")
+	public Response acceptRequest(@PathParam("id") final Integer id) {
 		
 		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
 		UserDB userDao = new UserDB();
@@ -192,7 +193,7 @@ public class ConnectionRequestEndpoint {
 		//entities.ConnectionRequestPK reqPk = new entities.ConnectionRequestPK();
 		//reqPk.setIdConnectionRequest(reqPkBean.getIdConnectionRequest());
 		//reqPk.setUser_idUser(reqPkBean.getUser_idUser());
-		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqBean.getId());
+		entities.ConnectionRequest reqd = connectionRequestDao.getById(id);
 
 		entities.User userReceive = userDao.getById(reqd.getSenderId());
 		entities.User userSend = reqd.getUser();
@@ -222,9 +223,10 @@ public class ConnectionRequestEndpoint {
 	}
 	
 	@POST
-	@Path("/decline")
-	@Consumes({"application/json"})
-	public Response declineRequest(final ConnectionRequestBean reqBean) {
+	//@Path("/decline")
+	@Path("/decline/{id:[0-9]*}")
+	//@Consumes({"application/json"})
+	public Response declineRequest(@PathParam("id") final Integer id) {
 		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
 		UserDB userDao = new UserDB();
 		ConnectionDB connectionDao = new ConnectionDB();
@@ -233,7 +235,7 @@ public class ConnectionRequestEndpoint {
 		//entities.ConnectionRequestPK reqPk = new entities.ConnectionRequestPK();
 		//reqPk.setIdConnectionRequest(reqPkBean.getIdConnectionRequest());
 		//reqPk.setUser_idUser(reqPkBean.getUser_idUser());
-		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqBean.getId());
+		entities.ConnectionRequest reqd = connectionRequestDao.getById(id);
 
 		entities.User userReceive = userDao.getById(reqd.getSenderId());
 		entities.User userSend = reqd.getUser();
@@ -266,15 +268,14 @@ public class ConnectionRequestEndpoint {
 		}
 	}*/
 	
-	@POST
-	@Consumes({"application/json"})
+	@GET
 	@Produces({"application/json"})
-	@Path("/pending")
-	public Response returnPendingRequests(final SendId id) throws IOException {
+	@Path("/pending/{id:[0-9]*}")
+	public Response returnPendingRequests(@PathParam("id") final Integer id) throws IOException {
 		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
-		FileManipulation photoManip = new FileManipulation();
+		//FileManipulation photoManip = new FileManipulation();
 
-		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id.getId());
+		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id);
 
 		List<PendingRequestBean> retList = new ArrayList<PendingRequestBean>();
 		

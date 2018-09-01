@@ -4,7 +4,7 @@
     <a [routerLink]="" class="" >Ads</a>
     <a [routerLink]="" class="" >Messaging</a>
     <a [routerLink]="" class="" >Network</a>
-    <a [routerLink]="" class="" >Notifications</a>
+    <a [routerLink]="['/notifications']" class="" >Notifications</a>
     <a [routerLink]="['/userprof', loginedUser]" class="" >Profile</a>
     <a [routerLink]="['/settings']" class="current" >Settings</a>
     <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>

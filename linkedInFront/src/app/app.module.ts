@@ -21,7 +21,8 @@ import { ConnectionService } from './connection.service'
 import { UserprofComponent } from './userprof/userprof.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NetworkComponent } from './network/network.component';
-import { HomepageComponent } from './homepage/homepage.component'
+import { HomepageComponent } from './homepage/homepage.component';
+import { NotificationsComponent } from './notifications/notifications.component'
 
 var routes  =[
   {
@@ -55,6 +56,10 @@ var routes  =[
   {
     path: 'homepage',
     component: HomepageComponent
+  },
+  {
+    path: 'notifications',
+    component: NotificationsComponent
   }
 ];
 
@@ -69,6 +74,7 @@ var routes  =[
     SettingsComponent,
     NetworkComponent,
     HomepageComponent,
+    NotificationsComponent,
 
   ],
   imports: [

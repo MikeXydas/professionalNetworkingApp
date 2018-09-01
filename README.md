@@ -9,6 +9,7 @@ TO DO:
 	SETTINGS: Supposingly 100% complete  
 	NETWORK: Only search implemented (Not visually shown)  
 	HOMEPAGE: No filesystem photos, videos, sound  
+	NOTIFICATIONS: No filesystem photos, NO INTEREST, COMMENTS NOTIFICATIONS  
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 
