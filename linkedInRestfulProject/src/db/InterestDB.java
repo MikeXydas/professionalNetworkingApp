@@ -7,6 +7,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
+import entities.Article;
 import entities.Comment;
 import entities.Interest;
 import entities.InterestPK;
@@ -139,4 +140,5 @@ public class InterestDB {
         
         return interest;
     }
+    
 }

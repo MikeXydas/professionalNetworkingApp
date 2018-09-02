@@ -60,6 +60,7 @@ import model.CommentBean;
 import model.ExportXMLBean;
 import model.InterestBean;
 import model.LogInfoBean;
+import model.NotificationBean;
 import model.PendingRequestBean;
 import model.SkillListBean;
 import model.SearchBean;
@@ -355,6 +356,72 @@ public class ArticleEndpoint {
 		}*/
 		
 		return artBean;
+	}
+	
+	@GET
+	@Path("/notifications/{id:[0-9]*}")
+	@Produces({"application/json"})
+	public Response returnNotifications(@PathParam("id") final Integer id) {
+		UserDB userDao = new UserDB();
+		
+		entities.User mainUserd = userDao.getById(id);
+		
+		List <entities.Interest> interestsd = new ArrayList<entities.Interest>();
+		List <entities.Comment> commentsd = new ArrayList<entities.Comment>();
+				
+		if(mainUserd.getArticles() != null) {
+			for(int whichArticle = 0; whichArticle < mainUserd.getArticles().size(); whichArticle++) {
+				if(mainUserd.getArticles().get(whichArticle).getInterests() != null) {
+					for(int whichInt = 0; whichInt < mainUserd.getArticles().get(whichArticle).getInterests().size(); whichInt++) {
+						interestsd.add(mainUserd.getArticles().get(whichArticle).getInterests().get(whichInt));
+					}
+				}
+				
+				if(mainUserd.getArticles().get(whichArticle).getComments() != null) {
+					for(int whichInt = 0; whichInt < mainUserd.getArticles().get(whichArticle).getInterests().size(); whichInt++) {
+						commentsd.add(mainUserd.getArticles().get(whichArticle).getComments().get(whichInt));
+					}
+				}
+			}
+		}
+		
+		
+		
+		List<NotificationBean> notificationBeans = new ArrayList<NotificationBean>();
+		
+		if(interestsd != null) {
+			for(int whichInt = 0; whichInt < interestsd.size(); whichInt++) {
+				NotificationBean temp = new NotificationBean();
+				entities.User userd = userDao.getById(interestsd.get(whichInt).getInteresterId());
+				//entities.Article articled = articleDao.getByArticleId(interestsd.get(whichInt).getArticle().get))
+				temp.setArticleTitle(interestsd.get(whichInt).getArticle().getTitle());
+				temp.setFirstName(userd.getFirstName());
+				temp.setLastName(userd.getLastName());
+				temp.setUserId(userd.getIdUser());
+				temp.setIsComment(0);
+				temp.setUploadTime(interestsd.get(whichInt).getInterestTime());
+				
+				notificationBeans.add(temp);
+			}
+		}
+		
+		if(commentsd != null) {
+			for(int whichInt = 0; whichInt < commentsd.size(); whichInt++) {
+				NotificationBean temp = new NotificationBean();
+				entities.User userd = userDao.getById(commentsd.get(whichInt).getCommenterId());
+				temp.setArticleTitle(commentsd.get(whichInt).getArticle().getTitle());
+				temp.setFirstName(userd.getFirstName());
+				temp.setLastName(userd.getLastName());
+				temp.setUserId(userd.getIdUser());
+				temp.setIsComment(1);
+				temp.setUploadTime(commentsd.get(whichInt).getUploadTime());
+				temp.setContentText(commentsd.get(whichInt).getContentText());
+				
+				notificationBeans.add(temp);
+			}
+		}
+
+		return Response.status(200).entity(notificationBeans).build();
 	}
 	
 }

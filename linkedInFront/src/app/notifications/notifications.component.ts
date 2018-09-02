@@ -20,6 +20,7 @@ export class NotificationsComponent implements OnInit {
   receivedNotifications = false;
 
   requests;
+  notifications;
 
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
@@ -45,17 +46,28 @@ export class NotificationsComponent implements OnInit {
               .subscribe(
                 data=> {
                   this.requests = data;
-                  this.receivedRequests = true;
                   this.sortRequests();
                   for(var whichReq = 0; whichReq < this.requests.length; whichReq++) {
                     this.requests[whichReq]['isAccepted'] = false;
                     this.requests[whichReq]['isDeclined'] = false;
                   }
+                  this.receivedRequests = true;
                   console.log(this.requests);
-
                 },
                 error => {
                   console.log("Failed to receive requests");
+                }
+              );
+
+              this.notificationsService.getNotifications(this.loginedUser)
+              .subscribe(
+                data=> {
+                  this.notifications = data;
+                  this.sortNotifications();
+                  this.receivedNotifications = true;
+                },
+                error => {
+                  console.log("Failed to receive notifications")
                 }
               )
             }
@@ -65,9 +77,8 @@ export class NotificationsComponent implements OnInit {
     );  
   }
 
-  //ADD RECEIVED NOTIFICATIONS
   isLoadingComplete() {
-    return this.validatedAccess && this.userReceived && this.receivedRequests;
+    return this.validatedAccess && this.userReceived && this.receivedRequests && this.receivedNotifications;
   }
 
   transformDate(mseconds) {
@@ -105,6 +116,11 @@ export class NotificationsComponent implements OnInit {
   isRequestsEmpty() {
     return this.requests.length == 0;
   }
+
+  isNotificationsEmpty() {
+    return this.notifications.length == 0;
+  }
+  
   isPending(whichRequest) {
     return !this.requests[whichRequest].isAccepted && !this.requests[whichRequest].isDeclined;
   }
@@ -116,6 +132,18 @@ export class NotificationsComponent implements OnInit {
           var temp = this.requests[j];
           this.requests[j] = this.requests[j + 1];
           this.requests[j + 1] = temp;
+        }
+      }
+    }
+  }
+
+  sortNotifications() {
+    for(var i = 0; i < this.notifications.length; i++) {
+      for(var j = 0; j < this.notifications.length - i - 1; j++) {
+        if(this.notifications[j].uploadTime < this.notifications[j + 1].uploadTime) {
+          var temp = this.notifications[j];
+          this.notifications[j] = this.notifications[j + 1];
+          this.notifications[j + 1] = temp;
         }
       }
     }

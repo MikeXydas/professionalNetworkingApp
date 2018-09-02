@@ -66,4 +66,19 @@
         height: 50px;
 }
     
+.notif {
+        padding-left: 40px;
+        font-size: 18px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+
+}
+
+.comm {
+        font-size: 22px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+        font-style: italic;
+        padding-top: 25px;
+}
     /* Darker background on mouse-over */

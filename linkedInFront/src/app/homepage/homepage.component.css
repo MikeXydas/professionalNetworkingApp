@@ -135,3 +135,11 @@ p.info {
         max-height: 500px;
         overflow: scroll;
 }
+
+.name {
+        padding-left: 50px;
+        font-size: 26px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+        text-align: center;
+}

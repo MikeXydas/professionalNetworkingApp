@@ -29,4 +29,8 @@ export class NotificationsService {
   declineRequest(id) {
     return this.http.post(this.apiRoot + "ConnectionRequest/decline/" + id, null);
   }
+
+  getNotifications(id) {
+    return this.http.get(this.apiRoot + "Article/notifications/" + id);
+  }
 }

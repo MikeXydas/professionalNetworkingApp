@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import entities.Comment;
 import entities.CommentPK;
+import entities.Interest;
 
 public class CommentDB {
 	
@@ -138,6 +139,4 @@ public class CommentDB {
         return comment;
     }
     
-    
-
 }

@@ -21,11 +21,9 @@
 </div>
 
 <div *ngIf="isLoadingComplete()" class="container-fluid cont" style="padding-top: 180px;">
+
   <div class="row">
-    <div class="col-sm-1"></div>
-  </div>
-  <div class="row">
-    <div class="col-sm-5">
+    <div class="col-sm-6">
       <h5 class="text-success text-center columnHeader">Connection Requests</h5>
       <h6 *ngIf="isRequestsEmpty()" class="text-dark name" style="font-style: italic; padding-top: 50px;"  >No connection requests</h6>
       <ul class="list-group">
@@ -45,12 +43,20 @@
         </li>
       </ul>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-5"></div>
-  </div>
-  <div class="row">
-    <div class="col-sm-1"></div>
-  </div>
-
+    <div class="col-sm-6">
+      <h5 class="text-success text-center columnHeader">Article Notifications</h5>
+      <h6 *ngIf="isNotificationsEmpty()" class="text-dark name" style="font-style: italic; padding-top: 50px;"  >No notifications</h6>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let notification of notifications; let j = index">
+          <a [routerLink]="['/userprof', notification.userId]">
+            <img class="profPicture" style="border-radius: 13px; height: 80px; width: 80px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="Lost my prof cat">
+          </a>
+          <p class="pull-right">{{ transformDate(notification.uploadTime) }}</p>
+          <span *ngIf="notification.isComment == 0" class="text-dark notif">User {{ notification.firstName }} {{ notification.lastName }} was interested to {{ notification.articleTitle }}</span>
+          <span  *ngIf="notification.isComment == 1" class="text-dark notif">User {{ notification.firstName }} {{ notification.lastName }} commented to {{ notification.articleTitle }}</span>
+          <p class="comm text-info" *ngIf="notification.isComment == 1">{{ notification.contentText}}</p>
+        </li>
+      </ul>
+    </div>
+  </div>    
 </div>

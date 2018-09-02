@@ -59,6 +59,8 @@
               </div>
             </div>
           </div>
+        <h6 *ngIf="!articlesExist()" class="text-dark name" style="font-style: italic; padding-top: 50px;"  >No articles in your timeline</h6>
+
         <div class="container" *ngFor="let article of articles; let i = index">
 
             <div class="row">
