@@ -10,6 +10,7 @@ TO DO:
 	NETWORK: Only search implemented (Not visually shown)  
 	HOMEPAGE: No filesystem photos, videos, sound, add max comment size  
 	NOTIFICATIONS: No filesystem photos  
+	CONVERSATION: Only services created  
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 

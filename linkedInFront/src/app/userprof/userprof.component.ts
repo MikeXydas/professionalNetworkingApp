@@ -5,11 +5,14 @@ import { WelcomeService } from '../welcome/welcome.service';
 import { SkillsListBean } from './skillsListBean'
 import { ConnectionService } from '../connection.service';
 import { ConnectionRequest } from '../connectionRequest';
+import { ConversationService } from '../conversation/conversation.service';
+import { BeginConv } from '../conversation/beginConv';
+import { Message } from '../conversation/message';
 
 @Component({
   selector: 'app-userprof',
   templateUrl: './userprof.component.html',
-  providers: [ GetuserService, WelcomeService, ConnectionService ],
+  providers: [ GetuserService, WelcomeService, ConnectionService, ConversationService ],
   styleUrls: ['./userprof.component.css']
 })
 export class UserprofComponent implements OnInit {
@@ -31,10 +34,13 @@ export class UserprofComponent implements OnInit {
   changedSkills = false;
   isConnection = false;
   connectionList;
+  toggledSendMessage = false;
+  messageText = "";
 
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
               private getuserService : GetuserService,
+              private conversationService : ConversationService,
               private conectionService : ConnectionService) { }
 
   ngOnInit() {
@@ -89,6 +95,47 @@ export class UserprofComponent implements OnInit {
         
       }
     );
+  }
+
+  sendMessageButton() {
+    this.toggledSendMessage = true;
+  }
+
+  sendMessage() {
+    const newConv : BeginConv = {
+      userId1: this.loginedUser,
+      userId2: this.user.idUser
+    }
+
+    this.conversationService.beginConversation(newConv)
+    .subscribe(
+      data => {
+        var conv : any = data;
+        const newMsg : Message = {
+           convId: conv.convId,
+           contentText: this.messageText,
+           senderId: this.loginedUser
+        }
+
+        this.conversationService.sendMessage(newMsg)
+        .subscribe(
+          data => {
+            this.messageText = "";
+            console.log("Successfully sent message");
+          },
+          error => {
+            console.log("Failed to send message");
+          }
+        );
+      },
+      error => {
+        console.log("Failed to begin conv");
+      }
+    );
+  }
+
+  isMessageEmpty() {
+    return this.messageText == "";
   }
 
   sendRequest() {

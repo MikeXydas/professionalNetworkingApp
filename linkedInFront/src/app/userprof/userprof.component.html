@@ -33,7 +33,10 @@
       <p *ngIf="(!isPublicSkill() && !isConnection) || existsSkills()">User skills are not provided or they are private</p>
     </li>
     <li>
-      <button type="button" *ngIf="isConnection" class="sendBtnL btn btn-primary btn-lg">Send Message</button>
+      <button type="button" *ngIf="isConnection && !toggledSendMessage" (click)="sendMessageButton()" class="sendBtnL btn btn-primary btn-lg">Send Message</button>
+      <textarea [(ngModel)] ="messageText" class="basic-textarea rounded-corners" style="font-size: 22px; width: 100%" rows="5" *ngIf="isConnection && toggledSendMessage"></textarea>
+      <div *ngIf="isConnection && toggledSendMessage && !isMessageEmpty()" (click)="sendMessage()" style="padding-top: 20px; padding-bottom: 30px;"><button type="button"  class="btn btn-success btn-lg pull-right">Send</button></div>
+      <div *ngIf="isConnection && toggledSendMessage && isMessageEmpty()" style="padding-top: 20px; padding-bottom: 30px;"><button type="button"  class="btn disabled btn-success btn-lg pull-right">Send</button></div>
       <button type="button" *ngIf="!isConnection" (click)="sendRequest()" class="sendBtnL btn btn-primary btn-lg">Connection Request</button>
     </li>
     <!-- Contact me list node-->

@@ -40,6 +40,7 @@ import model.ConversationBean;
 import model.BeginConversationBean;
 import model.MessageBean;
 import model.PendingRequestBean;
+import model.ShowConvBean;
 
 @Path("/Conversation")
 public class ConversationEndpoint {
@@ -84,6 +85,7 @@ public class ConversationEndpoint {
 	@POST
 	@Path("/begin")
 	@Consumes({"application/json"})
+	@Produces({"application/json"})
 	public Response beginConversation(final BeginConversationBean convBean) {
 		UserDB user1Dao = new UserDB();
 		UserDB user2Dao = new UserDB();
@@ -91,6 +93,20 @@ public class ConversationEndpoint {
 		
 		entities.User userSender = user1Dao.getById(convBean.getUserId1());
 		entities.User userReceiver = user2Dao.getById(convBean.getUserId2());
+		
+		List<entities.Conversation> convs1 = userSender.getConversations();
+		List<entities.Conversation> convs2 = userReceiver.getConversations();
+		
+		if((convs1 != null) && (convs2 != null)) {
+			for(int whichConv1 = 0; whichConv1 < convs1.size(); whichConv1++) {
+				for(int whichConv2 = 0; whichConv2 < convs2.size(); whichConv2++) {
+					if(convs1.get(whichConv1).getIdConversation() == convs2.get(whichConv2).getIdConversation()) {
+						return Response.status(200).entity("{\"convId\": " + convs1.get(whichConv1).getIdConversation() + "}").build();
+					}
+				}
+			}
+		}
+
 		
 		entities.Conversation conv = new entities.Conversation();
 		
@@ -110,7 +126,7 @@ public class ConversationEndpoint {
 		user1Dao.mergeUser(userSender);
 		user2Dao.mergeUser(userReceiver);
 		
-		return Response.status(200).build();
+		return Response.status(200).entity("{\"convId\": " + convid + "}").build();
 	}
 	
 	@POST
@@ -136,6 +152,41 @@ public class ConversationEndpoint {
 		
 		return Response.status(200).entity("Succesfully found conversation between users: " + userId1 + "  and " + userId2 + " with conversation id " + convid).build();
 	}
+	
+	
+	@GET
+	@Produces({"application/json"})
+	@Path("/showConvs/{id:[0-9]*}")
+	public Response returnConvs(@PathParam("id") int id) {
+		UserDB userDao = new UserDB();
+		ConversationDB convDao = new ConversationDB();
+
+		entities.User userd = userDao.getById(id);
+		List<ShowConvBean> retList = new ArrayList<ShowConvBean>();
+
+		List<entities.Conversation> convsd = userd.getConversations();
+		
+		if(convsd != null) {
+			for(int whichConv = 0; whichConv < convsd.size(); whichConv++) {
+				entities.User tempUserd = null;
+				if(convsd.get(whichConv).getUsers().get(0).getIdUser() != id) {
+					tempUserd = convsd.get(whichConv).getUsers().get(0);
+				}
+				else {
+					tempUserd = convsd.get(whichConv).getUsers().get(1);
+				}
+				
+				ShowConvBean tempBean = new ShowConvBean();
+				tempBean.setIdConversation(convsd.get(whichConv).getIdConversation());
+				tempBean.setFirstName(tempUserd.getFirstName());
+				tempBean.setLastName(tempUserd.getLastName());
+				
+				retList.add(tempBean);
+			}
+		}
+		return Response.status(200).entity(retList).build();
+	}
+	
 	
 	@GET
 	@Produces({"application/json"})

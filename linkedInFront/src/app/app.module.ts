@@ -22,7 +22,9 @@ import { UserprofComponent } from './userprof/userprof.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NetworkComponent } from './network/network.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { NotificationsComponent } from './notifications/notifications.component'
+import { NotificationsComponent } from './notifications/notifications.component';
+import { ConversationComponent } from './conversation/conversation.component'
+import { ConversationService } from './conversation/conversation.service';
 
 var routes  =[
   {
@@ -60,6 +62,10 @@ var routes  =[
   {
     path: 'notifications',
     component: NotificationsComponent
+  },
+  {
+    path: 'conversation',
+    component: ConversationComponent
   }
 ];
 
@@ -75,6 +81,7 @@ var routes  =[
     NetworkComponent,
     HomepageComponent,
     NotificationsComponent,
+    ConversationComponent,
 
   ],
   imports: [
@@ -90,7 +97,8 @@ var routes  =[
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     WelcomeService,
     GetuserService,
-    ConnectionService
+    ConnectionService,
+    ConversationService
   ],
   bootstrap: [AppComponent]
 })
