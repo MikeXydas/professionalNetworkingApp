@@ -8,7 +8,7 @@
 <div class= "navbar">
   <a [routerLink]="['/homepage']" class="" >Home</a>
   <a [routerLink]="" class="" >Ads</a>
-  <a [routerLink]="" class="" >Messaging</a>
+  <a [routerLink]="['/conversation']" class="" >Messaging</a>
   <a [routerLink]="['/network']" class="" >Network</a>
   <a [routerLink]="['/notifications']" class="" >Notifications</a>
   <a *ngIf="!isProfileMine()" [routerLink]="['/userprof', loginedUser]" class="" >Profile</a>

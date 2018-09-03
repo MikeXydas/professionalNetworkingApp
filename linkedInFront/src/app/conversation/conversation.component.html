@@ -1,3 +1,64 @@
-<p>
-  conversation works!
-</p>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+
+</head>
+
+
+<div class="permaTop">
+  <div class= "navbar">
+    <a [routerLink]="['/homepage']" class="" >Home</a>
+    <a [routerLink]="" class="" >Ads</a>
+    <a [routerLink]="['/conversation']" class="current" >Messaging</a>
+    <a [routerLink]="" class="" >Network</a>
+    <a [routerLink]="['/notifications']" class="" >Notifications</a>
+    <a [routerLink]="['/userprof', loginedUser]" class="" >Profile</a>
+    <a [routerLink]="['/settings']" class="" >Settings</a>
+    <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
+  </div>
+</div>
+
+<div *ngIf="isLoadingComplete()" class="container-fluid cont" style="padding-top: 180px;">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="bord">
+          <h5 class="text-primary text-center columnHeader">Conversations</h5>
+          <ul *ngIf="!isConversationsEmpty()" class="list-group">
+            <li *ngFor="let conversation of conversations; let i = index" class="list-group-item">
+             <!-- <a [routerLink]="['/homepage']" class="text-dark">
+                <img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
+                <span class="pull-right" style="padding-top: 22px;">{{ conversation.firstName }} {{ conversation.lastName }}</span>
+              </a> -->
+              <button class="btn text-dark convButton"><img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
+                <span class="pull-right" style="padding-top: 22px;">{{ conversation.firstName }} {{ conversation.lastName }}</span>
+              </button>
+
+            </li>
+          </ul>
+          <h6 *ngIf="isConversationsEmpty()" class="text-dark name" style="font-style: italic; padding-top: 50px;"  >No conversations</h6>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="bord">
+        <div class="container-fluid cont" style="padding-top: 50px;">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="chatBox">
+                  2.1
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="messageBox">
+                  2.2
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>  
