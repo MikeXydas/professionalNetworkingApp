@@ -20,7 +20,7 @@ export class ConversationComponent implements OnInit {
   conversationReceived = false;
   receivedMessages = false;
   currentMessages;
-  currentConvId;
+  currentConvIndex;
   conversations;
   messageText = "";
 
@@ -67,13 +67,17 @@ export class ConversationComponent implements OnInit {
     return this.conversations.length == 0;
   }
 
+  isMessageMine(whichMsg) {
+    return this.currentMessages[whichMsg].senderId == this.loginedUser;
+  }
+
   getMessages(whichConv) {
     this.conversationService.getMessages(this.conversations[whichConv].idConversation)
     .subscribe(
       data=> {
         this.currentMessages = data;
         this.receivedMessages = true;
-        this.currentConvId = this.conversations[whichConv].idConversation;
+        this.currentConvIndex = whichConv
         console.log(this.currentMessages);
       },
       error => {
@@ -89,7 +93,7 @@ export class ConversationComponent implements OnInit {
   sendMessage() {
  
     const newMsg : Message = {
-        convId: this.currentConvId,
+        convId: this.conversations[this.currentConvIndex].idConversation,
         contentText: this.messageText,
         senderId: this.loginedUser
     }
@@ -106,4 +110,9 @@ export class ConversationComponent implements OnInit {
     );
   }
 
+  transformDate(mseconds) {
+    var date = new Date(mseconds);
+    return date.toLocaleString();;
+  }
+  
 }

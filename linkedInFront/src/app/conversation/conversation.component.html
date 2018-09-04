@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<div *ngIf="isLoadingComplete()" class="container-fluid cont" style="padding-top: 180px;">
+<div *ngIf="isLoadingComplete()" class="container-fluid cont" style="padding-top: 140px;">
   <div class="row">
     <div class="col-sm-4">
       <div class="bord">
@@ -31,7 +31,7 @@
                 <img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
                 <span class="pull-right" style="padding-top: 22px;">{{ conversation.firstName }} {{ conversation.lastName }}</span>
               </a> -->
-              <button class="btn text-dark convButton"><img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
+              <button (click)="getMessages(i)" class="btn text-dark convButton"><img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
                 <span class="pull-right" style="padding-top: 22px;">{{ conversation.firstName }} {{ conversation.lastName }}</span>
               </button>
 
@@ -41,12 +41,39 @@
       </div>
     </div>
     <div class="col-sm-8">
-      <div class="bord">
+      <div class="bordNoScroll">
         <div class="container-fluid cont" style="padding-top: 50px;">
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-12 bordLess">
                 <div class="chatBox">
-                  2.1
+                  <div class="panel-body">
+                    <ul *ngIf="receivedMessages" class="chat">
+                        <div *ngFor="let message of currentMessages; let j = index">
+                          <li *ngIf="!isMessageMine(j)" class="left clearfix"><span class="chat-img pull-left">
+                              <img class="d-flex mr-3 rounded-circle" style="width: 70px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
+                          </span>
+                              <div class="chat-body clearfix">
+                                  <div class="header">
+                                      <strong class="primary-font">{{ conversations[currentConvIndex].firstName }} {{ conversations[currentConvIndex].lastName }}</strong> <small style="font-style: italic;" class="pull-right text-muted">
+                                          <span class="glyphicon glyphicon-time"></span>{{ transformDate(message.sendTime) }}</small>
+                                  </div>
+                                  <p class="text-dark" style="font-size: 20px;">{{ message.contentText }}</p>
+                              </div>
+                          </li>
+                          <li *ngIf="isMessageMine(j)" class="right clearfix"><span class="chat-img pull-right">
+                              <img class="d-flex mr-3 rounded-circle" style="width: 70px; height: 70px; margin-left: 5px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
+                          </span>
+                              <div class="chat-body clearfix">
+                                  <div class="header">
+                                      <small style="font-style: italic;" class=" text-muted"><span class="glyphicon glyphicon-time"></span>{{ transformDate(message.sendTime) }}</small>
+                                      <strong class="pull-right primary-font">Me</strong>
+                                  </div>
+                                  <p class="text-dark" style="font-size: 20px;">{{ message.contentText }}</p>
+                              </div>
+                          </li>
+                        </div>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

@@ -10,7 +10,7 @@ TO DO:
 	NETWORK: Only search implemented (Not visually shown)  
 	HOMEPAGE: No filesystem photos, videos, sound, add max comment size  
 	NOTIFICATIONS: No filesystem photos  
-	CONVERSATION: Only show conversations created, No fileSystem phoyos  
+	CONVERSATION: No send message, No fileSystem photos  
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 
