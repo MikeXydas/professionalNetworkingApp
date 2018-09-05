@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { GetuserService } from '../getuser.service'
 import { WelcomeService } from '../welcome/welcome.service';
 import { ActivatedRoute } from '@angular/router';
@@ -23,6 +23,8 @@ export class ConversationComponent implements OnInit {
   currentConvIndex;
   conversations;
   messageText = "";
+
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
@@ -59,6 +61,14 @@ export class ConversationComponent implements OnInit {
     );  
   }
 
+  scrollToBottom(): void {
+    try {
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch(err) { 
+      console.log("err");
+    }                 
+  }
+
   isLoadingComplete() {
     return this.userReceived && this.conversationReceived && this.validatedAccess;
   }
@@ -90,6 +100,10 @@ export class ConversationComponent implements OnInit {
     return this.currentMessages.length = 0;
   }
 
+  isMessageBoxEmpty() {
+    return this.messageText == "";
+  }
+
   sendMessage() {
  
     const newMsg : Message = {
@@ -102,6 +116,8 @@ export class ConversationComponent implements OnInit {
     .subscribe(
       data => {
         this.messageText = "";
+        this.currentMessages.push(data);
+        this.scrollToBottom();
         console.log("Successfully sent message");
       },
       error => {

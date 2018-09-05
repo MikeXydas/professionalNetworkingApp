@@ -40,14 +40,17 @@
           <h6 *ngIf="isConversationsEmpty()" class="text-dark name" style="font-style: italic; padding-top: 50px;"  >No conversations</h6>
       </div>
     </div>
-    <div class="col-sm-8">
+    <div  class="col-sm-8">
       <div class="bordNoScroll">
-        <div class="container-fluid cont" style="padding-top: 50px;">
+        <div *ngIf="!receivedMessages">
+          <p class="text-primary text-center columnHeader">Select a conversation from the left column</p>
+        </div>
+        <div *ngIf="receivedMessages" class="container-fluid cont" style="padding-top: 50px;">
             <div class="row">
               <div class="col-sm-12 bordLess">
                 <div class="chatBox">
-                  <div class="panel-body">
-                    <ul *ngIf="receivedMessages" class="chat">
+                  <div #scrollMe class="panel-body">
+                    <ul  class="chat">
                         <div *ngFor="let message of currentMessages; let j = index">
                           <li *ngIf="!isMessageMine(j)" class="left clearfix"><span class="chat-img pull-left">
                               <img class="d-flex mr-3 rounded-circle" style="width: 70px; height: 70px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
@@ -80,7 +83,13 @@
             <div class="row">
               <div class="col-sm-12">
                 <div class="messageBox">
-                  2.2
+                  <div class="shadow-textarea">
+                    <textarea [(ngModel)] = "messageText" class="messageBox" placeholder="Type your message..."></textarea>
+                    <div style="padding-right: 20px;">
+                      <button *ngIf="!isMessageBoxEmpty()" (click)="sendMessage()"  type="submit"  class="btn btn-lg btn-success pull-right">Send</button>
+                      <button *ngIf="isMessageBoxEmpty()" (click)="sendMessage()"  type="submit"  class=" disabled btn btn-lg btn-success pull-right">Send</button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

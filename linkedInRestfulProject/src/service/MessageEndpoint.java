@@ -36,6 +36,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
 import model.LogInfoBean;
+import model.MessageBean;
 import model.SkillListBean;
 import model.ConversationBean;
 
@@ -80,6 +81,7 @@ public class MessageEndpoint {
 	@POST
 	@Path("/send")
 	@Consumes({"application/json"})
+	@Produces({"application/json"})
 	public Response sendMessage(final SendMessageBean messBean) {
 		ConversationDB convDao = new ConversationDB();
 		MessageDB messageDao = new MessageDB();
@@ -102,7 +104,11 @@ public class MessageEndpoint {
 		convDao.mergeConversation(conv);
 		messageDao.insertMessage(message);
 		
+		MessageBean retMsg = new MessageBean();
+		retMsg.setContentText(message.getContentText());
+		retMsg.setSenderId(message.getSenderId());
+		retMsg.setSendTime(message.getSendTime());
 		
-		return Response.status(200).build();
+		return Response.status(200).entity(retMsg).build();
 	}
 }

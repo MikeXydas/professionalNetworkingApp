@@ -110,10 +110,7 @@
 
 .messageBox {
         margin-top:10px;
-	border: #009edf medium solid;
-	border-radius: 10px;
-	-moz-border-radius: 10px;
-        -webkit-border-radius: 10px;
+	border: none;
         font-size: 20px;
         height: 150px;
 }
@@ -206,5 +203,10 @@
 {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
+}
+
+.messageBox {
+        width:100%;
+        height: 120px;
 }
 

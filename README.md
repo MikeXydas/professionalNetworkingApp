@@ -10,7 +10,9 @@ TO DO:
 	NETWORK: Only search implemented (Not visually shown)  
 	HOMEPAGE: No filesystem photos, videos, sound, add max comment size  
 	NOTIFICATIONS: No filesystem photos  
-	CONVERSATION: No send message, No fileSystem photos  
+	CONVERSATION: No fileSystem photos (could solve how to scroll to bottom of messages)  
+
+	IMPORTANT: SSL ENCRYPTION , CORS FILTER, jwt authentication  
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 
