@@ -3,6 +3,7 @@ package service;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
@@ -45,11 +46,13 @@ import annotations.Secured;
 import javax.ws.rs.core.UriBuilder;
 
 import db.UserDB;
+import db.AdvertismentDB;
 import db.SkillDB;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
+import model.AdvertismentPostBean;
 import model.ArticleBean;
 import model.ChangeEmailBean;
 import model.ChangePasswordBean;
@@ -621,7 +624,61 @@ public class UserEndpoint {
 		return Response.status(200).build();
 	}
 	
-	
+	@GET
+	@Path("/ads/{id:[0-9]*}")
+	@Produces({"application/json"})
+	public Response getAdSkills(@PathParam("id") final Integer id) {
+		System.out.println("aaa");
+		UserDB userDao = new UserDB();
+		AdvertismentDB advertismentDao = new AdvertismentDB();
+		List <AdvertismentPostBean> retAds = new ArrayList<AdvertismentPostBean>();
+
+		entities.User userd = userDao.getById(id);
+		
+		List <entities.Advertisment> advertisments = advertismentDao.getAdvertisments();
+		
+		if(advertisments != null) {			
+			for(int whichAd = 0; whichAd < advertisments.size(); whichAd++) {
+				AdvertismentPostBean tempBean = new AdvertismentPostBean();
+				tempBean.setAdId(advertisments.get(whichAd).getId().getIdAdvertisment());
+				tempBean.setUserId(advertisments.get(whichAd).getId().getUser_idUser());
+				tempBean.setTitle(advertisments.get(whichAd).getTitle());
+				tempBean.setDescriptionText(advertisments.get(whichAd).getDescriptionText());
+				tempBean.setScore(0);
+				tempBean.setSkills(new ArrayList<String>());
+				
+				for(int whichSkill = 0; whichSkill < advertisments.get(whichAd).getSkills().size(); whichSkill++) {
+					tempBean.getSkills().add(advertisments.get(whichAd).getSkills().get(whichSkill).getSkillName());
+				}
+				
+				retAds.add(tempBean);
+			}
+			
+			for(int whichAd = 0; whichAd < retAds.size(); whichAd++) {
+				if(retAds.get(whichAd).getUserId() != id) {
+					for(int whichAdSkill = 0; whichAdSkill < retAds.get(whichAd).getSkills().size(); whichAdSkill++) {
+						for(int whichUserSkill = 0; whichUserSkill < userd.getSkills().size(); whichUserSkill++) {
+							if(retAds.get(whichAd).getSkills().get(whichAdSkill).equals( userd.getSkills().get(whichUserSkill).getSkillName())) {
+								retAds.get(whichAd).setScore(retAds.get(whichAd).getScore() + 1);
+							}
+						}
+					}
+				}
+			}
+			
+			for(int i = 0; i < retAds.size(); i++) {
+				for(int j = 1; j < retAds.size() - 1; j++) {
+					if(retAds.get(j - 1).getScore() < retAds.get(j).getScore()) {
+						Collections.swap(retAds, j, j - 1);
+					}
+				}
+			}
+
+		}
+		
+		return Response.status(200).entity(retAds).build();
+
+	}
 	/*@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/upload")

@@ -25,6 +25,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ConversationComponent } from './conversation/conversation.component'
 import { ConversationService } from './conversation/conversation.service';
+import { AdvertisementComponent } from './advertisement/advertisement.component';
 
 var routes  =[
   {
@@ -66,6 +67,10 @@ var routes  =[
   {
     path: 'conversation',
     component: ConversationComponent
+  },
+  {
+    path:'advertisement',
+    component: AdvertisementComponent
   }
 ];
 
@@ -82,6 +87,7 @@ var routes  =[
     HomepageComponent,
     NotificationsComponent,
     ConversationComponent,
+    AdvertisementComponent,
 
   ],
   imports: [

@@ -15,12 +15,12 @@ public class ApplicationConfig extends Application {
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(filters.CrossOriginResourceFilter.class);
-        resources.add(service.AdvertismentEndpoint.class);
         resources.add(service.ArticleEndpoint.class);
         resources.add(service.ConnectionRequestEndpoint.class);
         resources.add(service.UserEndpoint.class);
         resources.add(service.ConversationEndpoint.class);
         resources.add(service.MessageEndpoint.class);
+        resources.add(service.AdvertismentEndpoint.class);
 
     }
     

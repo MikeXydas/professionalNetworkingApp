@@ -11,6 +11,7 @@ TO DO:
 	HOMEPAGE: No filesystem photos, videos, sound, add max comment size  
 	NOTIFICATIONS: No filesystem photos  
 	CONVERSATION: No fileSystem photos (could solve how to scroll to bottom of messages)  
+	ADVERTISEMENTS: No html file. AdvertismentEndpoint is broken (moved functions to UserEndpoint  
 
 	IMPORTANT: SSL ENCRYPTION , CORS FILTER, jwt authentication  
 

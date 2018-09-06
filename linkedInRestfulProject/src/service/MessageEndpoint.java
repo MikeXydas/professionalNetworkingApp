@@ -104,6 +104,7 @@ public class MessageEndpoint {
 		convDao.mergeConversation(conv);
 		messageDao.insertMessage(message);
 		
+		
 		MessageBean retMsg = new MessageBean();
 		retMsg.setContentText(message.getContentText());
 		retMsg.setSenderId(message.getSenderId());

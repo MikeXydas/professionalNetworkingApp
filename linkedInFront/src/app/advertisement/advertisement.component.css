@@ -1,0 +1,58 @@
+.permaTop {
+        position: fixed;
+        width: 100%;
+        z-index:1 ;
+}
+
+.navbar .lastTab{
+        float: right;
+}
+
+.navbar .current {
+        background-color: #009edf;
+}
+
+.navbar {
+        width: 100%;
+        overflow:hidden;
+        background-color: rgb(102, 102, 102);
+        box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.4);
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        border-radius: 15px/50px;
+        z-index: 1;
+        margin: 0;
+        padding: 0px 10px;
+        opacity: 0.85;
+        background: linear-gradient(to right, #009edf, #0d6486)
+}
+
+.navbar a {
+        float: left;
+        color: white;
+        text-align: center;
+        padding: 16px 30px;
+        text-decoration: none;
+        text-align: center;
+        font-size: 27px;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+        background-color: #009edf;
+}
+
+.columnHeader {
+        padding-bottom: 40px;
+        padding-top: 40px;
+        font-size: 35px;
+        font-style: italic;
+        font-weight: bold;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.name {
+        padding-left: 50px;
+        font-size: 26px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bold;
+
+}
