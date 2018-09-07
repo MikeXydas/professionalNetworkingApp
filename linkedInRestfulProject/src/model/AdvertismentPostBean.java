@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Date;
 import java.util.List;
 
 public class AdvertismentPostBean {
@@ -7,6 +8,8 @@ public class AdvertismentPostBean {
 	private int adId;
 	
 	private int userId;
+	
+	private Date uploadTime;
 
 	private String title;
 	
@@ -30,6 +33,15 @@ public class AdvertismentPostBean {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+	
+
+	public Date getUploadTime() {
+		return uploadTime;
+	}
+
+	public void setUploadTime(Date uploadTime) {
+		this.uploadTime = uploadTime;
 	}
 
 	public String getTitle() {

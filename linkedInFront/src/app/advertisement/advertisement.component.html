@@ -19,3 +19,85 @@
     <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
   </div>
 </div>
+
+<div *ngIf="isLoadingComplete()" class="container-fluid cont" style="padding-top: 140px;">
+  <div class="row">
+    <div class="col-sm-4">
+      <h5 class="text-primary text-center columnHeader">Upload your ad</h5>
+      <div class="bord">
+          <form class="" style="padding-top: 50px;" method="post" action="#" [formGroup]="adForm" (ngSubmit)="sendAd()">
+            <div style="padding: 10px 20px;" class="form-group">
+              <label for="title" class="control-label">Title</label>
+              <input type="text" class="form-control" name="title" id="title"  
+                placeholder="Enter title" formControlName="title"
+                [ngClass]="{ 'error': isInvalid('title') }"
+                />
+            </div>
+
+            <div style="padding: 10px 20px;" class="form-group">
+              <label for="skills" class="control-label">Skills</label>
+              <input type="text" class="form-control" name="skills" id="skills"  
+                placeholder="Enter skills" formControlName="skills"
+                [ngClass]="{ 'error': isInvalid('skills') }"
+                />
+            </div>
+
+            <div style="padding: 10px 20px;" class="form-group">
+              <label for="content" class="control-label">Content</label>
+              <textarea rows="10" class="form-control" name="content" id="content"  
+              placeholder="Enter content" formControlName="content"
+              [ngClass]="{ 'error': isInvalid('content') }"></textarea>
+            </div>
+
+            <div style="width: 100px;" class="form-group mx-auto">
+              <input *ngIf="!isAdInvalid()" id="button" type="submit" class="btn btn-success btn-lg btn-block" value="Post"/>
+              <input *ngIf="isAdInvalid()" id="button" type="submit" class="btn btn-success btn-lg btn-block disabled" value="Post"/>
+            </div>
+            <p *ngIf="successfulAdPost" style="padding-left: 20px;" class="text-success mx-auto font-weight-bold">Successfully posted advertisement</p>
+
+          </form>
+      </div>
+    </div>
+    <div class="col-sm-8">
+        <h5 class="text-primary text-center columnHeader">Advertisements</h5>
+        <div class="container" *ngFor="let advertisement of advertisements; let i = index">
+
+            <div class="row bordAd">
+      
+              <!-- Post Content Column -->
+              <div class="col-lg-11">
+                
+                <!-- Title -->
+                <h1 class="mt-4 text-center">{{ advertisement.title }}</h1>
+      
+                <!-- Author -->
+                <p class="lead">
+                  Skills needed: {{ printSkills(i) }}
+                </p>
+      
+                <hr>
+      
+                <!-- Date/Time -->
+                <p>on {{ transformDate(advertisement.uploadTime) }}</p>
+      
+                <hr>
+            
+                <hr>
+      
+                <!-- Post Content -->
+                <p class="lead">{{ advertisement.descriptionText }}</p>
+                <div style="padding-top: 40px;">
+                  <span *ngIf="successfulApply[i]" style="padding-left: 20px;" class="text-success mx-auto font-weight-bold">Successfully applied to ad</span>
+                  <button *ngIf="!successfulApply[i]" (click)="applyToAd(i)" type="submit" class="btn btn-primary pull-right">Apply</button>
+                  <button *ngIf="successfulApply[i]" type="submit" class="btn btn-primary pull-right disabled">Apply</button>
+                </div>
+                <br><br>
+                <hr>
+              </div>
+            </div>
+            <br><hr><br>
+          </div>
+      
+    </div>
+  </div>
+</div>

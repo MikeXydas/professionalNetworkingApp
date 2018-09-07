@@ -46,13 +46,16 @@ import annotations.Secured;
 import javax.ws.rs.core.UriBuilder;
 
 import db.UserDB;
+import entities.Application;
 import db.AdvertismentDB;
+import db.ApplicationDB;
 import db.SkillDB;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
 import model.AdvertismentPostBean;
+import model.ApplyBean;
 import model.ArticleBean;
 import model.ChangeEmailBean;
 import model.ChangePasswordBean;
@@ -628,7 +631,6 @@ public class UserEndpoint {
 	@Path("/ads/{id:[0-9]*}")
 	@Produces({"application/json"})
 	public Response getAdSkills(@PathParam("id") final Integer id) {
-		System.out.println("aaa");
 		UserDB userDao = new UserDB();
 		AdvertismentDB advertismentDao = new AdvertismentDB();
 		List <AdvertismentPostBean> retAds = new ArrayList<AdvertismentPostBean>();
@@ -639,39 +641,33 @@ public class UserEndpoint {
 		
 		if(advertisments != null) {			
 			for(int whichAd = 0; whichAd < advertisments.size(); whichAd++) {
-				AdvertismentPostBean tempBean = new AdvertismentPostBean();
-				tempBean.setAdId(advertisments.get(whichAd).getId().getIdAdvertisment());
-				tempBean.setUserId(advertisments.get(whichAd).getId().getUser_idUser());
-				tempBean.setTitle(advertisments.get(whichAd).getTitle());
-				tempBean.setDescriptionText(advertisments.get(whichAd).getDescriptionText());
-				tempBean.setScore(0);
-				tempBean.setSkills(new ArrayList<String>());
-				
-				for(int whichSkill = 0; whichSkill < advertisments.get(whichAd).getSkills().size(); whichSkill++) {
-					tempBean.getSkills().add(advertisments.get(whichAd).getSkills().get(whichSkill).getSkillName());
+				if(advertisments.get(whichAd).getId().getUser_idUser() != id) {
+					AdvertismentPostBean tempBean = new AdvertismentPostBean();
+					tempBean.setAdId(advertisments.get(whichAd).getId().getIdAdvertisment());
+					tempBean.setUserId(advertisments.get(whichAd).getId().getUser_idUser());
+					tempBean.setTitle(advertisments.get(whichAd).getTitle());
+					tempBean.setDescriptionText(advertisments.get(whichAd).getDescriptionText());
+					tempBean.setUploadTime(advertisments.get(whichAd).getUploadTime());
+					tempBean.setScore(0);
+					tempBean.setSkills(new ArrayList<String>());
+					
+					for(int whichSkill = 0; whichSkill < advertisments.get(whichAd).getSkills().size(); whichSkill++) {
+						tempBean.getSkills().add(advertisments.get(whichAd).getSkills().get(whichSkill).getSkillName());
+					}
+					
+					retAds.add(tempBean);
 				}
-				
-				retAds.add(tempBean);
 			}
 			
 			for(int whichAd = 0; whichAd < retAds.size(); whichAd++) {
-				if(retAds.get(whichAd).getUserId() != id) {
-					for(int whichAdSkill = 0; whichAdSkill < retAds.get(whichAd).getSkills().size(); whichAdSkill++) {
-						for(int whichUserSkill = 0; whichUserSkill < userd.getSkills().size(); whichUserSkill++) {
-							if(retAds.get(whichAd).getSkills().get(whichAdSkill).equals( userd.getSkills().get(whichUserSkill).getSkillName())) {
-								retAds.get(whichAd).setScore(retAds.get(whichAd).getScore() + 1);
-							}
+				for(int whichAdSkill = 0; whichAdSkill < retAds.get(whichAd).getSkills().size(); whichAdSkill++) {
+					for(int whichUserSkill = 0; whichUserSkill < userd.getSkills().size(); whichUserSkill++) {
+						if(retAds.get(whichAd).getSkills().get(whichAdSkill).equals( userd.getSkills().get(whichUserSkill).getSkillName())) {
+							retAds.get(whichAd).setScore(retAds.get(whichAd).getScore() + 1);
 						}
 					}
 				}
-			}
-			
-			for(int i = 0; i < retAds.size(); i++) {
-				for(int j = 1; j < retAds.size() - 1; j++) {
-					if(retAds.get(j - 1).getScore() < retAds.get(j).getScore()) {
-						Collections.swap(retAds, j, j - 1);
-					}
-				}
+				
 			}
 
 		}
@@ -679,6 +675,96 @@ public class UserEndpoint {
 		return Response.status(200).entity(retAds).build();
 
 	}
+	
+	@POST
+	@Path("/post")
+	@Consumes({"application/json"})
+	public Response postAd(final AdvertismentPostBean adBean) {
+		AdvertismentDB advertismentDao = new AdvertismentDB();
+		UserDB userDao = new UserDB();
+		SkillDB skillDao = new SkillDB();
+
+		entities.User userd = userDao.getById(adBean.getUserId());
+		entities.Advertisment ad = new entities.Advertisment();
+		
+		//Initializing the new add entity
+		ad.setTitle(adBean.getTitle());
+		ad.setDescriptionText(adBean.getDescriptionText());
+		Date date = new Date();
+		ad.setUploadTime(date);
+		ad.setUser(userd);
+		
+		
+		//Primary key initialization
+		entities.AdvertismentPK pk = new entities.AdvertismentPK();
+		//pk.setUser_idUser(adBean.getUserId());
+		ad.setId(pk);
+		advertismentDao.insertAdvertisment(ad);
+		
+		//Update correctly the AdHasSkill table
+		List<String> skillList = adBean.getSkills();
+		List<entities.Skill> skillsd = new ArrayList<entities.Skill>();
+
+		for (int i = 0; i < skillList.size(); i++) {
+			entities.Skill skilld = skillDao.find(skillList.get(i));
+			if(skilld == null) {
+				skilld = new entities.Skill();
+				skilld.setSkillName(skillList.get(i));
+				skilld.setAdvertisments(new ArrayList<entities.Advertisment>());
+				skilld.getAdvertisments().add(ad);
+				int skillId = skillDao.insertSkill(skilld);
+			}
+			else {
+				skilld.getAdvertisments().add(ad);
+				skillDao.mergeSkill(skilld);
+			}
+			//skillsd.add(skilld);
+		}
+		
+
+		//ad.setSkills(skillsd);
+		//advertismentDao.insertAdvertisment(ad);
+		//userd.getAdvertisments().add(ad);		
+		//userDao.mergeUser(userd);
+		
+		return Response.status(200).build();
+	}
+	
+	
+	@POST
+	@Path("/apply")
+	@Consumes({"application/json"})
+	public Response applyAd(final ApplyBean applyBean) {
+		AdvertismentDB advertismentDao = new AdvertismentDB();
+		ApplicationDB applicationDao = new ApplicationDB();
+		
+		//entities.AdvertismentPK adPk = new entities.AdvertismentPK();
+		//adPk.setIdAdvertisment(applyBean.getAdId());
+		//adPk.setUser_idUser(applyBean.getAdOwnerId());
+		entities.Advertisment add = advertismentDao.getByAdId(applyBean.getAdId());
+
+		List<Application> applications = add.getApplications();
+
+		for (int i = 0; i < applications.size(); i++) {
+			entities.Application currentApp = applications.get(i);
+			if(currentApp.getApplicantId() == applyBean.getUserId()) {
+				//CASE: The application already exists
+				return Response.status(200).build();
+			}
+		}
+		
+		entities.Application appd = new entities.Application();
+		appd.setAdvertisment(add);
+		appd.setApplicantId(applyBean.getUserId());
+		entities.ApplicationPK appPk = new entities.ApplicationPK();
+		appd.setId(appPk);
+		applicationDao.insertApplication(appd);
+		
+		return Response.status(200).build();
+	}
+	
+	
+	
 	/*@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/upload")

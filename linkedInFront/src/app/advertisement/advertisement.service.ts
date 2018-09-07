@@ -19,7 +19,7 @@ export class AdvertisementService {
   constructor(private http: HttpClient) { }
 
   postAd(ad) {
-    return this.http.post(this.apiRoot + "Advertisment/post", ad, httpOptions);
+    return this.http.post(this.apiRoot + "User/post", ad, httpOptions);
   }
 
   getAdSkill(id) {
@@ -27,6 +27,6 @@ export class AdvertisementService {
   }
 
   applyToAd(application) {
-    return this.http.post(this.apiRoot + "Advertisment/apply", application, httpOptions);
+    return this.http.post(this.apiRoot + "User/apply", application, httpOptions);
   }
 }

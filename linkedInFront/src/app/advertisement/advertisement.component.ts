@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GetuserService } from '../getuser.service'
 import { WelcomeService } from '../welcome/welcome.service';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
 import { AdvertisementService } from './advertisement.service';
 import { PostAd } from './postAd';
 import { Application } from './application';
@@ -24,11 +25,21 @@ export class AdvertisementComponent implements OnInit {
   adTitle = "";
   adContext = "";
   adSkills = "";
+  adForm;
+  successfulAdPost = false;
+  successfulApply: boolean[] = [];
 
   constructor(private route: ActivatedRoute,
               private welcomeService: WelcomeService,
               private getuserService : GetuserService,
-              private advertisementService : AdvertisementService) { }
+              private formBuilder: FormBuilder,
+              private advertisementService : AdvertisementService) {
+                this.adForm = formBuilder.group( {
+                  title: ['', Validators.required],
+                  skills: ['', Validators.required],
+                  content: ['', Validators.required]
+                })
+               }
 
   ngOnInit() {
     this.getuserService.getAccessLevelObs(1)
@@ -47,7 +58,11 @@ export class AdvertisementComponent implements OnInit {
               .subscribe(
                 data => {
                   this.advertisements = data;
+                  this.sortAdsOnScore();
                   this.adsReceived = true;
+                  for(var i = 0; i < this.advertisements.length; i++) {
+                    this.successfulApply.push(false);
+                  }
                   console.log("Successfully received ads");
                 },
                 error => {
@@ -74,21 +89,46 @@ export class AdvertisementComponent implements OnInit {
     return date.toLocaleString();;
   }
 
-  isAdValid() {
-    return (this.adContext != "") && (this.adSkills != "") && (this.adTitle != "");
+  sortAdsOnScore() {
+    for(var i = 0; i < this.advertisements.length; i++) {
+      for(var j = 0; j < this.advertisements.length - i - 1; j++) {
+        if(this.advertisements[j].score < this.advertisements[j + 1].score) {
+          var temp = this.advertisements[j];
+          this.advertisements[j] = this.advertisements[j + 1];
+          this.advertisements[j + 1] = temp;
+        }
+      }
+    }
+  }
+
+  isInvalid(control) {
+    return this.adForm.controls[control].invalid
+  }
+
+  isAdInvalid() {
+    return this.isInvalid('title') || this.isInvalid('skills') || this.isInvalid('content');
   }
 
   sendAd() {
     const newAd : PostAd = {
       userId: this.loginedUser,
-      descriptionText: this.adContext,
-      title: this.adTitle,
+      descriptionText: this.adForm.controls['content'].value,
+      title: this.adForm.controls['title'].value,
       skills: this.createSkillsList()
     }
 
     this.advertisementService.postAd(newAd)
     .subscribe(
       data=> {
+        //this.adForm.controls['title']setValue(value[name];
+        //this.adForm.controls['content'].value = "";
+        //this.adForm.controls['skills'].value = "";
+        this.adForm.setValue({
+          title: '',
+          content: '',
+          skills: '',
+        });
+        this.successfulAdPost = true;
         console.log("Succesfully posted ad");
       },
       error => {
@@ -106,6 +146,7 @@ export class AdvertisementComponent implements OnInit {
     this.advertisementService.applyToAd(newApp)
     .subscribe(
       data => {
+        this.successfulApply[whichAd] = true;
         console.log("Successfully applied to ad");
       },
       error => {
@@ -114,29 +155,41 @@ export class AdvertisementComponent implements OnInit {
     );
   }
 
+  printSkills(whichAd) {
+    var retString = "";
+    for(var i = 0; i < this.advertisements[whichAd].skills.length; i++) {
+      if(i != 0) {
+        retString += ", ";
+      }
+      retString += this.advertisements[whichAd].skills[i];
+    }
+
+    return retString;
+  }
+  
   createSkillsList() {
     var start = 0;
     var end = 0;
     var stringList : string[] = [];
 
-    if(this.adSkills.length == 0) {
+    if(this.adForm.controls['skills'].value.length == 0) {
       return stringList;
     }
 
     while(end != -1) {
-      if((end = this.adSkills.indexOf(", ", start)) == -1) {
-        stringList.push(this.adSkills.slice(start));
+      if((end = this.adForm.controls['skills'].value.indexOf(", ", start)) == -1) {
+        stringList.push(this.adForm.controls['skills'].value.slice(start));
       }
       else if(start == 0) {
-          stringList.push(this.adSkills.slice(start, end));
+          stringList.push(this.adForm.controls['skills'].value.slice(start, end));
           start = end + 2
       }
       else {
-        if(this.adSkills.length  < start) {
+        if(this.adForm.controls['skills'].value.length  < start) {
           end = -1;
         }
         else {
-          stringList.push(this.adSkills.slice(start, end));
+          stringList.push(this.adForm.controls['skills'].value.slice(start, end));
           start = end + 2
         }
       }

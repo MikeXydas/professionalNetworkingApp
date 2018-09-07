@@ -7,11 +7,11 @@ TO DO:
 	MODERATOR_USER_PROFILE: No fileSystem photos  
 	USER_PROFILE:No fileSystem photos, ON MY PROFILE: Cannot change name, add directions on the correct format of entering skills  
 	SETTINGS: Supposingly 100% complete  
-	NETWORK: Only search implemented (Not visually shown)  
+	NETWORK: To be imported from Pankan  
 	HOMEPAGE: No filesystem photos, videos, sound, add max comment size  
 	NOTIFICATIONS: No filesystem photos  
 	CONVERSATION: No fileSystem photos (could solve how to scroll to bottom of messages)  
-	ADVERTISEMENTS: No html file. AdvertismentEndpoint is broken (moved functions to UserEndpoint  
+	ADVERTISEMENTS: Supposingly 100% complete (AdvertismentEndpoint is broken (moved functions to UserEndpoint))  
 
 	IMPORTANT: SSL ENCRYPTION , CORS FILTER, jwt authentication  
 
