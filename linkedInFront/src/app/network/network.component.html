@@ -5,59 +5,83 @@
 
 
 <div class="permaTop">
-<div class= "navbar">
-  <a [routerLink]="" class="" >Home</a>
-  <a [routerLink]="" class="" >Ads</a>
-  <a [routerLink]="" class="" >Messaging</a>
-  <a [routerLink]="['/network']" class="current" >Network</a>
-  <a [routerLink]="['/notifications']" class="" >Notifications</a>
-  <a [routerLink]="" class="" >Profile</a>
-  <a [routerLink]="['/settings']" class="" >Settings</a>
-  <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
-</div>
-</div>
-
-<div class="container">
-  <div class="row main">
-    <div class="main-login main-center">
-    <h5>Search</h5>
-      <form class="" method="post" action="#" [formGroup]="searchForm" (ngSubmit)="onSubmit()">        <div class="form-group">
-          <label for="firstName" class="cols-sm-2 control-label">First Name</label>
-          <div class="cols-sm-10">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" name="firstName" id="firstName"  
-              placeholder="Enter First Name" formControlName="firstName"
-              />
-            </div>
-          </div>
-        </div>
-
-
-        <div class="form-group">
-          <label for="lastName" class="cols-sm-2 control-label">Last Name</label>
-          <div class="cols-sm-10">
-            <div class="input-group">
-              <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-              <input type="lastName" class="form-control" name="lastName" id="lastName"  
-              placeholder="Enter Last Name" formControlName="lastName"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group ">
-          <input id="button" type="submit" class="btn btn-primary btn-lg btn-block login-button" *ngIf="!isLoading()" value="Search"/>
-        </div>
-
-        <div class="form-group ">
-            <span class="btn-primary btn-lg" *ngIf="isLoading()">Loading</span>
-        </div>
-        <!-- <div class="form-group ">
-            <input id="button" type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Register"/>
-        </div> -->
-       
-      </form>
-    </div>
+  <div class= "navbar">
+    <a [routerLink]="['/homepage']" class="" >Home</a>
+    <a [routerLink]="['/advertisement']" class="" >Ads</a>
+    <a [routerLink]="['/conversation']" class="" >Messaging</a>
+    <a [routerLink]="['/network']" class="current" >Network</a>
+    <a [routerLink]="['/notifications']" class="" >Notifications</a>
+    <a [routerLink]="['/userprof', loginedUser]" class="" >Profile</a>
+    <a [routerLink]="['/settings']" class="" >Settings</a>
+    <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
+  </div>
+  <div class="topnav">
+    <a class ="label">Search for user:</a>
+    <form class="" method="post" action="#" [formGroup]="searchForm" (ngSubmit)="onSubmit()">       
+      <input type ="text" name="firstName" id="firstName" 
+      placeholder="First Name..." formControlName="firstName"/>
+      <input type="text" name="lastName" id="lastName"  
+      placeholder="Last Name..." formControlName="lastName"/>
+      <input id="button" type="submit"  *ngIf="!isLoading()" value="Search"/>
+      <span class="span" *ngIf="isLoading()">Loading</span>
+    </form>  
   </div>
 </div>
+
+<div  *ngIf="submittedSearch && receivedFriends" style="padding-top: 180px;">
+  <div  class="container bord">
+      <!-- contacts card -->
+      <h5 class="text-primary text-center columnHeader">Search Results</h5>
+      <h5  *ngIf="emptySearchResults()" class="text-dark text-center columnHeader">Did not find any users matching your search</h5>
+      <div *ngIf="!emptySearchResults()" class="card card-default" id="card_contacts">
+          <div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
+              <ul class="list-group pull-down" id="contact-list">
+                  <li  *ngFor="let result of searchResults; let i=index" class="list-group-item">
+                      <div class="row w-100">
+                          <div class="col-12 col-sm-6 col-md-3 px-0">
+                              <img style="width:120px; height: 120px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="No pic" class="rounded-circle mx-auto d-block img-fluid">
+                          </div>
+                          <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                              <label style="padding-top:50px;" class="name lead">{{ result.firstName }} {{ result.lastName }}</label>
+                              <div>
+                                <button (click)="searchResultsRedirectList(i)" type="submit" class="btn btn-lg btn-primary pull-right">View Profile</button>
+                              </div>
+                          </div>
+                      </div>
+                  </li>
+              </ul>
+              <!--/contacts list-->
+          </div>
+      </div>
+  </div>
+</div>
+<div *ngIf="receivedFriends" style="padding-top: 180px; max-height: 800px; overflow: scroll;" class="container">
+    <!-- contacts card -->
+    <h5 class="text-primary text-center columnHeader">My connections</h5>
+    <h5 *ngIf="emptyFriends()" class="text-dark text-center columnHeader">You have no connections</h5>
+
+    <div *ngIf="!emptyFriends()" class="card card-default" id="card_contacts">
+        <div id="contacts" class="panel-collapse collapse show" aria-expanded="true" style="">
+            <ul class="list-group pull-down" id="contact-list">
+                <li  *ngFor="let friend of friendList; let i=index" class="list-group-item">
+                    <div class="row w-100">
+                        <div class="col-12 col-sm-6 col-md-3 px-0">
+                            <img style="width:120px; height: 120px;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="No pic" class="rounded-circle mx-auto d-block img-fluid">
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                            <label style="padding-top:50px;" class="name lead">{{ friend.firstName }} {{ friend.lastName }}</label>
+                            <div>
+                              <button (click)="profRedirectList(i)" type="submit" class="btn btn-lg btn-primary pull-right">View Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <!--/contacts list-->
+        </div>
+    </div>
+</div>
+
+
+
+  

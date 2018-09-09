@@ -1,8 +1,48 @@
+.topnav {
+        overflow: hidden;
+        background-color: #e9e9e9;
+    }
+
+.topnav input[type="text"]{
+        float: left;
+        padding: 1px;
+        border: none;
+        margin-top: 17px;
+        margin-right: 16px;
+        margin-bottom: 8px;
+        font-size: 17px ;
+}
+
+.topnav input[type="submit"]{
+        float: left;
+        padding: 0.1px;
+        margin-top: 17px;
+        margin-right: 16px;
+        margin-bottom: 8px;
+        font-size: 15px ;
+}
+
+.span {
+        float: left;
+        padding: 0.1px;
+        margin-top: 17px;
+        margin-right: 16px;
+        margin-bottom: 8px;
+        font-size: 15px ;
+
+}
+
+.label {
+        font-size: 20px;
+        text-align: center;
+        padding: 14px 16px;
+        float: left;
+}
 
 .permaTop {
         position: fixed;
         width: 100%;
-        z-index:1 ;
+        z-index:2 ;
 }
 
 .navbar .lastTab{
@@ -116,10 +156,10 @@ img.logo{
 }
 
 .profPicture {
-        width: 350;
-        height: 400;
-        padding: 50px 0px 20px 0px;  
-        object-fit: fill;      
+        width: 100px;
+        height: 100px;
+        padding: 1px 0px 1px 0px;  
+        object-fit: scale-down;      
 }
 
 h2.info {
@@ -226,123 +266,27 @@ input[type=checkbox]
         width: 92%;
         margin: 0% 4%;
 }
-#playground-container {
-        height: 500px;
-        overflow: hidden !important;
-        -webkit-overflow-scrolling: touch;
-    }
 
-    .container {
-            width: 800px;
-            padding: 100px 60% 100px 20px;
-    }
-    body, html{
-         height: 100%;
-             background-repeat: no-repeat;
-             font-family: 'Oxygen', sans-serif;
-                background-size: cover;
-    }
-    
-    .main{
-             margin:50px 15px;
-    }
-    
-    h5 { 
-            font-size: 50px;
-            font-family: 'Passion One', cursive; 
-            font-weight: 400;
-            text-align: center;
-            padding: 20px 10px; 
-    }
-    
-    hr{
-            width:10%;
-            color: #fff;
-    }
-    
-    .form-group{
-            margin-bottom: 20px;
-    }
-    
-    label{
-            font-size: 19px;
-            margin-bottom: 5px;
-    }
-    
-    input,
-    input::-webkit-input-placeholder {
-        font-size: 19px;
-        padding-top: 3px;
-    }
-    
-    .main-login{
-             background-color: #fff;
-        /* shadows and rounded borders */
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    
-    }
-    .form-control {
-        height: auto!important;
-    padding: 8px 12px !important;
-    }
-    .input-group {
-        -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
-        -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
-        box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.21)!important;
-    }
-    #button {
-        border: 1px solid #ccc;
-        margin-top: 28px;
-        padding: 6px 12px;
-        color: #666;
-        text-shadow: 0 1px #fff;
-        cursor: pointer;
-        -moz-border-radius: 3px 3px;
-        -webkit-border-radius: 3px 3px;
-        border-radius: 3px 3px;
-        -moz-box-shadow: 0 1px #fff inset, 0 1px #ddd;
-        -webkit-box-shadow: 0 1px #fff inset, 0 1px #ddd;
-        box-shadow: 0 1px #fff inset, 0 1px #ddd;
-        background: #f5f5f5;
-        background: -moz-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f5f5f5), color-stop(100%, #eeeeee));
-        background: -webkit-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-        background: -o-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-        background: -ms-linear-gradient(top, #f5f5f5 0%, #eeeeee 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f5f5f5', endColorstr='#eeeeee', GradientType=0);
-    }
-    .main-center{
-             margin-top: 30px;
-             margin: 0 auto;
-             max-width: 400px;
-        padding: 10px 40px;
-            background:#009edf;
-                color: #FFF;
-        text-shadow: none;
-            -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
-    -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
-    box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
-    
-    }
-    span.input-group-addon i {
-        color: #009edf;
-        font-size: 17px;
-    }
-    
-    .login-button{
-            margin-top: 5px;
-    }
-    
-    .login-register{
-            font-size: 11px;
-            text-align: center;
-    }
-    
-    .error {
-            background-color: #f3d5d5;
-    }
+.underNavBar {
+        position: relative;
+        top: 150px;
+}
+
+.columnHeader {
+        padding-bottom: 40px;
+        padding-top: 40px;
+        font-size: 35px;
+        font-style: italic;
+        font-weight: bold;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.bord {
+	border: #009edf medium solid;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        font-size: 25px;
+        max-height: 600px;
+        overflow:scroll;
+}
