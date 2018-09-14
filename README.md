@@ -12,8 +12,9 @@ TO DO:
 	NOTIFICATIONS: No filesystem photos  
 	CONVERSATION: No fileSystem photos (would like to know solve how to scroll to bottom of messages)  
 	ADVERTISEMENTS: Supposingly 100% complete (AdvertismentEndpoint is broken (moved functions to UserEndpoint))  
-
-	IMPORTANT: SSL ENCRYPTION , CORS FILTER, jwt authentication  
+	SSL_ENCRYPTION: Works with postman, does not work on site  
+   
+	IMPORTANT: CORS FILTER, jwt authentication  
 
 Query working: http://localhost:8080/linkedInRestfulProject/services/User/query?id=10
 
