@@ -3,6 +3,7 @@ package service;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
@@ -256,7 +257,7 @@ public class ArticleEndpoint {
 		return Response.status(200).entity(temp).build();
 	}
 	
-	@GET
+	/*@GET
 	@Path("/showArticles/{id:[0-9]*}")
 	@Produces({"application/json"})
 	public Response returnHomepageArticles(@PathParam("id") int id) throws IOException {
@@ -271,8 +272,258 @@ public class ArticleEndpoint {
 		}
 		
 		return Response.status(200).entity(articleBeans).build();
+	}*/
+	
+	@GET
+	@Path("/showArticles/{id:[0-9]*}")
+	@Produces({"application/json"})
+	public Response returnHomepageArticles(@PathParam("id") int id) throws IOException {
+		ArticleDB articleDao = new ArticleDB();
+		List<Article> articles = null;
+		articles = articleDao.getConnectedArticles(id);
+		
+		List<Article> knnArticles = KNNarticles(articles, id, 3);
+		
+		List<ArticleBean> articleBeans = new ArrayList<ArticleBean>();
+		
+		for(int i = 0; i < knnArticles.size(); i++) {
+			articleBeans.add(createArticleBean(knnArticles.get(i)));
+		}
+		
+		return Response.status(200).entity(articleBeans).build();
 	}
 	
+	private List<Article> KNNarticles(List<Article> articles, int loggedInUser, int k) {
+		
+		System.out.println("  ---------------------------------------------------- ");
+		UserDB userDao = new UserDB();
+		if(articles == null) {
+			return null;
+		}
+		
+		List<DistanceUser> usersDists = createUserIdsList(articles, loggedInUser);
+		
+		
+		List<List<Integer>> matrix = createMatrix(usersDists, articles);
+		
+		
+		List<Integer> mainVector = new ArrayList<Integer>();
+		for(int whichArticle = 0; whichArticle < articles.size(); whichArticle++) {
+			mainVector.add(userLikesCommentsArticle(loggedInUser, articles.get(whichArticle)));
+		}
+		
+		System.out.println(mainVector);
+
+		System.out.println("UsersDists size = " + usersDists.size());
+		for(int whichUser = 0; whichUser < usersDists.size(); whichUser++) {
+			usersDists.get(whichUser).setDistance(calculateDistance(mainVector, matrix.get(whichUser)));
+		}
+		
+		
+		heapSortDistances(usersDists);
+		
+		for(int i = 0; i < usersDists.size(); i++) {
+			System.out.println("User: " + usersDists.get(i).getUserId() + " |  Distance: " + usersDists.get(i).getDistance());
+		}
+		List<Article> topArticles = new ArrayList<Article>();
+		if(usersDists.size() < k) {
+			k = usersDists.size();
+		}
+		
+		for(int whichUser = 0; whichUser < k; whichUser++) {
+			entities.User topUserd = userDao.getById(usersDists.get(whichUser).getUserId());
+			for(int whichArticle = 0; whichArticle < topUserd.getArticles().size(); whichArticle++) {
+				topArticles.add(topUserd.getArticles().get(whichArticle));
+			}
+		}
+		
+		sortArticlesOnTime(topArticles);
+		
+		List<Article> restArticles = new ArrayList<Article>();
+		for(int whichUser = k; whichUser < usersDists.size(); whichUser++) {
+			System.out.println("ADDING");
+			entities.User restUserd = userDao.getById(usersDists.get(whichUser).getUserId());
+			for(int whichArticle = 0; whichArticle < restUserd.getArticles().size(); whichArticle++) {
+				System.out.println("ADDING2");
+				restArticles.add(restUserd.getArticles().get(whichArticle));
+			}
+		}
+		
+		entities.User loggedUserd = userDao.getById(loggedInUser);
+		if(loggedUserd.getArticles() != null) {
+			for(int i = 0; i < loggedUserd.getArticles().size(); i++) {
+				restArticles.add(loggedUserd.getArticles().get(i));
+			}
+		}
+		sortArticlesOnTime(restArticles);
+		
+		List<Article> finalArticles = new ArrayList<Article>();
+		finalArticles.addAll(topArticles);
+		finalArticles.addAll(restArticles);
+
+		return finalArticles;
+	}
+	
+	
+	
+	private List<List<Integer>> createMatrix(List<DistanceUser> users, List<Article> articles) {
+		List<List<Integer>> retList = new ArrayList<List<Integer>>();
+		
+		for(int whichUser = 0; whichUser < users.size(); whichUser++) {
+			List<Integer> vector = new ArrayList<Integer>();
+			for(int whichArticle = 0; whichArticle < articles.size(); whichArticle++) {
+				vector.add(userLikesCommentsArticle(users.get(whichUser).getUserId(), articles.get(whichArticle)));
+			}
+			System.out.println("Vector of " +users.get(whichUser).getUserId() + ": " + vector );
+			retList.add(vector);
+		}
+		
+		return retList;
+	}
+	private int userLikesCommentsArticle(int userId, Article articled) {
+		
+		if(articled.getId().getUser_idUser() == userId) {
+			return 1;
+		}
+		if(articled.getComments() != null) {
+			for(int i = 0; i < articled.getComments().size(); i++) {
+				if(articled.getComments().get(i).getCommenterId() == userId) {
+					return 1;
+				}
+			}
+		}
+		
+		if(articled.getInterests() != null) {
+			for(int i = 0; i < articled.getInterests().size(); i++) {
+				if(articled.getInterests().get(i).getInteresterId() == userId) {
+					return 1;
+				}
+			}
+		}
+		
+		return 0;
+	}
+	
+	private List<DistanceUser> createUserIdsList(List<Article> articles, int loggedUser) {
+		
+		List<DistanceUser> retList = new ArrayList<DistanceUser>();
+		int userExists = 0;
+		if(articles != null) {
+			for(int whichArticle = 0; whichArticle < articles.size(); whichArticle++) {
+				if(articles.get(whichArticle).getId().getUser_idUser() != loggedUser) {
+					for(int whichUser = 0; whichUser < retList.size(); whichUser++) {
+						if(articles.get(whichArticle).getId().getUser_idUser() == retList.get(whichUser).getUserId()) {
+							userExists = 1;
+							break;
+						}
+					}
+					if(userExists == 0)
+					{
+						DistanceUser temp = new DistanceUser();
+						temp.setUserId(articles.get(whichArticle).getId().getUser_idUser());
+						temp.setDistance(0);
+						retList.add(temp);
+					}
+					else {
+						userExists = 0;
+					}
+				}
+			}
+		}
+		
+		return retList;
+	}
+	
+	private class DistanceUser {
+		
+		private int userId;
+		private double distance;
+		
+		public int getUserId() {
+			return userId;
+		}
+		public void setUserId(int userId) {
+			this.userId = userId;
+		}
+		public double getDistance() {
+			return distance;
+		}
+		public void setDistance(double distance) {
+			this.distance = distance;
+		}
+		
+	}
+	
+	private void sortArticlesOnTime(List<Article> articles) {
+		int n = articles.size();
+		
+		for(int i = n / 2 - 1; i >= 0; i--) {
+			HeapifyOnTime(articles, n, i);
+		}
+		
+		for(int i = n - 1; i >= 0; i--) {
+			Collections.swap(articles, 0, i);
+			HeapifyOnTime(articles, i, 0);
+		}
+	}
+	
+	private void HeapifyOnTime(List<Article> articles, int n, int i) {
+		int largest = i; // Initialize largest as root
+        int l = 2*i + 1; // left = 2*i + 1
+        int r = 2*i + 2;
+        
+        if((l < n) && (articles.get(l).getUploadTime().compareTo(articles.get(largest).getUploadTime()) < 0)) {
+        	largest = l;
+        }
+        
+        if((r < n) && (articles.get(r).getUploadTime().compareTo(articles.get(largest).getUploadTime()) < 0)) {
+        	largest = r;
+        }
+        
+        if(largest != i) {
+        	Collections.swap(articles, i, largest);
+        	HeapifyOnTime(articles, n, largest);
+        }
+	}
+	private void heapSortDistances(List<DistanceUser> usersDists) {
+		int n = usersDists.size();
+		
+		for(int i = n / 2 - 1; i >= 0; i--) {
+			heapify(usersDists, n, i);
+		}
+		
+		for(int i = n - 1; i >= 0; i--) {
+			Collections.swap(usersDists, 0, i);
+			heapify(usersDists, i, 0);
+		}
+	}
+	
+	private void heapify(List<DistanceUser> usersDists, int n, int i) {
+		int largest = i; // Initialize largest as root
+        int l = 2*i + 1; // left = 2*i + 1
+        int r = 2*i + 2;
+        
+        if((l < n) && (usersDists.get(l).getDistance() > usersDists.get(largest).getDistance())) {
+        	largest = l;
+        }
+        
+        if((r < n) && (usersDists.get(r).getDistance() > usersDists.get(largest).getDistance())) {
+        	largest = r;
+        }
+        
+        if(largest != i) {
+        	Collections.swap(usersDists, i, largest);
+        	heapify(usersDists, n, largest);
+        }
+	}
+	
+	private double calculateDistance(List<Integer> mainVector, List<Integer> vector) {
+		double Sum = 0.0;
+        for(int i=0;i<mainVector.size();i++) {
+           Sum = Sum + Math.pow((mainVector.get(i)-vector.get(i)),2.0);
+        }
+        return Math.sqrt(Sum);
+	}
 	/*@POST
 	@Path("/showArticles")
 	public Response showHomepageArticles(
@@ -378,7 +629,7 @@ public class ArticleEndpoint {
 				}
 				
 				if(mainUserd.getArticles().get(whichArticle).getComments() != null) {
-					for(int whichInt = 0; whichInt < mainUserd.getArticles().get(whichArticle).getInterests().size(); whichInt++) {
+					for(int whichInt = 0; whichInt < mainUserd.getArticles().get(whichArticle).getComments().size(); whichInt++) {
 						commentsd.add(mainUserd.getArticles().get(whichArticle).getComments().get(whichInt));
 					}
 				}

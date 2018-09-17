@@ -3,7 +3,13 @@ package service;
 import java.util.Set;
 import javax.ws.rs.core.Application;
 
-@javax.ws.rs.ApplicationPath("services")
+import org.glassfish.jersey.server.ResourceConfig;
+
+/**
+ *
+ * @author mx_pk
+ */
+@javax.ws.rs.ApplicationPath("/*")
 public class ApplicationConfig extends Application {
 
     @Override
@@ -14,14 +20,18 @@ public class ApplicationConfig extends Application {
     }
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(filters.CrossOriginResourceFilter.class);
-        resources.add(service.ArticleEndpoint.class);
-        resources.add(service.ConnectionRequestEndpoint.class);
+        resources.add(filters.CrossOriginResourceSharingFilter.class);
         resources.add(service.UserEndpoint.class);
-        resources.add(service.ConversationEndpoint.class);
-        resources.add(service.MessageEndpoint.class);
-        resources.add(service.AdvertismentEndpoint.class);
-
     }
     
 }
+
+/*@javax.ws.rs.ApplicationPath("services")
+public class ApplicationConfig extends ResourceConfig {
+
+
+	public ApplicationConfig() {
+        packages("filters.");
+    }
+    
+}*/

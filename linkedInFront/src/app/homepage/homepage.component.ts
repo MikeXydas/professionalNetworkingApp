@@ -74,7 +74,7 @@ export class HomepageComponent implements OnInit {
           .subscribe(
             data => {
               this.articles = data;
-              this.sortArticles();
+              //this.sortArticles();
               this.sortComments();
               for(var i = 0; i < this.articles.length; i++) {
                 this.commentBoxes.push("");

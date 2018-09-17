@@ -15,7 +15,9 @@
     <servlet-name>cxf</servlet-name>
     <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
+    
   </servlet>
+  
   <servlet-mapping>
     <servlet-name>cxf</servlet-name>
     <url-pattern>/services/*</url-pattern>
@@ -27,18 +29,25 @@
     <param-name>contextConfigLocation</param-name>
     <param-value>WEB-INF/cxf-beans.xml</param-value>
   </context-param>
+	
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>WEB-INF/cxf-beans.xml</param-value>
+  </context-param>
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
   <security-constraint>
 
 	<web-resource-collection>
 	<web-resource-name>linkedInRestfulProject</web-resource-name>
-	<url-pattern>/*</url-pattern>
+	<url-pattern>/services/*</url-pattern>
 	</web-resource-collection>
 	<user-data-constraint>
 	<transport-guarantee>NONE</transport-guarantee>
 	</user-data-constraint>
 
-</security-constraint>
+  </security-constraint>
+
 </web-app>

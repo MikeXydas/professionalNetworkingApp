@@ -6,15 +6,13 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class CrossOriginResourceFilter implements ContainerResponseFilter {
+public class CrossOriginResourceSharingFilter implements ContainerResponseFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext response) {
         response.getHeaders().putSingle("Access-Control-Allow-Origin", "*");
         response.getHeaders().putSingle("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE");
-        response.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type");
-        response.getHeaders().putSingle("Access-Control-Allow-Headers", "responseType");
-
+        response.getHeaders().putSingle("Access-Control-Allow-Headers", "origin, content-type, accept, authorization");
     }
     
 }

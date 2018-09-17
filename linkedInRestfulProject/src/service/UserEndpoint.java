@@ -15,6 +15,8 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
+import javax.ws.rs.OPTIONS;
+
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -78,6 +80,7 @@ public class UserEndpoint {
 	
 	private String FILE_SYSTEM = "/home/mike/Desktop/linkedInFileSystem";
 			
+	
 	@GET
 	@Path("query")
 	public Response getUser(@Context UriInfo info) {
@@ -147,6 +150,7 @@ public class UserEndpoint {
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
 	public Response login(final LogInfoBean loginInfo) {
+		System.out.println("login");
 		UserDB userDao = new UserDB();
 		entities.User userd = userDao.find(loginInfo.getEmail(), loginInfo.getPassword());
 		if (userd != null) {
