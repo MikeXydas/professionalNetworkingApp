@@ -58,8 +58,8 @@
 }
 
 .bord {
-	border: #009edf medium solid;
-	border-radius: 10px;
+	border: #009edf 2px solid;
+        border-radius: 10px;
 	-moz-border-radius: 10px;
         -webkit-border-radius: 10px;
         font-size: 25px;
@@ -67,7 +67,7 @@
 }
 
 .bordAd {
-	border: #009edf medium solid;
+	border: #009edf 2px solid;
 	border-radius: 10px;
 	-moz-border-radius: 10px;
         -webkit-border-radius: 10px;

@@ -106,6 +106,15 @@ export class AdvertisementComponent implements OnInit {
   }
 
   isAdInvalid() {
+    if (!this.adForm.controls['content'].value.replace(/\s/g, '').length) {
+      return true;
+    }
+    if (!this.adForm.controls['title'].value.replace(/\s/g, '').length) {
+      return true;
+    }
+    if (!this.adForm.controls['skills'].value.replace(/\s/g, '').length) {
+      return true;
+    }
     return this.isInvalid('title') || this.isInvalid('skills') || this.isInvalid('content');
   }
 

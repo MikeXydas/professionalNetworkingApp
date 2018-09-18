@@ -23,6 +23,7 @@ export class ConversationComponent implements OnInit {
   currentConvIndex;
   conversations;
   messageText = "";
+  selectedBox = -1;
 
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
@@ -82,6 +83,7 @@ export class ConversationComponent implements OnInit {
   }
 
   getMessages(whichConv) {
+    this.selectedBox = whichConv;
     this.conversationService.getMessages(this.conversations[whichConv].idConversation)
     .subscribe(
       data=> {
@@ -101,6 +103,9 @@ export class ConversationComponent implements OnInit {
   }
 
   isMessageBoxEmpty() {
+    if (!this.messageText.replace(/\s/g, '').length) {
+      return true;
+    }
     return this.messageText == "";
   }
 

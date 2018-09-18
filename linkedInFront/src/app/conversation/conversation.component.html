@@ -31,7 +31,10 @@
                 <img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
                 <span class="pull-right" style="padding-top: 22px;">{{ conversation.firstName }} {{ conversation.lastName }}</span>
               </a> -->
-              <button (click)="getMessages(i)" class="btn text-dark convButton"><img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
+              <button *ngIf="i != selectedBox" (click)="getMessages(i)" class="btn text-dark convButton"><img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
+                <span class="pull-right" style="padding-top: 22px;">{{ conversation.firstName }} {{ conversation.lastName }}</span>
+              </button>
+              <button *ngIf="i == selectedBox" style="background-color: #269FE9;" (click)="getMessages(i)" class="btn text-dark convButton"><img class="d-flex mr-3 rounded-circle commImg pull-left" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/220px-Cat03.jpg" alt="">
                 <span class="pull-right" style="padding-top: 22px;">{{ conversation.firstName }} {{ conversation.lastName }}</span>
               </button>
 

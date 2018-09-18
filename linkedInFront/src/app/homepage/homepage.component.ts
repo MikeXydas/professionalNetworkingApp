@@ -173,6 +173,14 @@ export class HomepageComponent implements OnInit {
   }
 
   isArticleValid() {
+    if (!this.articleTitle.replace(/\s/g, '').length) {
+      return false;
+    }
+
+    if (!this.articleContext.replace(/\s/g, '').length) {
+      return false;
+    }
+
     return (this.articleTitle != "") && (this.articleContext != "");
   }
 
@@ -207,10 +215,14 @@ export class HomepageComponent implements OnInit {
   }
 
   commentBoxValid(whichArticle) {
+    if (!this.commentBoxes[whichArticle].replace(/\s/g, '').length) {
+      return false;
+    }
     return this.commentBoxes[whichArticle] != "";
   }
 
   commentsExist(whichArticle) {
+    
     return this.articles[whichArticle].comments.length != 0;
   }
 

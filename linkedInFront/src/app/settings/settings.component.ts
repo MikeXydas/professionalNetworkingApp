@@ -48,6 +48,10 @@ export class SettingsComponent implements OnInit {
   }
 
   isPasswordValid() {
+    
+    if (!(/^\S*$/).test(this.newPass)) {
+      return false;
+    }
     if(this.newPass == "") {
       return false;
     }
@@ -60,6 +64,9 @@ export class SettingsComponent implements OnInit {
   }
 
   isEmailValid() {
+    if (!this.newEmail.replace(/\s/g, '').length) {
+      return false;
+    }
     return this.newEmail != "";
   }
 
