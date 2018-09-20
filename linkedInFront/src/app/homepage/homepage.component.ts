@@ -75,7 +75,10 @@ export class HomepageComponent implements OnInit {
             data => {
               this.articles = data;
               //this.sortArticles();
-              this.sortComments();
+              //this.sortComments();
+              console.log(this.articles);
+
+              this.heapSortComments();
               for(var i = 0; i < this.articles.length; i++) {
                 this.commentBoxes.push("");
                 this.successfulComment.push(false);
@@ -97,19 +100,7 @@ export class HomepageComponent implements OnInit {
             && this.networkReceived && this.articlesReceived;
   }
 
-  sortArticles() {
-    for(var i = 0; i < this.articles.length; i++) {
-      for(var j = 0; j < this.articles.length - i - 1; j++) {
-        if(this.articles[j].uploadTime < this.articles[j + 1].uploadTime) {
-          var temp = this.articles[j];
-          this.articles[j] = this.articles[j + 1];
-          this.articles[j + 1] = temp;
-        }
-      }
-    }
-  }
-
-  sortComments() {
+  /*sortComments() {
     for(var whichArticle = 0; whichArticle < this.articles.length; whichArticle++) {
       for(var i = 0; i < this.articles[whichArticle].comments.length; i++) {
         for(var j = 0; j < this.articles[whichArticle].comments.length - i - 1; j++) {
@@ -121,7 +112,50 @@ export class HomepageComponent implements OnInit {
         }
       }
     }
+  }*/
+
+  heapSortComments() {
+    for(let whichArt = 0; whichArt < this.articles.length; whichArt++) {
+
+      let n2 = this.articles[whichArt].comments.length;
+
+      for(let i = Math.floor(n2/2 - 1); i >= 0; i--) {
+        this.sortCommentsHeapify(n2, i, whichArt);
+      }
+
+      for(let i = n2 - 1; i >= 0; i--) {
+        var temp = this.articles[whichArt].comments[0];
+        this.articles[whichArt].comments[0] = this.articles[whichArt].comments[i];
+        this.articles[whichArt].comments[i] = temp;
+        this.sortCommentsHeapify(i, 0, whichArt);
+      }
+
+    }
   }
+
+  sortCommentsHeapify(n, i, whichArticle) {
+    let largest = i;
+    let l = 2*i + 1;
+    let r = 2*i + 2;
+
+    if((l < n) && (this.articles[whichArticle].comments[l].uploadTime < this.articles[whichArticle].comments[largest].uploadTime)) {
+      largest = l;
+    }
+
+    if((r < n) && (this.articles[whichArticle].comments[r].uploadTime < this.articles[whichArticle].comments[largest].uploadTime)) {
+      largest = r;
+    }
+
+    if(largest != i) {
+      var temp = this.articles[whichArticle].comments[i];
+      this.articles[whichArticle].comments[i] = this.articles[whichArticle].comments[largest];
+      this.articles[whichArticle].comments[largest] = temp;
+
+      this.sortCommentsHeapify(n, largest, whichArticle);
+    }
+  }
+
+
 
   showInterest(whichArticle) {
     const newInterest : Interest = {

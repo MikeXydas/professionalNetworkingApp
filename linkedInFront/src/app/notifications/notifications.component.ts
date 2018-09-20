@@ -46,7 +46,8 @@ export class NotificationsComponent implements OnInit {
               .subscribe(
                 data=> {
                   this.requests = data;
-                  this.sortRequests();
+                  //this.sortRequests();
+                  this.heapSortRequests();
                   for(var whichReq = 0; whichReq < this.requests.length; whichReq++) {
                     this.requests[whichReq]['isAccepted'] = false;
                     this.requests[whichReq]['isDeclined'] = false;
@@ -63,7 +64,8 @@ export class NotificationsComponent implements OnInit {
               .subscribe(
                 data=> {
                   this.notifications = data;
-                  this.sortNotifications();
+                  this.heapSortNotifications();
+                  //this.sortNotifications();
                   this.receivedNotifications = true;
                 },
                 error => {
@@ -87,7 +89,6 @@ export class NotificationsComponent implements OnInit {
   }
 
   acceptRequest(whichRequest) {
-    console.log("aa")
     this.notificationsService.acceptRequest(this.requests[whichRequest].reqId)
     .subscribe(
       data=> {
@@ -125,7 +126,7 @@ export class NotificationsComponent implements OnInit {
     return !this.requests[whichRequest].isAccepted && !this.requests[whichRequest].isDeclined;
   }
 
-  sortRequests() {
+  /*sortRequests() {
     for(var i = 0; i < this.requests.length; i++) {
       for(var j = 0; j < this.requests.length - i - 1; j++) {
         if(this.requests[j].sendTime < this.requests[j + 1].sendTime) {
@@ -147,7 +148,88 @@ export class NotificationsComponent implements OnInit {
         }
       }
     }
+  }*/
+
+  sortNotificationsHeapify(n, i) {
+    let largest = i;
+    let l = 2*i + 1;
+    let r = 2*i + 2;
+
+    if((l < n) && (this.notifications[l].uploadTime < this.notifications[largest].uploadTime)) {
+      largest = l;
+    }
+
+    if((r < n) && (this.notifications[r].uploadTime < this.notifications[largest].uploadTime)) {
+      largest = r;
+    }
+
+    if(largest != i) {
+      var temp = this.notifications[i];
+      this.notifications[i] = this.notifications[largest];
+      this.notifications[largest] = temp;
+
+      this.sortNotificationsHeapify(n, largest);
+    }
   }
 
+  heapSortNotifications() {
 
+      let n = this.notifications.length;
+
+      for(let i = Math.floor(n/2 - 1); i >= 0; i--) {
+        console.log(i);
+        this.sortNotificationsHeapify(n, i);
+      }
+
+      for(let i = n - 1; i >= 0; i--) {
+        var temp = this.notifications[0];
+        this.notifications[0] = this.notifications[i];
+        this.notifications[i] = temp;
+
+        this.sortNotificationsHeapify(i, 0);
+      }
+
+  }
+
+  sortRequestsHeapify(n, i) {
+    let largest = i;
+    let l = 2*i + 1;
+    let r = 2*i + 2;
+
+    if((l < n) && (this.requests[l].sendTime < this.requests[largest].sendTime)) {
+      largest = l;
+    }
+
+    if((r < n) && (this.requests[r].sendTime < this.requests[largest].sendTime)) {
+      largest = r;
+    }
+
+    if(largest != i) {
+      var temp = this.requests[i];
+      this.requests[i] = this.requests[largest];
+      this.requests[largest] = temp;
+
+      this.sortRequestsHeapify(n, largest);
+    }
+  }
+
+  heapSortRequests() {
+
+    let n = this.requests.length;
+
+    for(let i = Math.floor(n/2 - 1); i >= 0; i--) {
+      console.log(i);
+      this.sortRequestsHeapify(n, i);
+    }
+
+    for(let i = n - 1; i >= 0; i--) {
+      var temp = this.requests[0];
+      this.requests[0] = this.requests[i];
+      this.requests[i] = temp;
+
+      this.sortRequestsHeapify(i, 0);
+    }
+  }
+
+  
 }
