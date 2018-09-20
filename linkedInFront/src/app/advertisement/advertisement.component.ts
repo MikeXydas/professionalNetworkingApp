@@ -118,6 +118,10 @@ export class AdvertisementComponent implements OnInit {
     return this.isInvalid('title') || this.isInvalid('skills') || this.isInvalid('content');
   }
 
+  logOutCLick() {
+    this.welcomeService.logout();
+  }
+  
   sendAd() {
     const newAd : PostAd = {
       userId: this.loginedUser,

@@ -122,6 +122,10 @@ export class NotificationsComponent implements OnInit {
     return this.notifications.length == 0;
   }
   
+  logOutCLick() {
+    this.welcomeService.logout();
+  }
+  
   isPending(whichRequest) {
     return !this.requests[whichRequest].isAccepted && !this.requests[whichRequest].isDeclined;
   }

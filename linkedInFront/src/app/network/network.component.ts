@@ -86,6 +86,10 @@ export class NetworkComponent implements OnInit {
     return this.searchResults.length == 0;
   }
 
+  logOutCLick() {
+    this.welcomeService.logout();
+  }
+  
   onSubmit(){
     const newForm : SearchForm = {
       firstName: this.searchForm.controls['firstName'].value,

@@ -114,6 +114,10 @@ export class HomepageComponent implements OnInit {
     }
   }*/
 
+  logOutCLick() {
+    this.welcomeService.logout();
+  }
+  
   heapSortComments() {
     for(let whichArt = 0; whichArt < this.articles.length; whichArt++) {
 

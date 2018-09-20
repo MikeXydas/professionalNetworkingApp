@@ -102,6 +102,10 @@ export class ConversationComponent implements OnInit {
     return this.currentMessages.length = 0;
   }
 
+  logOutCLick() {
+    this.welcomeService.logout();
+  }
+  
   isMessageBoxEmpty() {
     if (!this.messageText.replace(/\s/g, '').length) {
       return true;

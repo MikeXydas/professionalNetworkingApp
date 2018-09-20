@@ -63,6 +63,10 @@ export class SettingsComponent implements OnInit {
     return true;
   }
 
+  logOutCLick() {
+    this.welcomeService.logout();
+  }
+  
   isEmailValid() {
     if (!this.newEmail.replace(/\s/g, '').length) {
       return false;

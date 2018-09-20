@@ -341,10 +341,8 @@ public class ArticleEndpoint {
 		
 		List<Article> restArticles = new ArrayList<Article>();
 		for(int whichUser = k; whichUser < usersDists.size(); whichUser++) {
-			System.out.println("ADDING");
 			entities.User restUserd = userDao.getById(usersDists.get(whichUser).getUserId());
 			for(int whichArticle = 0; whichArticle < restUserd.getArticles().size(); whichArticle++) {
-				System.out.println("ADDING2");
 				restArticles.add(restUserd.getArticles().get(whichArticle));
 			}
 		}
@@ -380,6 +378,7 @@ public class ArticleEndpoint {
 		
 		return retList;
 	}
+	
 	private int userLikesCommentsArticle(int userId, Article articled) {
 		
 		if(articled.getId().getUser_idUser() == userId) {
