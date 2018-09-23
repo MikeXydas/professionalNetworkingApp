@@ -19,7 +19,6 @@
       <br>
       <input type="password" [(ngModel)] = "confimNewPass" class="input-lg form-control"   placeholder="Repeat Password" autocomplete="off">
       <br>
-      <!-- <input *ngIf="!isPasswordValid()" type="submit" class="col-xs-12 btn btn-primary btn-load btn-lg" value="Change Password"> -->
       <button *ngIf="isPasswordValid() && !isLoadingPass" (click)="updatePassword()" type="button" class="col-xs-12 btn btn-primary btn-lg">Change Password</button>
       <button *ngIf="!isPasswordValid() && !isLoadingPass" type="button" class="col-xs-12 btn btn-primary btn-lg disabled">Password Mismatch</button>
       <button *ngIf="isLoadingPass" type="button" class="col-xs-12 btn btn-primary btn-lg disabled">Changing password...</button>

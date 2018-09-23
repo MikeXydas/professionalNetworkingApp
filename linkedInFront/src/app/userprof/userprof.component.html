@@ -24,7 +24,6 @@
     <h2 class="info">Basic info</h2>
     <ul class="info">
       <li><p><i class="fa fa-drivers-license-o"></i>{{ user.firstName }} {{ user.lastName }}</p></li>
-      <!-- Contact me list node-->
     </ul>
     <h2 class="info">Skills</h2>
     <ul class="info">
@@ -39,7 +38,6 @@
       <div *ngIf="isConnection && toggledSendMessage && isMessageEmpty()" style="padding-top: 20px; padding-bottom: 30px;"><button type="button"  class="btn disabled btn-success btn-lg pull-right">Send</button></div>
       <button type="button" *ngIf="!isConnection" (click)="sendRequest()" class="sendBtnL btn btn-primary btn-lg">Connection Request</button>
     </li>
-    <!-- Contact me list node-->
   </ul>
   </div>
   <div>
@@ -61,7 +59,6 @@
       <h2 class="info">Basic info</h2>
       <ul class="info">
         <li><p><i class="fa fa-drivers-license-o"></i>{{ user.firstName }} {{ user.lastName }}</p></li>
-        <!-- Contact me list node-->
       </ul>
       <h2 class="info">Skills</h2>
       <ul class="info">
@@ -80,7 +77,6 @@
             <button (click)="editSkills()" *ngIf="!isEditingSkills()" type="button" class="editBtn btn btn-primary btn-md">Edit</button>
         </div>
       </li>
-      <!-- Contact me list node-->
     </ul>
   </div>
     <div>

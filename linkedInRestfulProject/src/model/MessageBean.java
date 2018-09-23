@@ -4,18 +4,10 @@ import java.util.Date;
 
 public class MessageBean {
 
-	private MessagePKBean id;
 	private String contentText;
 	private int senderId;
 	private Date sendTime;
-	private ConversationBean conversation;
 	
-	public MessagePKBean getId() {
-		return id;
-	}
-	public void setId(MessagePKBean id) {
-		this.id = id;
-	}
 	public String getContentText() {
 		return contentText;
 	}
@@ -33,12 +25,6 @@ public class MessageBean {
 	}
 	public void setSendTime(Date sendTime) {
 		this.sendTime = sendTime;
-	}
-	public ConversationBean getConversation() {
-		return conversation;
-	}
-	public void setConversation(ConversationBean conversation) {
-		this.conversation = conversation;
 	}
 
 }

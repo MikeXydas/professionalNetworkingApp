@@ -101,7 +101,6 @@ export class NetworkComponent implements OnInit {
       data=> {
         this.searchResults = data;
         this.submittedSearch = true;
-        //this.router.navigate(['results'])
         console.log(this.searchResults);
         this.loading = false;
       },

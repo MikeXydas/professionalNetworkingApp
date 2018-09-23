@@ -39,7 +39,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
 import model.LogInfoBean;
 import model.SkillListBean;
-import model.AdvertismentBean;
 import model.AdvertismentPostBean;
 import model.ApplyBean;
 
@@ -89,53 +88,10 @@ public class AdvertismentEndpoint {
 				skilld.getAdvertisments().add(ad);
 				skillDao.mergeSkill(skilld);
 			}
-			//skillsd.add(skilld);
 		}
-
-		//ad.setSkills(skillsd);
-		//advertismentDao.insertAdvertisment(ad);
-		//userd.getAdvertisments().add(ad);		
-		//userDao.mergeUser(userd);
 		
 		return Response.status(200).build();
 	}
-	
-
-	/*@POST
-	@Path("/apply")
-	public Response postAd(
-			@FormParam("adId") int adId,
-			@FormParam("userId") int userId,
-			@FormParam("appId") int appId) {
-		
-		AdvertismentDB advertismentDao = new AdvertismentDB();
-		ApplicationDB applicationDao = new ApplicationDB();
-		
-		entities.AdvertismentPK adPk = new entities.AdvertismentPK();
-		adPk.setIdAdvertisment(adId);
-		adPk.setUser_idUser(userId);
-		entities.Advertisment add = advertismentDao.getById(adPk);
-		
-
-		List<Application> applications = add.getApplications();
-
-		for (int i = 0; i < applications.size(); i++) {
-			entities.Application currentApp = applications.get(i);
-			if(currentApp.getApplicantId() == appId) {
-				return Response.status(200).entity("App already exists").build();
-			}
-		}
-
-		entities.Application appd = new entities.Application();
-		appd.setAdvertisment(add);
-		appd.setApplicantId(appId);
-		entities.ApplicationPK appPk = new entities.ApplicationPK();
-		appd.setId(appPk);
-		applicationDao.insertApplication(appd);
-		
-		return Response.status(200).entity("Succesfully applied to advertisment").build();
-	
-	}*/
 	
 	@POST
 	@Path("/apply")
@@ -144,9 +100,6 @@ public class AdvertismentEndpoint {
 		AdvertismentDB advertismentDao = new AdvertismentDB();
 		ApplicationDB applicationDao = new ApplicationDB();
 		
-		//entities.AdvertismentPK adPk = new entities.AdvertismentPK();
-		//adPk.setIdAdvertisment(applyBean.getAdId());
-		//adPk.setUser_idUser(applyBean.getAdOwnerId());
 		entities.Advertisment add = advertismentDao.getByAdId(applyBean.getAdId());
 
 		List<Application> applications = add.getApplications();

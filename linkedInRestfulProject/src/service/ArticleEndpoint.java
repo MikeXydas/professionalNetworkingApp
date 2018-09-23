@@ -78,32 +78,6 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 public class ArticleEndpoint {
 	private String FILE_SYSTEM = "/home/mike/Desktop/linkedInFileSystem";
 
-	/*@POST
-	@Path("/post")
-	public Response uploadArticle(
-			@FormParam("id") int id,
-			@FormParam("title") String title,
-			@FormParam("context") String context) {
-		
-		ArticleDB articleDao = new ArticleDB();
-		UserDB userDao = new UserDB();
-		entities.User userd = userDao.getById(id);
-		entities.Article articled = new entities.Article();
-		entities.ArticlePK articledPK = new entities.ArticlePK();
-		
-		//articledPK.setUser_idUser(id);
-		articled.setId(articledPK);
-		
-		articled.setUser(userd);
-		articled.setTitle(title);
-		articled.setContentText(context);
-		Date date = new Date();
-		articled.setUploadTime(date);
-		articleDao.insertArticle(articled);
-		
-		return Response.status(200).entity("Succesfully posted article").build();
-
-	}*/
 	
 	@POST
 	@Path("/post")
@@ -113,13 +87,11 @@ public class ArticleEndpoint {
 		
 		ArticleDB articleDao = new ArticleDB();
 		UserDB userDao = new UserDB();
-		//FileManipulation fileManip = new FileManipulation();
 
 		entities.User userd = userDao.getById(articleBean.getUserId());
 		entities.Article articled = new entities.Article();
 		entities.ArticlePK articledPK = new entities.ArticlePK();
 		
-		//articledPK.setUser_idUser(articleBean.getUserId());
 		articled.setId(articledPK);
 		articled.setUser(userd);
 		
@@ -129,58 +101,9 @@ public class ArticleEndpoint {
 		articled.setUploadTime(date);
 		entities.ArticlePK insertedPK = articleDao.insertArticle(articled);
 		
-		/*if(articleBean.getPhotoBytes() != null) {
-			String fileName = "articleImage" + insertedPK.getIdArticle();
-			String imagePath = FILE_SYSTEM + "/Article/image/" + fileName;
-			
-			articled.setPhotoUrl(fileManip.ReceiveFile(imagePath, articleBean.getPhotoBytes()));
-		}
 		
-		if(articleBean.getSoundBytes() != null) {
-			String fileName = "articleSound" + insertedPK.getIdArticle();
-			String soundPath = FILE_SYSTEM + "/Article/sound/" + fileName;
-			
-			articled.setSoundUrl(fileManip.ReceiveFile(soundPath, articleBean.getSoundBytes()));
-		}
-		
-		if(articleBean.getVideoBytes() != null) {
-			String fileName = "articleVideo" + insertedPK.getIdArticle();
-			String videoPath = FILE_SYSTEM + "/Article/video/" + fileName;
-			
-			articled.setPhotoUrl(fileManip.ReceiveFile(videoPath, articleBean.getVideoBytes()));
-		}*/
-		
-		
-		//entities.Article tempArticled = articleDao.getById(insertedPK);
-		//articled.getId().setUser_idUser(articleBean.getUserId());
 		return Response.status(200).entity(createArticleBean(articled)).build();
 	}
-	
-	/*@POST
-	@Path("/interest")
-	public Response uploadArticle(
-			@FormParam("articleId") int articleId,
-			@FormParam("interesterId") int interesterId) {
-		ArticleDB articleDao = new ArticleDB();
-		//UserDB userDao = new UserDB();
-		InterestDB interestDao = new InterestDB();
-		
-		
-		entities.Article articled = articleDao.getByArticleId(articleId);
-		//entities.User userd = userDao.getById(articled.getUser().getIdUser());
-		entities.Interest interestd = new entities.Interest();
-		entities.InterestPK interestPK = new entities.InterestPK();
-		interestd.setId(interestPK);
-		
-		interestd.setArticle(articled);
-		Date date = new Date();
-		interestd.setInterestTime(date);
-		interestd.setInteresterId(interesterId);
-		
-		interestDao.insertInterest(interestd);
-		
-		return Response.status(200).entity("Succesfully showed interest on article: " + articled.getTitle()).build();
-	}*/
 	
 	@POST
 	@Path("/showInterest")
@@ -226,11 +149,6 @@ public class ArticleEndpoint {
 		UserDB userDao = new UserDB();
 		entities.Article articled = articleDao.getByArticleId(commBean.getArticleId());
 		
-		/*for(int i = 0; i < articled.getComments().size(); i++) {
-			if(articled.getInterests().get(i).getInteresterId() == commBean.getCommenterId()) {
-				return Response.status(200).build();
-			}
-		}*/
 		entities.Comment commentd = new entities.Comment();
 		entities.CommentPK commentPK = new entities.CommentPK();
 		commentd.setId(commentPK);
@@ -257,22 +175,6 @@ public class ArticleEndpoint {
 		return Response.status(200).entity(temp).build();
 	}
 	
-	/*@GET
-	@Path("/showArticles/{id:[0-9]*}")
-	@Produces({"application/json"})
-	public Response returnHomepageArticles(@PathParam("id") int id) throws IOException {
-		ArticleDB articleDao = new ArticleDB();
-		List<Article> articles = null;
-		articles = articleDao.getConnectedArticles(id);
-		
-		List<ArticleBean> articleBeans = new ArrayList<ArticleBean>();
-		
-		for(int i = 0; i < articles.size(); i++) {
-			articleBeans.add(createArticleBean(articles.get(i)));
-		}
-		
-		return Response.status(200).entity(articleBeans).build();
-	}*/
 	
 	@GET
 	@Path("/showArticles/{id:[0-9]*}")
@@ -523,18 +425,6 @@ public class ArticleEndpoint {
         }
         return Math.sqrt(Sum);
 	}
-	/*@POST
-	@Path("/showArticles")
-	public Response showHomepageArticles(
-			@FormParam("id") int id) {
-		ArticleDB articleDao = new ArticleDB();
-		//entities.Article articled = articleDao.getByArticleId(id);
-		List<Article> articles = null;
-		articles = articleDao.getConnectedArticles(id);
-		
-		
-		return Response.status(200).entity("Numb of articles found: " + articles.size()).build();
-	}*/
 	
 	//Creates an articleBean from an article entity
 	private ArticleBean createArticleBean(entities.Article articled) throws IOException {
@@ -589,21 +479,6 @@ public class ArticleEndpoint {
 		artBean.setTitle(articled.getTitle());
 		artBean.setContentText(articled.getContentText());
 		artBean.setUploadTime(articled.getUploadTime());
-		/*if(articled.getContentText() != null) {
-			artBean.setContentText(articled.getContentText());
-		}
-		
-		if(articled.getPhotoUrl() != null) {
-			artBean.setPhotoString64(fileManip.SendFile(articled.getPhotoUrl()));
-		}
-		
-		if(articled.getSoundUrl() != null) {
-			artBean.setSoundString64(fileManip.SendFile(articled.getSoundUrl()));
-		}
-		
-		if(articled.getVideoUrl() != null) {
-			artBean.setVideoString64(fileManip.SendFile(articled.getVideoUrl()));
-		}*/
 		
 		return artBean;
 	}

@@ -21,7 +21,6 @@ public class UserDB {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         
-        //Query q = em.createQuery("Select u from User u");
         Query q = em.createNamedQuery("User.findAll");
         users =  q.getResultList();
 		
@@ -99,7 +98,6 @@ public class UserDB {
     
     public int insertUser(User user)
     {
-    	//TODO: Check if email exists and return suitable message
         int id = -1;
         EntityManager em = JPAResource.factory.createEntityManager();
         EntityTransaction tx = em.getTransaction();

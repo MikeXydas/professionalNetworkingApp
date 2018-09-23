@@ -22,7 +22,6 @@ public class InterestDB {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         
-        //Query q = em.createQuery("Select u from Interest u");
         Query q = em.createNamedQuery("Interest.findAll");
         interests =  q.getResultList();
 		
@@ -48,31 +47,6 @@ public class InterestDB {
         em.close();
         return interests;
     }
-	
-    //Returns the ad specified by the id only
-    /*public Interest find(int id)
-    {
-        Interest interest = null;
-        
-        EntityManager em = JPAResource.factory.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        
-        Query q = em.createQuery("Select a from Interest a where a. = :email and u.password = :password");
-        q.setParameter("email", email);
-        q.setParameter("password", password);
-        List interests =  q.getResultList();
-        tx.commit();
-        em.close();
-        
-        if (interests != null && interests.size() == 1)
-        {
-            interest = (Interest) interests.get(0);
-        }
-
-        return interest;
-        
-    }*/
     
     public InterestPK insertInterest(Interest interest)
     {

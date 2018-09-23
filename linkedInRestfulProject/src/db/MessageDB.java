@@ -24,7 +24,6 @@ public class MessageDB {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         
-        //Query q = em.createQuery("Select u from Message u");
         Query q = em.createNamedQuery("Message.findAll");
         messages =  q.getResultList();
 		

@@ -39,59 +39,14 @@ import model.UserBean;
 import utilities.FileManipulation;
 import model.LogInfoBean;
 import model.SkillListBean;
-import model.AdvertismentBean;
 import model.AdvertismentPostBean;
 import model.ConnectionRequestBean;
-import model.ConnectionRequestPKBean;
 import model.PendingRequestBean;
 import model.SendId;
 
 @Path("ConnectionRequest")
 public class ConnectionRequestEndpoint {
 
-	//Testing the send request (no checks)
-	/*@POST
-	@Path("/send")
-	public Response sendRequest(
-			@FormParam("idSend") int idSend,
-			@FormParam("idReceive") int idReceive) {
-		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
-		entities.ConnectionRequest connd = null;// = connectionRequestDao.find(idReceive, idSend);
-		
-		UserDB userDao = new UserDB();
-		entities.User userd = userDao.getById(idSend);
-		List <entities.ConnectionRequest> reqList = userd.getConnectionRequests();
-		
-		int reqExists = 0;
-		int i;
-		for(i = 0; i < reqList.size(); i++) {
-			if(reqList.get(i).getSenderId() == idReceive) {
-				reqExists = 1;
-				break;
-			}
-		}
-		//return Response.status(200).entity("reqExists = " + reqExists).build();
-
-		if(reqExists == 0) {
-			connd = new entities.ConnectionRequest();
-			connd.setSenderId(idReceive);
-			Date date = new Date();
-			connd.setSendTime(date);
-			connd.setUser(userd);
-			
-			entities.ConnectionRequestPK pk = new entities.ConnectionRequestPK();
-			//pk.setUser_idUser(idSend);
-			connd.setId(pk);
-			connectionRequestDao.insertSkill(connd);
-			
-			return Response.status(200).entity("Succesfully sent request").build();
-
-		}
-		else
-			return Response.status(200).entity("Request already existed").build();
-		
-		
-	}*/
 	
 	@POST
 	@Path("/send")
@@ -135,53 +90,7 @@ public class ConnectionRequestEndpoint {
 		}
 	}
 	
-	/*@POST
-	@Path("/accept")
-	public Response acceptRequest(
-			@FormParam("reqId") int reqId,
-			@FormParam("sendId") int sendId) {
-		
-		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
-		UserDB userDao = new UserDB();
-		ConnectionDB connectionDao = new ConnectionDB();
-		
-		entities.ConnectionRequestPK reqPk = new entities.ConnectionRequestPK();
-		reqPk.setIdConnectionRequest(reqId);
-		reqPk.setUser_idUser(sendId);
-		
-		entities.ConnectionRequest reqd = connectionRequestDao.getById(reqPk);
-		
-		entities.User userReceive = userDao.getById(reqd.getSenderId());
-		
-		entities.User userSend = reqd.getUser();
-		
-		connectionRequestDao.deleteConnectionRequest(reqd);
-
-		entities.Connection sendConnect = new entities.Connection();
-		entities.Connection receiveConnect = new entities.Connection();
-
-		entities.ConnectionPK sendPk = new entities.ConnectionPK();
-		entities.ConnectionPK receivePk = new entities.ConnectionPK();;
-		
-		sendConnect.setUser(userSend);
-		receiveConnect.setUser(userReceive);
-		
-		sendConnect.setId(sendPk);
-		receiveConnect.setId(receivePk);
-		
-		sendConnect.setConnectedUserId(userReceive.getIdUser());
-		receiveConnect.setConnectedUserId(userSend.getIdUser());
-		
-		connectionDao.insertConnection(sendConnect);
-		connectionDao.insertConnection(receiveConnect);
-		
-		return Response.status(200).entity("Succesfully accepted request").build();
-
-	}*/
-	
 	@POST
-	//@Path("/accept")
-	//@Consumes({"application/json"})
 	@Path("/accept/{id:[0-9]*}")
 	public Response acceptRequest(@PathParam("id") final Integer id) {
 		
@@ -223,9 +132,7 @@ public class ConnectionRequestEndpoint {
 	}
 	
 	@POST
-	//@Path("/decline")
 	@Path("/decline/{id:[0-9]*}")
-	//@Consumes({"application/json"})
 	public Response declineRequest(@PathParam("id") final Integer id) {
 		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
 		UserDB userDao = new UserDB();
@@ -246,34 +153,11 @@ public class ConnectionRequestEndpoint {
 
 	}
 	
-	//Example call: http://localhost:8080/linkedInRestfulProject/services/ConnectionRequest/pending/33
-		
-	//This test only returns the first names of the people that requested connection on the userId
-	/*@GET
-	@Path("/pending/{id:[0-9]*}")
-	public Response returnPendingRequests(
-			@PathParam("id") int id) {
-		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
-
-		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id);
-		if(requests.size() == 0) {
-			return Response.status(200).entity("No pending request").build();
-		}
-		else {
-			String retString = "";
-			for(int i = 0; i < requests.size(); i++) {
-				retString += " | " + requests.get(i).getUser().getFirstName();
-			}
-			return Response.status(200).entity(retString).build();
-		}
-	}*/
-	
 	@GET
 	@Produces({"application/json"})
 	@Path("/pending/{id:[0-9]*}")
 	public Response returnPendingRequests(@PathParam("id") final Integer id) throws IOException {
 		ConnectionRequestDB connectionRequestDao = new ConnectionRequestDB();
-		//FileManipulation photoManip = new FileManipulation();
 
 		List <entities.ConnectionRequest> requests = connectionRequestDao.getPendingRequests(id);
 
@@ -285,12 +169,8 @@ public class ConnectionRequestEndpoint {
 			temp.setFirstName(requests.get(i).getUser().getFirstName());
 			temp.setLastName(requests.get(i).getUser().getLastName());
 			temp.setReqId(requests.get(i).getId().getIdConnectionRequest());
-			//temp.setPhotoUrl(requests.get(i).getUser().getPhotoUrl());
 			temp.setSendTime(requests.get(i).getSendTime());
 			
-			//if(requests.get(i).getUser().getPhotoUrl() != null) {
-			//	temp.setPhotoString64(photoManip.SendFile(requests.get(i).getUser().getPhotoUrl()));
-			//}
 			
 			retList.add(temp);
 		}

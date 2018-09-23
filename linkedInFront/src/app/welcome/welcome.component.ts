@@ -6,8 +6,6 @@ import { first } from 'rxjs/operators';
 
 import { LoginForm } from './loginForm'
 
-//import { AuthenticationService } from '../_services/authentication.service';
-
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
@@ -67,7 +65,6 @@ export class WelcomeComponent implements OnInit {
       },
       error => {
         this.error = error;
-        //console.log("error");  
         this.loginFailed = 1;
         this.loading = false;
       }

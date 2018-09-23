@@ -163,9 +163,6 @@ export class AdvertisementComponent implements OnInit {
     this.advertisementService.postAd(newAd)
     .subscribe(
       data=> {
-        //this.adForm.controls['title']setValue(value[name];
-        //this.adForm.controls['content'].value = "";
-        //this.adForm.controls['skills'].value = "";
         this.adForm.setValue({
           title: '',
           content: '',

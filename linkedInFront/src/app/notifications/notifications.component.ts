@@ -46,7 +46,6 @@ export class NotificationsComponent implements OnInit {
               .subscribe(
                 data=> {
                   this.requests = data;
-                  //this.sortRequests();
                   this.heapSortRequests();
                   for(var whichReq = 0; whichReq < this.requests.length; whichReq++) {
                     this.requests[whichReq]['isAccepted'] = false;
@@ -65,7 +64,6 @@ export class NotificationsComponent implements OnInit {
                 data=> {
                   this.notifications = data;
                   this.heapSortNotifications();
-                  //this.sortNotifications();
                   this.receivedNotifications = true;
                 },
                 error => {
@@ -129,30 +127,6 @@ export class NotificationsComponent implements OnInit {
   isPending(whichRequest) {
     return !this.requests[whichRequest].isAccepted && !this.requests[whichRequest].isDeclined;
   }
-
-  /*sortRequests() {
-    for(var i = 0; i < this.requests.length; i++) {
-      for(var j = 0; j < this.requests.length - i - 1; j++) {
-        if(this.requests[j].sendTime < this.requests[j + 1].sendTime) {
-          var temp = this.requests[j];
-          this.requests[j] = this.requests[j + 1];
-          this.requests[j + 1] = temp;
-        }
-      }
-    }
-  }
-
-  sortNotifications() {
-    for(var i = 0; i < this.notifications.length; i++) {
-      for(var j = 0; j < this.notifications.length - i - 1; j++) {
-        if(this.notifications[j].uploadTime < this.notifications[j + 1].uploadTime) {
-          var temp = this.notifications[j];
-          this.notifications[j] = this.notifications[j + 1];
-          this.notifications[j + 1] = temp;
-        }
-      }
-    }
-  }*/
 
   sortNotificationsHeapify(n, i) {
     let largest = i;

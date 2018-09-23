@@ -17,7 +17,6 @@
     <h2 class="info">Basic info</h2>
     <ul class="info">
       <li><p><i class="fa fa-drivers-license-o"></i>{{ user.firstName }} {{ user.lastName }}</p></li>
-      <!-- Contact me list node-->
     </ul>
     <h2 class="info">Skills</h2>
     <ul class="info">
@@ -25,7 +24,6 @@
       <p *ngIf="existsSkills()">{{ skillsString }}</p>
       <p *ngIf="!existsSkills()">User has not provided skills</p>
     </li>
-    <!-- Contact me list node-->
   </ul>
   </div>
   <div>

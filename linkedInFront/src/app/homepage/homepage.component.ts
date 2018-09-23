@@ -74,8 +74,6 @@ export class HomepageComponent implements OnInit {
           .subscribe(
             data => {
               this.articles = data;
-              //this.sortArticles();
-              //this.sortComments();
               console.log(this.articles);
 
               this.heapSortComments();
@@ -99,20 +97,6 @@ export class HomepageComponent implements OnInit {
     return this.validatedAccess && this.userReceived
             && this.networkReceived && this.articlesReceived;
   }
-
-  /*sortComments() {
-    for(var whichArticle = 0; whichArticle < this.articles.length; whichArticle++) {
-      for(var i = 0; i < this.articles[whichArticle].comments.length; i++) {
-        for(var j = 0; j < this.articles[whichArticle].comments.length - i - 1; j++) {
-          if(this.articles[whichArticle].comments[j].uploadTime < this.articles[whichArticle].comments[j + 1].uploadTime) {
-            var temp = this.articles[whichArticle].comments[j];
-            this.articles[whichArticle].comments[j] = this.articles[whichArticle].comments[j + 1];
-            this.articles[whichArticle].comments[j + 1] = temp;
-          }
-        }
-      }
-    }
-  }*/
 
   logOutCLick() {
     this.welcomeService.logout();

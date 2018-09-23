@@ -30,31 +30,6 @@ public class ArticleDB {
         return articles;
     }
     
-    //Returns the ad specified by the id only
-    /*public Article find(int id)
-    {
-        Article article = null;
-        
-        EntityManager em = JPAResource.factory.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        
-        Query q = em.createQuery("Select a from Article a where a. = :email and u.password = :password");
-        q.setParameter("email", email);
-        q.setParameter("password", password);
-        List articles =  q.getResultList();
-        tx.commit();
-        em.close();
-        
-        if (articles != null && articles.size() == 1)
-        {
-            article = (Article) articles.get(0);
-        }
-
-        return article;
-        
-    }*/
-    
     public ArticlePK insertArticle(Article article)
     {
     	ArticlePK id = null;

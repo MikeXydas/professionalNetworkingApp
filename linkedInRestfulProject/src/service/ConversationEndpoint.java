@@ -36,7 +36,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
 import model.LogInfoBean;
 import model.SkillListBean;
-import model.ConversationBean;
 import model.BeginConversationBean;
 import model.MessageBean;
 import model.PendingRequestBean;
@@ -44,43 +43,6 @@ import model.ShowConvBean;
 
 @Path("/Conversation")
 public class ConversationEndpoint {
-	
-	/*@POST
-	@Path("/begin")
-	public Response beginConversation(
-			@FormParam("userId1") int userId1,
-			@FormParam("userId2") int userId2
-			) {
-		
-		
-		UserDB user1Dao = new UserDB();
-		UserDB user2Dao = new UserDB();
-		ConversationDB convDao = new ConversationDB();
-		
-		entities.User userSender = user1Dao.getById(userId1);
-		entities.User userReceiver = user2Dao.getById(userId2);
-		
-		entities.Conversation conv = new entities.Conversation();
-		
-		Date date = new Date();
-		conv.setLastModified(date);
-		int convid = convDao.insertConversation(conv);
-		
-		List<entities.Conversation> conversationsS = userSender.getConversations();
-		conversationsS.add(conv);
-		userSender.setConversations(conversationsS);
-	
-		
-		List<entities.Conversation> conversationsR = userReceiver.getConversations();
-		conversationsR.add(conv);
-		userReceiver.setConversations(conversationsR);
-		
-		user1Dao.mergeUser(userSender);
-		user2Dao.mergeUser(userReceiver);
-		
-		
-		return Response.status(200).entity("Succesfully began conversation with users:" + userSender.getIdUser() +" "+ userReceiver.getIdUser()+" with id "+ convid).build();
-	}*/
 	
 	@POST
 	@Path("/begin")
@@ -212,26 +174,4 @@ public class ConversationEndpoint {
 		
 	}
 
-	/*@GET
-	@Path("/showMessages/{id:[0-9]*}")
-	public Response returnMessages (@PathParam("id") int id) {
-		MessageDB messageDao = new MessageDB();
-		
-		List<entities.Message> messages = messageDao.getConvMessages(id);
-		
-		List<MessageBean> retList = new ArrayList<MessageBean>();
-		
-		for(int i = 0; i < messages.size(); i++) {
-			MessageBean temp = new MessageBean();
-			
-			temp.setSenderId(messages.get(i).getSenderId());
-			temp.setContentText(messages.get(i).getContentText());
-			temp.setSendTime(messages.get(i).getSendTime());
-			
-			retList.add(temp);
-		}
-		
-		return Response.status(200).entity("Messages in conv: " + retList.size()).build();
-		
-	}*/
 }

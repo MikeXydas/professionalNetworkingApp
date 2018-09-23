@@ -6,7 +6,6 @@ public class SkillBean {
 
 	private int idSkill;
 	private String skillName;
-	private List<AdvertismentBean> advertisments;
 	private List<UserBean> users;
 	
 	public int getIdSkill() {
@@ -21,12 +20,7 @@ public class SkillBean {
 	public void setSkillName(String skillName) {
 		this.skillName = skillName;
 	}
-	public List<AdvertismentBean> getAdvertisments() {
-		return advertisments;
-	}
-	public void setAdvertisments(List<AdvertismentBean> advertisments) {
-		this.advertisments = advertisments;
-	}
+	
 	public List<UserBean> getUsers() {
 		return users;
 	}

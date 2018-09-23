@@ -21,11 +21,7 @@ public class UserBean {
 	private int isPublicEducation;
 	private int isPublicJob;
 	private int isPublicSkill;
-	private List<AdvertismentBean> advertisments;
-	private List<ArticleBean> articles;
-	private List<ConnectionBean> connections;
-	private List<ConnectionRequestBean> connectionRequests;
-	private List<ConversationBean> conversations;
+
 	private List<Skill> skills;
 
 	
@@ -120,36 +116,7 @@ public class UserBean {
 	public void setPhotoString64(String photoString64) {
 		this.photoString64 = photoString64;
 	}
-	public List<AdvertismentBean> getAdvertisments() {
-		return advertisments;
-	}
-	public void setAdvertisments(List<AdvertismentBean> advertisments) {
-		this.advertisments = advertisments;
-	}
-	public List<ArticleBean> getArticles() {
-		return articles;
-	}
-	public void setArticles(List<ArticleBean> articles) {
-		this.articles = articles;
-	}
-	public List<ConnectionBean> getConnections() {
-		return connections;
-	}
-	public void setConnections(List<ConnectionBean> connections) {
-		this.connections = connections;
-	}
-	public List<ConnectionRequestBean> getConnectionRequests() {
-		return connectionRequests;
-	}
-	public void setConnectionRequests(List<ConnectionRequestBean> connectionRequests) {
-		this.connectionRequests = connectionRequests;
-	}
-	public List<ConversationBean> getConversations() {
-		return conversations;
-	}
-	public void setConversations(List<ConversationBean> conversations) {
-		this.conversations = conversations;
-	}
+	
 	public List<Skill> getSkills() {
 		return skills;
 	}

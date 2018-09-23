@@ -32,7 +32,6 @@ export class RegisterComponent implements OnInit {
               private router :Router) {
     this.registerForm = formBuilder.group( {
       email: ['', [Validators.required, Validators.pattern(/^\S*$/)]],
-      //email: ['', Validators.email],
       confirmPassword: ['', Validators.required],
       password: ['', Validators.required],
       firstName: ['', Validators.required],
@@ -65,13 +64,7 @@ export class RegisterComponent implements OnInit {
             
   }
   onSubmit() {
-
-    /*const newUser : RegisterUser = {  email: this.register.email,
-                                      password: this.register.password,
-                                      firstName: this.register.firstName,
-                                      lastName: this.register.lastName,
-                                      phoneNumber: this.register.phoneNumber}*/
-
+    
       const newUser : RegisterUser = {  
         email: this.registerForm.controls['email'].value,
         password: this.registerForm.controls['password'].value,
@@ -79,18 +72,6 @@ export class RegisterComponent implements OnInit {
         lastName: this.registerForm.controls['lastName'].value,
         phoneNumber: this.registerForm.controls['phoneNumber'].value
       }
-    /*this.registeredUser.email = this.register.email;
-    this.registeredUser.email = this.registerForm.controls['password'].value;
-    this.registeredUser.email = this.registerForm.controls['firstName'].value;
-    this.registeredUser.email = this.registerForm.controls['elastNamemail'].value;
-    this.registeredUser.email = this.registerForm.controls['phoneNumber'].value;*/
-
-    //console.log(this.registerService.addUser(newUser).subscribe);
-  
-    //this.registerService.addUser(newUser)
-    //  .subscribe(response => (this.userExists = response));
-    //console.log(this.userExists);
-    //console.log(newUser);
     this.registerService.addUser(newUser)
       .subscribe((response : Anwser) => {
         this.anwser = response;

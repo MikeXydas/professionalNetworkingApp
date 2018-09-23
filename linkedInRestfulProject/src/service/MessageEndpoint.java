@@ -38,7 +38,6 @@ import model.UserBean;
 import model.LogInfoBean;
 import model.MessageBean;
 import model.SkillListBean;
-import model.ConversationBean;
 
 import model.SendMessageBean;
 
@@ -46,37 +45,6 @@ import model.SendMessageBean;
 @Path("/Message")
 public class MessageEndpoint {
 	
-	/*@POST
-	@Path("/send")
-	public Response sendMessage(
-			@FormParam("convId") int convId,
-			@FormParam("contentText") String contentText,
-			@FormParam("senderId") int senderId)
-	{
-		ConversationDB convDao = new ConversationDB();
-		MessageDB messageDao = new MessageDB();
-		
-		entities.Message message = new entities.Message();
-		entities.Conversation conv = convDao.getById(convId);
-		
-		Date date = new Date();
-		message.setSendTime(date);
-		message.setSenderId(senderId);
-		message.setContentText(contentText);
-		message.setConversation(conv);
-		
-		entities.MessagePK pk = new entities.MessagePK();
-		pk.setConversation_idConversation(convId);
-		message.setId(pk);
-		
-		conv.setLastModified(date);
-		
-		convDao.mergeConversation(conv);
-		messageDao.insertMessage(message);
-		
-		
-		return Response.status(200).entity("Succesfully send message").build();
-	}*/
 
 	@POST
 	@Path("/send")
@@ -96,7 +64,6 @@ public class MessageEndpoint {
 		message.setConversation(conv);
 		
 		entities.MessagePK pk = new entities.MessagePK();
-		//pk.setConversation_idConversation(convId);
 		message.setId(pk);
 		
 		conv.setLastModified(date);

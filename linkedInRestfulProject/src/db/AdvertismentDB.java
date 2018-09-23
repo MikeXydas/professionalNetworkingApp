@@ -30,31 +30,6 @@ public class AdvertismentDB {
         return advertisments;
     }
     
-    //Returns the ad specified by the id only
-    /*public Advertisment find(int id)
-    {
-        Advertisment advertisment = null;
-        
-        EntityManager em = JPAResource.factory.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        
-        Query q = em.createQuery("Select a from Advertisment a where a. = :email and u.password = :password");
-        q.setParameter("email", email);
-        q.setParameter("password", password);
-        List advertisments =  q.getResultList();
-        tx.commit();
-        em.close();
-        
-        if (advertisments != null && advertisments.size() == 1)
-        {
-            advertisment = (Advertisment) advertisments.get(0);
-        }
-
-        return advertisment;
-        
-    }*/
-    
     public AdvertismentPK insertAdvertisment(Advertisment advertisment)
     {
     	AdvertismentPK id = null;

@@ -21,7 +21,6 @@ public class ApplicationDB {
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         
-        //Query q = em.createQuery("Select u from Application u");
         Query q = em.createNamedQuery("Application.findAll");
         applications =  q.getResultList();
 		
@@ -29,31 +28,6 @@ public class ApplicationDB {
         em.close();
         return applications;
     }
-    
-    //Returns the ad specified by the id only
-    /*public Application find(int id)
-    {
-        Application application = null;
-        
-        EntityManager em = JPAResource.factory.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        
-        Query q = em.createQuery("Select a from Application a where a. = :email and u.password = :password");
-        q.setParameter("email", email);
-        q.setParameter("password", password);
-        List applications =  q.getResultList();
-        tx.commit();
-        em.close();
-        
-        if (applications != null && applications.size() == 1)
-        {
-            application = (Application) applications.get(0);
-        }
-
-        return application;
-        
-    }*/
     
     public ApplicationPK insertApplication(Application application)
     {

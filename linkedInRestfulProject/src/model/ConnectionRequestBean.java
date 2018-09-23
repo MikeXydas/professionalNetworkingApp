@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Date;
-import java.sql.Timestamp;
 public class ConnectionRequestBean {
 
 	private int id;
