@@ -26,7 +26,10 @@ export class AdvertisementComponent implements OnInit {
   adContext = "";
   adSkills = "";
   adForm;
+  applications;
+  applicationsReceived = false;
   successfulAdPost = false;
+  showingApplications = false;
   successfulApply: boolean[] = [];
 
   constructor(private route: ActivatedRoute,
@@ -87,6 +90,33 @@ export class AdvertisementComponent implements OnInit {
   transformDate(mseconds) {
     var date = new Date(mseconds);
     return date.toLocaleString();;
+  }
+
+  getApplications() {
+    this.applicationsReceived = false;
+    if(this.showingApplications == false) {
+      this.advertisementService.getApplications(this.loginedUser)
+      .subscribe(
+        data=> {
+          this.applications = data;
+          this.applicationsReceived = true;
+          this.showingApplications = true;
+        },
+        error => {
+          console.log("Failed to receive applications");
+        }
+      );
+    }
+    else {
+      this.showingApplications = false;
+    }
+  }
+
+  isAppsEmpty() {
+    if(this.applicationsReceived == false) {
+      return true;
+    }
+    return this.applications.length == 0;
   }
 
   sortAdsOnScore() {

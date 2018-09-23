@@ -59,7 +59,23 @@
       </div>
     </div>
     <div class="col-sm-8">
+        <div style="margin-bottom: 50px; padding-right: 10%;">
+          <button (click)="getApplications()" type="submit"  class="btn btn-lg btn-success pull-right">Show Applications</button>
+        </div>
+        <div *ngIf="showingApplications" style="padding-top: 50px;">
+          <h6 *ngIf="isAppsEmpty()" class="text-dark name" style="font-style: italic; padding-top: 50px;"  >No applications</h6>
+          <div *ngIf="!isAppsEmpty()">
+            <ul class="list-group" *ngFor="let application of applications; let i = index">
+              <li class="list-group-item">
+                <span class="text-dark notif">User</span>
+                <span class="text-danger notif" ><a  [routerLink]="['/userprof', application.applicantId]">{{ application.firstName }} {{ application.lastName }}</a></span>
+                <span class="text-dark notif">applied for {{ application.title }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
         <h5 class="text-primary text-center columnHeader">Advertisements</h5>
+        
         <div class="container" *ngFor="let advertisement of advertisements; let i = index">
 
             <div class="row bordAd">

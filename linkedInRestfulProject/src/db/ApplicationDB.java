@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import entities.Application;
 import entities.ApplicationPK;
+import entities.Article;
 
 public class ApplicationDB {
 
@@ -119,5 +120,22 @@ public class ApplicationDB {
         
         
         return application;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<Application> getApplicationsOfUser(int userId) {
+    	EntityManager em = JPAResource.factory.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+    	List<Application> applications = null;
+    	
+    	Query q = em.createQuery("SELECT a FROM Application a WHERE a.id.advertisment_User_idUser = :userId");
+        q.setParameter("userId", userId);
+
+        applications = q.getResultList();
+        tx.commit();
+        em.close();
+        
+        return applications;
     }
 }

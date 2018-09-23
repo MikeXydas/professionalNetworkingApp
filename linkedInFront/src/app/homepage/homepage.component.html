@@ -42,23 +42,23 @@
     <!-- Articles -->
     <div class="col-sm-7">
         <div >
-            <div style="padding-bottom: 50px;">
-              <button (click)="collapseButton()" type="submit"  class="btn btn-lg btn-success pull-right">Create Article</button>
+          <div style="padding-bottom: 50px;">
+            <button (click)="collapseButton()" type="submit"  class="btn btn-lg btn-success pull-right">Create Article</button>
+          </div>
+          <div *ngIf="!articleCollapsed">
+            <h2 class="info">Create your Article</h2>
+            <div class="rounded-corners" style="padding: 20px 0px 20px 0px;">
+              <input type="text" [(ngModel)] = "articleTitle" style="width: 100%;" class="" placeholder=" Enter the title"/>
             </div>
-            <div *ngIf="!articleCollapsed">
-              <h2 class="info">Create your Article</h2>
-              <div class="rounded-corners" style="padding: 20px 0px 20px 0px;">
-                <input type="text" [(ngModel)] = "articleTitle" style="width: 100%;" class="" placeholder=" Enter the title"/>
-              </div>
-              <div class="basic-textarea rounded-corners">
-                <textarea [(ngModel)] = "articleContext" style="width: 100%" class="z-depth-1" rows="10" placeholder=" Write your article..."></textarea>
-              </div>
-              <div style="padding-bottom: 65px; padding-top: 35px;">
-                <button *ngIf="isArticleValid()" (click)="postArticle()" type="submit" class="btn btn-lg btn-primary pull-right">Post</button>
-                <button *ngIf="!isArticleValid()" type="submit" class="btn btn-lg btn-primary pull-right disabled">Post</button>
-              </div>
+            <div class="basic-textarea rounded-corners">
+              <textarea [(ngModel)] = "articleContext" style="width: 100%" class="z-depth-1" rows="10" placeholder=" Write your article..."></textarea>
+            </div>
+            <div style="padding-bottom: 65px; padding-top: 35px;">
+              <button *ngIf="isArticleValid()" (click)="postArticle()" type="submit" class="btn btn-lg btn-primary pull-right">Post</button>
+              <button *ngIf="!isArticleValid()" type="submit" class="btn btn-lg btn-primary pull-right disabled">Post</button>
             </div>
           </div>
+        </div>
         <h6 *ngIf="!articlesExist()" class="text-dark name" style="font-style: italic; padding-top: 50px;"  >No articles in your timeline</h6>
 
         <div class="container" *ngFor="let article of articles; let i = index">

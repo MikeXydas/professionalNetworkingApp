@@ -26,6 +26,10 @@ export class AdvertisementService {
     return this.http.get(this.apiRoot + "User/ads/" + id);
   }
 
+  getApplications(id) {
+    return this.http.get(this.apiRoot + "User/applicants/" + id)
+  }
+
   applyToAd(application) {
     return this.http.post(this.apiRoot + "User/apply", application, httpOptions);
   }

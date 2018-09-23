@@ -57,6 +57,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import model.UserBean;
 import model.AdvertismentPostBean;
+import model.ApplicationBean;
 import model.ApplyBean;
 import model.ArticleBean;
 import model.ChangeEmailBean;
@@ -199,10 +200,14 @@ public class UserEndpoint {
 		return jws;
     }
 	
+	/*@OPTIONS
+	@Path("/{id:[0-9][0-9]*}")
+	public Response findById() {
+		return Response.status(200).build();
+	}*/
 	
 	@GET
 	@Path("/{id:[0-9][0-9]*}")
-	@Secured
 	@Produces({"application/json"})
 	public Response findById(@PathParam("id") final Integer id) throws IOException {
 		UserDB userDao = new UserDB();
@@ -237,7 +242,6 @@ public class UserEndpoint {
 	
 	
 	@GET
-	@Secured
 	@Produces({"application/json"})
 	@Path("/skill/{id:[0-9][0-9]*}")
 	public Response getUserSkills(@PathParam("id") final Integer id) {
@@ -297,7 +301,6 @@ public class UserEndpoint {
 	
 	//TODO: I do not have to create new userd
 	@POST
-	@Secured
 	@Path("/update")
 	@Consumes({"application/json"})
 	public Response updateUser(UserBean user) {
@@ -360,7 +363,6 @@ public class UserEndpoint {
 	
 	//Testing insertion of one skill
 	/*@POST
-	@Secured
 	@Path("/insertSkill")
 	public Response insertSkill(
 			@FormParam("userId") int userId,
@@ -387,7 +389,6 @@ public class UserEndpoint {
 	
 	//Will consume a SkillListBean of userId
 	@POST
-	@Secured
 	@Path("/insertSkill")
 	@Consumes({"application/json"})
 	public Response insertSkill(final SkillListBean skillListBean) {
@@ -466,7 +467,6 @@ public class UserEndpoint {
 	
 	@POST
 	@Path("/getXML")
-	@Secured
 	@Consumes({"application/json"})
     @Produces(MediaType.APPLICATION_XML)
 	public Response getXML(final ExportXMLBean xmlBean) {
@@ -546,7 +546,6 @@ public class UserEndpoint {
 	}*/
 	
 	@POST
-	@Secured
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
 	@Path("/search")
@@ -604,7 +603,6 @@ public class UserEndpoint {
 	//PROPABLY NEVER USED
 	//NOT CHECKED
 	@POST
-	@Secured
 	@Consumes({"application/json"})
 	@Path("/changePassword")
 	public Response changePassword(ChangePasswordBean changePasswordBean) {
@@ -619,7 +617,6 @@ public class UserEndpoint {
 	//PROPABLY NEVER USED
 	//NOT CHECKED
 	@POST
-	@Secured
 	@Consumes({"application/json"})
 	@Path("/changeEmail")
 	public Response changeEmail(ChangeEmailBean changeEmailBean) {
@@ -767,7 +764,34 @@ public class UserEndpoint {
 		return Response.status(200).build();
 	}
 	
-	
+	@GET
+	@Path("/applicants/{id:[0-9]*}")
+	@Produces({"application/json"})
+	public Response getApplicants(@PathParam("id") int id) {
+		UserDB userDao = new UserDB();
+		ApplicationDB applicationDao = new ApplicationDB();
+		//AdvertismentDB advertismentDao = new AdvertismentDB();
+		
+		List<Application> appsd = applicationDao.getApplicationsOfUser(id);
+		List<ApplicationBean> retApps = new ArrayList<ApplicationBean>();
+		
+		if(appsd != null) {
+			for(int whichApp = 0; whichApp < appsd.size(); whichApp++) {
+				ApplicationBean temp = new ApplicationBean();
+				entities.User userd = userDao.getById(appsd.get(whichApp).getApplicantId());
+				
+				temp.setApplicantId(userd.getIdUser());
+				temp.setFirstName(userd.getFirstName());
+				temp.setLastName(userd.getLastName());
+				temp.setTitle(appsd.get(whichApp).getAdvertisment().getTitle());
+				
+				retApps.add(temp);
+			}
+		}
+		
+		return Response.status(200).entity(retApps).build();
+
+	}
 	
 	/*@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
