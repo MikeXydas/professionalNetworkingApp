@@ -217,6 +217,8 @@ export class HomepageComponent implements OnInit {
     .subscribe(
       data=> {
         this.articleCollapsed = true;
+        this.commentBoxes.unshift("");
+        this.successfulComment.unshift(false);
         this.articles.unshift(data);
         this.successfulArticlePost = true;
         this.articleContext = "";
