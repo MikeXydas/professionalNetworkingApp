@@ -1,0 +1,157 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+
+</head>
+
+
+<div class="permaTop">
+  <div class= "navbar">
+    <a [routerLink]="['/homepage']" class="current" >Home</a>
+    <a [routerLink]="['/advertisement']" class="" >Ads</a>
+    <a [routerLink]="['/conversation']" class="" >Messaging</a>
+    <a [routerLink]="['/network']" class="" >Network</a>
+    <a [routerLink]="['/notifications']" class="" >Notifications</a>
+    <a [routerLink]="['/userprof', loginedUser]" class="" >Profile</a>
+    <a [routerLink]="['/settings']" class="" >Settings</a>
+    <a (click)="logOutCLick()" class="lastTab" href="">Log out</a>
+  </div>
+</div>
+
+<!-- My profile -->
+<div *ngIf="isLoadingComplete()" class="container-fluid cont">
+  <div class="row">
+    <div class="col-sm-2">
+      <div class="jumbotron jumbProf" style="width: 100%">
+        <div>
+          <h2 class="info">My info</h2>
+          <img *ngIf="!photoExists" class="profPicture" src="https://www.thehindu.com/sci-tech/technology/internet/article17759222.ece/alternates/FREE_960/02th-egg-person" alt="Lost my prof cat">
+          <img *ngIf="photoExists" class="profPicture" [src]="'data:image/' + user.photoBean.fileType + ';base64,'+user.photoBean.photo" alt="Lost my prof cat">
+
+          <ul class="info">
+            <li><p><i class="fas fa-id-card"></i> {{ user.firstName }} {{ user.lastName }}</p></li>
+            <li><p><i class="fas fa-at"></i> {{ user.email }}</p></li>
+            <li><p><i class="fas fa-phone"></i> {{ user.phoneNumber }}</p></li>
+          <!-- Contact me list node-->
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Articles -->
+    <div class="col-sm-7">
+        <div >
+          <div style="padding-bottom: 50px;">
+            <button (click)="collapseButton()" type="submit"  class="btn btn-lg btn-success pull-right">Create Article</button>
+          </div>
+          <div *ngIf="!articleCollapsed">
+            <h2 class="info">Create your Article</h2>
+            <div class="rounded-corners" style="padding: 20px 0px 20px 0px;">
+              <input type="text" [(ngModel)] = "articleTitle" style="width: 100%;" class="" placeholder=" Enter the title"/>
+            </div>
+            <div class="basic-textarea rounded-corners">
+              <textarea [(ngModel)] = "articleContext" style="width: 100%" class="z-depth-1" rows="10" placeholder=" Write your article..."></textarea>
+            </div>
+            <div style="padding-bottom: 65px; padding-top: 35px;">
+              <button *ngIf="isArticleValid()" (click)="postArticle()" type="submit" class="btn btn-lg btn-primary pull-right">Post</button>
+              <button *ngIf="!isArticleValid()" type="submit" class="btn btn-lg btn-primary pull-right disabled">Post</button>
+            </div>
+          </div>
+        </div>
+        <h6 *ngIf="!articlesExist()" class="text-dark name" style="font-style: italic; padding-top: 50px;"  >No articles in your timeline</h6>
+
+        <div class="container" *ngFor="let article of articles; let i = index">
+
+            <div class="row">
+      
+              <!-- Post Content Column -->
+              <div class="col-lg-11">
+                
+                <!-- Title -->
+                <div style="padding-bottom: 50px;">
+                  <h1 class="mt-4 text-center title">{{ article.title }}</h1>
+                </div>
+                <!-- Author -->
+                <p class="lead">
+                  by
+                  <a [routerLink]="['/userprof', article.user.idUser]">{{ article.user.firstName }} {{ article.user.lastName }}</a>
+                </p>
+      
+                <hr>
+      
+                <!-- Date/Time -->
+                <p>on {{ transformDate(article.uploadTime) }}</p>
+      
+                <hr>
+            
+                <hr>
+      
+                <!-- Post Content -->
+                <p class="lead">{{ article.contentText }}</p>
+                <div style="padding-top: 40px;">
+                  <button (click)="showInterest(i)" type="submit" class="btn btn-primary pull-right">Interest</button>
+                  <span class="interest" >Interests: {{ article.interests.length }}</span>
+                </div>
+                <br><br>
+                <hr>
+
+                <!-- Comments Form -->
+                <div class="card my-4" >
+                  <h5 class="card-header">Leave a Comment:</h5>
+                  <div class="card-body">
+                    <div class="form-group">
+                      <textarea style="width: 100%" [(ngModel)] = "commentBoxes[i]" rows="3"></textarea>
+                    </div>
+
+                    <button *ngIf="commentBoxValid(i)" (click)="postComment(i)" type="submit" class="btn btn-primary">Submit</button>
+                    <button *ngIf="!commentBoxValid(i)" type="submit" class="btn btn-primary disabled">Submit</button>
+                    <span *ngIf="successfulComment[i]" class="pull-right text-success font-weight-bold">Successfully posted comment  </span>
+
+                  </div>
+                </div>
+      
+                <!-- Single Comment -->
+
+                <p *ngIf="!commentsExist(i)" style="padding: 20px; font-size: 35px; font-style: italic"> No comments</p>
+                <div class="contComment list-group">
+                  <div *ngIf="commentsExist(i)">
+                    <div  class="media mb-4" *ngFor="let comment of article.comments; let whichComment = index">
+                      <img *ngIf="comment.photoExists" class="d-flex mr-3 rounded-circle commImg" [src]="'data:image/' + comment.photoBean.fileType + ';base64,'+comment.photoBean.photo" alt="">
+                      <img *ngIf="!comment.photoExists" class="d-flex mr-3 rounded-circle commImg" src="https://www.thehindu.com/sci-tech/technology/internet/article17759222.ece/alternates/FREE_960/02th-egg-person" alt="">
+
+                      <div class="media-body">
+                        <a class="mt-0" style="font-size: 20px;" [routerLink]="['/userprof', comment.commenterId]">{{ comment.firstName }} {{ comment.lastName }}, commented on {{ transformDate(comment.uploadTime) }}</a>
+                      <br><br><p> {{ comment.contentText }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br><hr><br>
+          </div>
+      
+    </div>
+
+    <!-- My network-->
+    <div class="col-sm-3">
+      <h2 class="info">My network</h2>
+      <div *ngIf="connectionsExist()" class="list-group">
+        <div class="jumbotron jumbNet" *ngFor="let connection of network; let i = index">
+            <a [routerLink]="['/userprof', connection.idUser]">
+              <img *ngIf="!connection.photoExists" class="profPictureNet" src="https://www.thehindu.com/sci-tech/technology/internet/article17759222.ece/alternates/FREE_960/02th-egg-person" alt="Lost my prof cat">
+              <img *ngIf="connection.photoExists" class="profPictureNet" [src]="'data:image/' + connection.photoBean.fileType + ';base64,'+connection.photoBean.photo" alt="Lost my prof cat">
+            </a>
+            <span class="netName">{{ connection.firstName }} {{ connection.lastName }}</span>
+        </div>
+      </div>
+      <div *ngIf="!connectionsExist()">
+        <p class="netName">No connections</p>
+      </div>
+
+    </div>
+  </div>
+</div>
