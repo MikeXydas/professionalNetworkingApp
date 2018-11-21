@@ -2,6 +2,9 @@
 
 ## *Introduction*
 This project aims to help me learn the basics of full stack and web app development by creating a plain and basic **professional networking app** like linkedIn. Briefly, the app follows **REST** architecture with **Java JPA entities** on the backend and **angular6** on the forntend.
+  
+**Collaborator: https://github.com/pankan3**
+
 
 
 ## *Setting up*
