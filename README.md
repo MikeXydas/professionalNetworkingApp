@@ -68,6 +68,3 @@ These are the steps that I followed in order to create and implement this projec
 * bootstrap4
 * file-saver
 
-
-
-```
